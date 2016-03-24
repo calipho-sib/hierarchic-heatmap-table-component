@@ -4,7 +4,7 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-03-24 19:59:26
+* @Last Modified time: 2016-03-24 20:02:33
 * All copyright reserved
 */
 
@@ -97,7 +97,7 @@ $(function () {
     var protein_expression = new Protein_expression();
     var pe_table = $("#pe_table")[0];
 
-    protein_expression.loadData("/master/server/static/data/data.json", function() {
+    protein_expression.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
         protein_expression.showData(pe_table);
     });
 });
