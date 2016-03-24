@@ -6,8 +6,8 @@ Generic protein expression view for Human Body
 How to run the demo:
 
 1. install python and flask(A python back-end framework)
-2. Enter the 'server' folder
-3. Run 'python server.py'
+2. Enter the `server` folder
+3. Run `python server.py`
 
 Todo:
 
