@@ -3,6 +3,12 @@ Generic protein expression view for Human Body
 
 ## Ready For GSoC 2016
 
+How to run the demo:
+
+1. install python and flask(A python back-end framework)
+2. Enter the 'server' folder
+3. Run 'python server.py'
+
 Todo:
 
 1. Use the API in this page(https://search.nextprot.org/help/learn-programmatic-access), and got the json data from it.
