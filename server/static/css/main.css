@@ -1,0 +1,85 @@
+/*
+* @Author: linjinjin
+* @Date:   2016-03-23 18:24:39
+* @Last Modified by:   linjinjin
+* @Last Modified time: 2016-03-24 14:10:44
+*/
+
+.title {
+	margin-right: 0px;
+    margin-left: auto;
+}
+
+.title li {
+	/*float: right;*/
+}
+
+.verticallegend {
+    transform: rotate(-45deg);
+    transform-origin: left top 0;
+    white-space: nowrap;
+    font-size: 0.8em;
+}
+
+.verticallegends td {
+    table-layout: fixed;
+    width: 20px;
+}
+
+.verticallegends table {
+    table-layout: fixed;
+    width: 50px;
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+#window {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	width:300px;
+	padding: 8px 0;
+}
+
+.blueBG {
+	background-color: #0070C0;
+}
+
+.redBG {
+	background-color: #C00000;
+}
+
+.grayBG {
+	background-color: gray;
+}
+
+.greenBG {
+	background-color: green;
+}
+
+.circle {
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin: 3px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.circleBar {
+	/*display: inline-block;*/
+	margin-left: auto;
+	margin-right: 0px;
+	float: right;
+}
+
+#pe_table {
+	padding-right: 15px !important;
+}
+
+.nav-list {
+	padding-right: 0px !important;
+}
+
