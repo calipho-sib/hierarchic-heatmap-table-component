@@ -4,7 +4,7 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-05-01 19:51:01
+* @Last Modified time: 2016-05-01 19:57:38
 * All copyright reserved
 */
 
@@ -47,22 +47,23 @@ ProteinExpression.prototype.add_click_event = function(elem) {
 
 ProteinExpression.prototype.createRow = function(data) {
     var li_elem = $("<li></li>");
-    var ul_elem = $("<ul></ul>");
 
     var label_elem = this.createLabel(data['rowLabel']);
     var circleBar_elem = this.createCircleBar(data['values']);
     circleBar_elem.appendTo(label_elem);
     label_elem.appendTo(li_elem);
 
-    ul_elem.addClass("nav nav-list tree");
-    //Recursively generated child rows
-    for (var i in data['children']) {
-        var childRow = this.createRow(data['children'][i]);
-        childRow.appendTo(ul_elem);
-    }
-    ul_elem.hide()
-
-    ul_elem.appendTo(li_elem);
+    if data['children'].length != 0:
+        var ul_elem = $("<ul></ul>");
+        ul_elem.addClass("nav nav-list tree");
+        //Recursively generated child rows
+        for (var i in data['children']) {
+            var childRow = this.createRow(data['children'][i]);
+            childRow.appendTo(ul_elem);
+        }
+        ul_elem.hide()
+        ul_elem.appendTo(li_elem);
+ 
     return li_elem;
 }
 
