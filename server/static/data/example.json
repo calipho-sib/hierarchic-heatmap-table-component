@@ -1,0 +1,56 @@
+{
+	"data": [{
+		"rowLabel": "Alimentary Sytem",
+		"values": [{
+			"columnLabel": "Microarray",
+			"value": "High"
+		}, {
+			"columnLabel": "IHC",
+			"value": "High"
+		}],
+		"children": [
+
+			{
+				"rowLabel": "Stomach",
+				"values": [{
+					"columnLabel": "Microarray",
+					"value": "Moderate"
+				}, {
+					"columnLabel": "IHC",
+					"value": "Moderate"
+				}]
+			}, 
+			{
+				"rowLabel": "Mouth",
+				"values": [{
+					"columnLabel": "Microarray",
+					"value": "High"
+				}, {
+					"columnLabel": "IHC",
+					"value": "High"
+				}],
+				"children": [{
+						"rowLabel": "Tongue",
+						"values": [{
+							"columnLabel": "Microarray",
+							"value": "High"
+						}, {
+							"columnLabel": "IHC",
+							"value": "Negative"
+						}]
+					}
+				]
+			}
+		]
+	}, {
+		"rowLabel": "Muscle",
+		"values": [{
+			"columnLabel": "Microarray",
+			"value": "Low"
+		}, {
+			"columnLabel": "IHC",
+			"value": "Low"
+		}]
+
+	}]
+}
