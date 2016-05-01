@@ -4,7 +4,7 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-04-30 01:02:17
+* @Last Modified time: 2016-05-01 19:51:01
 * All copyright reserved
 */
 
@@ -60,6 +60,7 @@ ProteinExpression.prototype.createRow = function(data) {
         var childRow = this.createRow(data['children'][i]);
         childRow.appendTo(ul_elem);
     }
+    ul_elem.hide()
 
     ul_elem.appendTo(li_elem);
     return li_elem;
@@ -70,6 +71,7 @@ ProteinExpression.prototype.createLabel = function(name) {
     label_elem.addClass("tree-toggler nav-header");
     label_elem.text(name);
     label_elem.click(function () {
+        console.log('test')
         $(this).parent().children('ul.tree').toggle(300);
     });
     return label_elem;
@@ -100,4 +102,7 @@ $(function () {
     proteinExpression.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
         proteinExpression.showData(pe_table);
     });
+    // proteinExpression.loadData("/static/data/data.json", function() {
+    //     proteinExpression.showData(pe_table);
+    // });
 });
