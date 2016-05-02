@@ -4,7 +4,7 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-05-02 21:48:29
+* @Last Modified time: 2016-05-02 21:55:52
 * All copyright reserved
 */
 
@@ -100,10 +100,10 @@ $(function () {
     var proteinExpression = new ProteinExpression();
     var pe_table = $("#pe_table")[0];
 
-    // proteinExpression.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
-    //     proteinExpression.showData(pe_table);
-    // });
-    proteinExpression.loadData("/static/data/data.json", function() {
+    proteinExpression.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
         proteinExpression.showData(pe_table);
     });
+    // proteinExpression.loadData("/static/data/data.json", function() {
+    //     proteinExpression.showData(pe_table);
+    // });
 });
