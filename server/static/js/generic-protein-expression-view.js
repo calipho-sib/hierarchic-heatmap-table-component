@@ -4,7 +4,7 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-05-01 19:57:38
+* @Last Modified time: 2016-05-02 21:48:29
 * All copyright reserved
 */
 
@@ -53,7 +53,7 @@ ProteinExpression.prototype.createRow = function(data) {
     circleBar_elem.appendTo(label_elem);
     label_elem.appendTo(li_elem);
 
-    if data['children'].length != 0:
+    if (data['children'].length != 0) {
         var ul_elem = $("<ul></ul>");
         ul_elem.addClass("nav nav-list tree");
         //Recursively generated child rows
@@ -63,7 +63,7 @@ ProteinExpression.prototype.createRow = function(data) {
         }
         ul_elem.hide()
         ul_elem.appendTo(li_elem);
- 
+ 	}
     return li_elem;
 }
 
@@ -100,10 +100,10 @@ $(function () {
     var proteinExpression = new ProteinExpression();
     var pe_table = $("#pe_table")[0];
 
-    proteinExpression.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
-        proteinExpression.showData(pe_table);
-    });
-    // proteinExpression.loadData("/static/data/data.json", function() {
+    // proteinExpression.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
     //     proteinExpression.showData(pe_table);
     // });
+    proteinExpression.loadData("/static/data/data.json", function() {
+        proteinExpression.showData(pe_table);
+    });
 });
