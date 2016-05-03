@@ -2,7 +2,7 @@
 # @Author: linjinjin123
 # @Date:   2016-05-01 01:02:22
 # @Last Modified by:   linjinjin123
-# @Last Modified time: 2016-05-01 18:51:38
+# @Last Modified time: 2016-05-03 23:32:18
 
 import os
 import random
@@ -57,55 +57,60 @@ def addTermToData(term, dataList):
         addTermToData(term, dataList[i]['children'])
 
 if __name__ == '__main__':
-    # f = open("caloha.obo")
-    # # f = open("test.txt")
+    f = open("caloha.obo")
+    # f = open("test.txt")
 
-    # #ignore the head context
-    # while (f.readline().strip('\n') != '[Term]'): continue
+    #ignore the head context
+    while (f.readline().strip('\n') != '[Term]'): continue
 
-    # termQue = Queue.Queue(maxsize = 3000)
+    termQue = Queue.Queue(maxsize = 3000)
 
-    # line = None
-    # line = f.readline().strip('\n')
+    line = None
+    line = f.readline().strip('\n')
 
-    # while line != '[Typedef]':
-    #     lineList = []
-    #     lineList.append(line)
-    #     termName = None
-    #     is_a = None
-    #     relationship = None
-    #     line = f.readline().strip('\n')
-    #     while line != '[Typedef]' and line != '[Term]':
-    #         lineList.append(line)
-    #         line = f.readline().strip('\n')
+    while line != '[Typedef]':
+        lineList = []
+        lineList.append(line)
+        termName = None
+        is_a = None
+        relationship = None
+        line = f.readline().strip('\n')
+        is_obsolete = False
+
+        while line != '[Typedef]' and line != '[Term]':
+            lineList.append(line)
+            line = f.readline().strip('\n')
         
-    #     for info in lineList:
-    #         if info.find('name:') != -1: termName = info[info.find('name:')+6:]
-    #         elif info.find('is_a:') != -1: is_a = info[info.find('!')+2:]
-    #         elif info.find('relationship') != -1: relationship = info[info.find('!')+2:]
+        for info in lineList:
+            if info.find('name:') != -1: termName = info[info.find('name:')+6:]
+            elif info.find('is_a:') != -1: is_a = info[info.find('!')+2:]
+            elif info.find('relationship') != -1: relationship = info[info.find('!')+2:]
+            elif info.find('is_obsolete') != -1: is_obsolete = True
 
-    #     if is_a == None and relationship == None:
-    #         data['data'].append(createJsonTerm(createTerm(termName, is_a, relationship)))
-    #     else:
-    #         termQue.put(createTerm(termName, is_a, relationship))
+        if is_obsolete == True:
+            continue
 
-    # count = 0
-    # while not termQue.empty():
-    #     # is_add = False
-    #     term = termQue.get()
-    #     # print 'Now the term is', term
-    #     addTermToData(term, data['data'])
-    #     if term['is_a'] != None or term['relationship'] != None :
-    #         termQue.put(term)
-    #     else:
-    #         count += 1
-    #         print 'add successfully'
-    #         print 'Num:', count
+        if is_a == None and relationship == None:
+            data['data'].append(createJsonTerm(createTerm(termName, is_a, relationship)))
+        else:
+            termQue.put(createTerm(termName, is_a, relationship))
+
+    count = 0
+    while not termQue.empty():
+        # is_add = False
+        term = termQue.get()
+        # print 'Now the term is', term
+        addTermToData(term, data['data'])
+        if term['is_a'] != None or term['relationship'] != None :
+            termQue.put(term)
+        else:
+            count += 1
+            print 'add successfully'
+            print 'Num:', count
 
     # picklestring = pickle.dump(data, open('./data.pkl', 'w'))
 
-    data = pickle.load(open('./data.pkl'))
-    # print data['data'][0]['rowLabel']
+    # data = pickle.load(open('./data.pkl'))
 
     f = open('caloha.json', 'w')
     f.write(json.dumps(data,indent=4, sort_keys=True)) 
