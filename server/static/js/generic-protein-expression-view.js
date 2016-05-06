@@ -4,106 +4,126 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-05-02 21:55:52
+* @Last Modified time: 2016-05-06 20:43:12
 * All copyright reserved
 */
 
 'use strict';
 
-function ProteinExpression() {
-    this.data = {};
+function HeatMapTable(header) {
     this.valueToColor = {'High': 'redBG', 'Low':'blueBG', 'Moderate':'grayBG', 'Negative': 'greenBG'};
+    this.heatmapTable = $("#heatmap-table")[0];
+    this.header = header.header;
+    this.hasColumnLabel = {};
 }
 
-ProteinExpression.prototype.loadData = function(filePath, callback) {
+HeatMapTable.prototype.loadData = function(filePath) {
     var that = this;
     $.getJSON(filePath, function(data) {
         that.data = data['data'];
-        // console.log("Load Data success.");
-        // console.log(that.data = data['data']);
-        callback();
+        that.showData();
     });
 }
 
-ProteinExpression.prototype.showData = function(para_elem) {
+HeatMapTable.prototype.showData = function() {
+	this.createColumns();
+	this.createRows();
+}
+
+HeatMapTable.prototype.createColumns = function() {
+	var tableElem = $("<table></table>");
+	var tbodyElem = $("<tbody></tboby>")
+	var trElem = $("<tr></tr>");
+	for (var i in this.header) {
+		this.createColumn(this.header[i]).appendTo(trElem);
+	}
+	trElem.appendTo(tbodyElem);
+	tbodyElem.appendTo(tableElem);
+	tableElem.appendTo(this.heatmapTable)	
+}
+
+HeatMapTable.prototype.createColumn = function(header) {
+	if (header === undefined) return $("<td></td>");
+	this.hasColumnLabel[header] = true
+	var tdElem = $("<td></td>");
+	var divElem = $("<div></div>")
+	divElem.addClass("verticallegend");
+	divElem.text(header);
+	divElem.appendTo(tdElem);
+	return tdElem;
+}
+
+HeatMapTable.prototype.createRows = function() {
+	var rowsElem = $("<ul></ul>");
+	rowsElem.addClass("nav nav-list");
     for (var i in this.data) {
-        var li_elem = this.createRow(this.data[i]);
-        li_elem.appendTo(para_elem);
-        this.addDivider(para_elem);
+        this.createRow(this.data[i]).appendTo(rowsElem);
+        this.addDivider(rowsElem);
     }
+    rowsElem.appendTo(this.heatmapTable);
 }
 
-ProteinExpression.prototype.addDivider = function(para_elem) {
+HeatMapTable.prototype.addDivider = function(elem) {
     var divider = $("<li class='divider'></li>");
-    divider.appendTo(para_elem);
+    divider.appendTo(elem);
 }
 
-ProteinExpression.prototype.add_click_event = function(elem) {
-    console.log($(elem));
-    elem.click(function () {
-        $(this).parent().children('ul.tree').toggle(300);
-    });
-}
+HeatMapTable.prototype.createRow = function(rowData) {
+    var liElem = $("<li></li>");
 
-ProteinExpression.prototype.createRow = function(data) {
-    var li_elem = $("<li></li>");
+    var labelElem = this.createLabel(rowData['rowLabel']);
+    var circleBarElem = this.createCircleBar(rowData['values']);
+    circleBarElem.appendTo(labelElem);
+    labelElem.appendTo(liElem);
 
-    var label_elem = this.createLabel(data['rowLabel']);
-    var circleBar_elem = this.createCircleBar(data['values']);
-    circleBar_elem.appendTo(label_elem);
-    label_elem.appendTo(li_elem);
-
-    if (data['children'].length != 0) {
-        var ul_elem = $("<ul></ul>");
-        ul_elem.addClass("nav nav-list tree");
+    if (rowData['children'].length != 0) {
+        var ulElem = $("<ul></ul>");
+        ulElem.addClass("nav nav-list tree");
         //Recursively generated child rows
-        for (var i in data['children']) {
-            var childRow = this.createRow(data['children'][i]);
-            childRow.appendTo(ul_elem);
+        for (var i in rowData['children']) {
+            var childRow = this.createRow(rowData['children'][i]);
+            childRow.appendTo(ulElem);
         }
-        ul_elem.hide()
-        ul_elem.appendTo(li_elem);
+        ulElem.hide();
+        ulElem.appendTo(liElem);
  	}
-    return li_elem;
+    return liElem;
 }
 
-ProteinExpression.prototype.createLabel = function(name) {
-    var label_elem = $("<label></label>");
-    label_elem.addClass("tree-toggler nav-header");
-    label_elem.text(name);
-    label_elem.click(function () {
-        console.log('test')
+HeatMapTable.prototype.createLabel = function(name) {
+    var labelElem = $("<label></label>");
+    labelElem.addClass("tree-toggler nav-header");
+    labelElem.text(name);
+    labelElem.click(function () {
         $(this).parent().children('ul.tree').toggle(300);
     });
-    return label_elem;
+    return labelElem;
 }
 
-ProteinExpression.prototype.createCircleBar = function(values) {
-    var circleBar_elem = $("<div></div>");
-    circleBar_elem.addClass("circleBar");
+HeatMapTable.prototype.createCircleBar = function(values) {
+    var circleBarElem = $("<div></div>");
+    circleBarElem.addClass("circleBar");
     for (var i in values) {
+    	if (this.hasColumnLabel[ values[i]['columnLabel'] ] != true) continue
         var circle = this.createCircle(values[i]['value']);
-        circle.appendTo(circleBar_elem);
+        circle.appendTo(circleBarElem);
     }
-    return circleBar_elem;
+    return circleBarElem;
 }
 
-ProteinExpression.prototype.createCircle = function(value) {
-    var div_elem = $("<div></div>");
-    div_elem.addClass(this.valueToColor[value]);
-    div_elem.addClass("circle");
-    return div_elem;
+HeatMapTable.prototype.createCircle = function(value) {
+    var divElem = $("<div></div>");
+    divElem.addClass(this.valueToColor[value]);
+    divElem.addClass("circle");
+    return divElem;
 }
 
 
 $(function () {
-    var proteinExpression = new ProteinExpression();
-    var pe_table = $("#pe_table")[0];
-
-    proteinExpression.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
-        proteinExpression.showData(pe_table);
-    });
-    // proteinExpression.loadData("/static/data/data.json", function() {
-    //     proteinExpression.showData(pe_table);
+    var heatMapTable = new HeatMapTable({header:['"Microarray"', 'EST', 'IHC']});
+    // var heatMapTable = new HeatMapTable({header:['Microarray', 'EST']});
+    // heatMapTable.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
+    //     heatMapTable.showData(pe_table);
     // });
+    heatMapTable.loadData("/static/data/data.json");
 });

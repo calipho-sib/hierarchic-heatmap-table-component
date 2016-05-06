@@ -1,18 +1,20 @@
 /*
 * @Author: linjinjin
 * @Date:   2016-03-23 18:24:39
-* @Last Modified by:   linjinjin
-* @Last Modified time: 2016-03-24 14:10:44
+* @Last Modified by:   linjinjin123
+* @Last Modified time: 2016-05-06 20:34:16
 */
 
-.title {
-	margin-right: 0px;
+
+#window {
     margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    width:500px;
+    padding: 8px 0;
 }
 
-.title li {
-	/*float: right;*/
-}
+/*-------------------------------------------------*/
 
 .verticallegend {
     transform: rotate(-45deg);
@@ -21,24 +23,15 @@
     font-size: 0.8em;
 }
 
-.verticallegends td {
-    table-layout: fixed;
-    width: 20px;
-}
-
-.verticallegends table {
+table {
     table-layout: fixed;
     width: 50px;
-    margin-right: 10px;
     margin-left: auto;
 }
 
-#window {
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 100px;
-	width:300px;
-	padding: 8px 0;
+table td {
+    table-layout: fixed;
+    width: 20px;
 }
 
 .blueBG {
@@ -58,25 +51,22 @@
 }
 
 .circle {
+    display: inline-block;
+    margin: 5px;
+
     width: 10px;
     height: 10px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    margin: 3px;
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .circleBar {
-	/*display: inline-block;*/
-	margin-left: auto;
-	margin-right: 0px;
 	float: right;
 }
 
-#pe_table {
-	padding-right: 15px !important;
+#heatmap-table {
+	padding-right: 20px !important;
 }
 
 .nav-list {
