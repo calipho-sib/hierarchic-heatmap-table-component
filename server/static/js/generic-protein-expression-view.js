@@ -4,7 +4,7 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-05-06 20:43:12
+* @Last Modified time: 2016-05-06 20:48:50
 * All copyright reserved
 */
 
@@ -120,10 +120,13 @@ HeatMapTable.prototype.createCircle = function(value) {
 
 
 $(function () {
-    var heatMapTable = new HeatMapTable({header:['"Microarray"', 'EST', 'IHC']});
+    var heatMapTable = new HeatMapTable({header:['Microarray', 'EST', 'IHC']});
     // var heatMapTable = new HeatMapTable({header:['Microarray', 'EST']});
-    // heatMapTable.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json", function() {
-    //     heatMapTable.showData(pe_table);
-    // });
-    heatMapTable.loadData("/static/data/data.json");
+
+
+    //rawgit test
+    heatMapTable.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json");
+    
+    //local test
+    // heatMapTable.loadData("/static/data/data.json");
 });
