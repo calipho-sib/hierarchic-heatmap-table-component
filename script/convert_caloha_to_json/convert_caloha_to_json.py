@@ -2,7 +2,7 @@
 # @Author: linjinjin123
 # @Date:   2016-05-01 01:02:22
 # @Last Modified by:   linjinjin123
-# @Last Modified time: 2016-05-06 19:08:03
+# @Last Modified time: 2016-05-06 19:11:46
 
 import os
 import random
@@ -30,17 +30,17 @@ def createValuesJson():
     microarrayJson = {}
     microarrayJson['columnLabel'] = 'Microarray'
     microarrayJson['value'] = generateValue()
+    valuesList.append(microarrayJson)
     
     IHCJson = {}
     IHCJson['columnLabel'] = 'IHC'
     IHCJson['value'] = generateValue()
+    valuesList.append(IHCJson)
     
     ESTJson = {}
     ESTJson['columnLabel'] = 'EST'
     ESTJson['value'] = generateValue()
-
-    valuesList.append(microarrayJson)
-    valuesList.append(IHCJson)
+    valuesList.append(ESTJson)
     return valuesList
 
 
