@@ -2,7 +2,7 @@
 * @Author: linjinjin
 * @Date:   2016-03-23 18:24:39
 * @Last Modified by:   linjinjin123
-* @Last Modified time: 2016-05-06 20:34:16
+* @Last Modified time: 2016-05-08 20:42:20
 */
 
 
@@ -15,15 +15,15 @@
 }
 
 /*-------------------------------------------------*/
-
+/*
 .verticallegend {
     transform: rotate(-45deg);
     transform-origin: left top 0;
     white-space: nowrap;
     font-size: 0.8em;
 }
-
-table {
+*/
+/*table {
     table-layout: fixed;
     width: 50px;
     margin-left: auto;
@@ -31,8 +31,9 @@ table {
 
 table td {
     table-layout: fixed;
-    width: 20px;
-}
+    width: 70px;
+    text-align: center;
+}*/
 
 .blueBG {
 	background-color: #0070C0;
@@ -51,8 +52,9 @@ table td {
 }
 
 .circle {
+	text-align: center;
     display: inline-block;
-    margin: 5px;
+    /*margin-left: 50px;*/
 
     width: 10px;
     height: 10px;
@@ -62,14 +64,42 @@ table td {
 }
 
 .circleBar {
+	/*display: inline-block;*/
+	/*text-align: right;*/
 	float: right;
+	/*width: 40%;*/
+/*	text-align: center;*/
+}
+
+.circleBox {
+	display: inline-block;
+	width: 70px;
+	text-align: center;
 }
 
 #heatmap-table {
-	padding-right: 20px !important;
+	padding: 20px !important;
 }
 
 .nav-list {
 	padding-right: 0px !important;
 }
 
+table.tree-toggler {
+	width: 100%;
+	cursor: pointer;
+}
+
+.heatmap-row {
+	border-bottom: solid 1px #d4d4d4;
+}
+
+.heatmap-columns {
+	table-layout: fixed;
+    margin-left: auto;
+}
+
+.heatmap-column {
+	width: 70px;
+	text-align: center;
+}

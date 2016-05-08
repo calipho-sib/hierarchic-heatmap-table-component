@@ -4,7 +4,7 @@
 * @Author: JinJin Lin
 * @Email:   jinjin.lin@outlook.com
 * @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-05-06 20:48:50
+* @Last Modified time: 2016-05-08 20:44:24
 * All copyright reserved
 */
 
@@ -37,6 +37,7 @@ HeatMapTable.prototype.createColumns = function() {
 	for (var i in this.header) {
 		this.createColumn(this.header[i]).appendTo(trElem);
 	}
+    tableElem.addClass("heatmap-columns")
 	trElem.appendTo(tbodyElem);
 	tbodyElem.appendTo(tableElem);
 	tableElem.appendTo(this.heatmapTable)	
@@ -47,9 +48,10 @@ HeatMapTable.prototype.createColumn = function(header) {
 	this.hasColumnLabel[header] = true
 	var tdElem = $("<td></td>");
 	var divElem = $("<div></div>")
-	divElem.addClass("verticallegend");
+	// divElem.addClass("verticallegend");
 	divElem.text(header);
 	divElem.appendTo(tdElem);
+    tdElem.addClass("heatmap-column");
 	return tdElem;
 }
 
@@ -71,10 +73,10 @@ HeatMapTable.prototype.addDivider = function(elem) {
 HeatMapTable.prototype.createRow = function(rowData) {
     var liElem = $("<li></li>");
 
-    var labelElem = this.createLabel(rowData['rowLabel']);
-    var circleBarElem = this.createCircleBar(rowData['values']);
-    circleBarElem.appendTo(labelElem);
-    labelElem.appendTo(liElem);
+    var rowElem = this.createRowElem(rowData);
+    // var circleBarElem = this.createCircleBar(rowData['values']);
+    // circleBarElem.appendTo(rowElem);
+    rowElem.appendTo(liElem);
 
     if (rowData['children'].length != 0) {
         var ulElem = $("<ul></ul>");
@@ -90,14 +92,37 @@ HeatMapTable.prototype.createRow = function(rowData) {
     return liElem;
 }
 
-HeatMapTable.prototype.createLabel = function(name) {
-    var labelElem = $("<label></label>");
-    labelElem.addClass("tree-toggler nav-header");
-    labelElem.text(name);
-    labelElem.click(function () {
+HeatMapTable.prototype.createRowElem = function(rowData) {
+    var tableElem = $("<table></table>");
+    var tbodyElem = $("<tbody></tbody>");
+    var trElem = $("<tr></tr>");
+    var tdLabelElem = $("<td></td>");
+    var spanElem = $("<span></span>");
+    var iconElem = $("<i></i>");
+    var tdCircleBarElem = $("<td></td>");
+
+    iconElem.addClass("icon-plus");
+    spanElem.text(rowData['rowLabel']);
+    spanElem.prepend(iconElem);
+    spanElem.appendTo(tdLabelElem);
+    tdLabelElem.appendTo(trElem);
+
+    var circleBarElem = this.createCircleBar(rowData['values']);
+    circleBarElem.appendTo(tdCircleBarElem);
+    tdCircleBarElem.appendTo(trElem);
+
+    trElem.appendTo(tbodyElem);
+    tbodyElem.appendTo(tableElem);
+    tableElem.addClass("tree-toggler heatmap-row");
+    tableElem.click(function () {
         $(this).parent().children('ul.tree').toggle(300);
+        if ($(this).find('.icon-plus').length != 0) {
+            $(this).find('.icon-plus').removeClass("icon-plus").addClass("icon-minus")
+        } else if ($(this).find('.icon-minus')) {
+            $(this).find('.icon-minus').removeClass("icon-minus").addClass("icon-plus");
+        }
     });
-    return labelElem;
+    return tableElem;
 }
 
 HeatMapTable.prototype.createCircleBar = function(values) {
@@ -113,8 +138,11 @@ HeatMapTable.prototype.createCircleBar = function(values) {
 
 HeatMapTable.prototype.createCircle = function(value) {
     var divElem = $("<div></div>");
-    divElem.addClass(this.valueToColor[value]);
-    divElem.addClass("circle");
+    var iElem = $("<i></i>");
+    divElem.addClass("circleBox");
+    iElem.addClass(this.valueToColor[value]);
+    iElem.addClass("circle");
+    iElem.appendTo(divElem);
     return divElem;
 }
 
