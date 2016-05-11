@@ -1,6 +1,12 @@
 # Generic-protein-expression-view
 Generic protein expression view for Human Body
 
+## Installation
+```
+bower install
+```
+
+
 ## Ready For GSoC 2016
 
 How to run the demo:
