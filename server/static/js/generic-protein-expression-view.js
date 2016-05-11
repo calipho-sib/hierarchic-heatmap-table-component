@@ -93,7 +93,7 @@ HeatMapTable.prototype.createRow = function(rowData) {
 }
 
 HeatMapTable.prototype.createRowElem = function(rowData) {
-    var tableElem = $("<table></table>");
+    var tableElem = $("<table></table>"); //TODO there should only one table element
     var tbodyElem = $("<tbody></tbody>");
     var trElem = $("<tr></tr>");
     var tdLabelElem = $("<td></td>");
@@ -153,7 +153,7 @@ $(function () {
 
 
     //rawgit test
-    heatMapTable.loadData("/linjinjin123/Generic-protein-expression-view/master/server/static/data/data.json");
+    heatMapTable.loadData("../static/data/data.json");
     
     //local test
     // heatMapTable.loadData("/static/data/data.json");
