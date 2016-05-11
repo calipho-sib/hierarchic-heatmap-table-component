@@ -1,0 +1,28 @@
+{
+  "name": "expression-viewer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/linjinjin123/Generic-protein-expression-view",
+  "authors": [
+    "JinJin Lin"
+  ],
+  "description": "A viewer for human body expression",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "nextprot"
+  ],
+  "license": "GPL v2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "nextprot-js": "nextprot#~0.0.61",
+    "bootstrap": "~3.3.6",
+    "d3": "~3.5.17"
+  }
+}

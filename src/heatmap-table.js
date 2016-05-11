@@ -17,11 +17,15 @@ function HeatMapTable(header) {
     this.hasColumnLabel = {};
 }
 
-HeatMapTable.prototype.loadData = function(filePath) {
-    var that = this;
+HeatMapTable.prototype.loadJSONData = function(data) {
+    this.data = data['data'];
+    this.showData();
+}
+
+HeatMapTable.prototype.loadJSONDataFromURL = function(filePath) {
+    var self = this;
     $.getJSON(filePath, function(data) {
-        that.data = data['data'];
-        that.showData();
+        self.loadJSONData(data);
     });
 }
 
@@ -146,15 +150,3 @@ HeatMapTable.prototype.createCircle = function(value) {
     return divElem;
 }
 
-
-$(function () {
-    var heatMapTable = new HeatMapTable({header:['Microarray', 'EST', 'IHC']});
-    // var heatMapTable = new HeatMapTable({header:['Microarray', 'EST']});
-
-
-    //rawgit test
-    heatMapTable.loadData("../static/data/data.json");
-    
-    //local test
-    // heatMapTable.loadData("/static/data/data.json");
-});
