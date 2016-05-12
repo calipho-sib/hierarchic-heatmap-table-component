@@ -10,9 +10,9 @@
 
 'use strict';
 
-function HeatMapTable(header) {
+function HeatMapTable(header, divId) {
     this.valueToColor = {'High': 'redBG', 'Low':'blueBG', 'Moderate':'grayBG', 'Negative': 'greenBG'};
-    this.heatmapTable = $("#heatmap-table")[0];
+    this.heatmapTable = $("#" + divId)[0];
     this.header = header.header;
     this.hasColumnLabel = {};
 }
