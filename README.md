@@ -22,3 +22,4 @@ Todo:
 3. Find what the all possible values about them
 4. Fill a table according the value
 5. According the field-value table, create a heat map(like [this](http://peppsy.genouest.org/bodymap?id=NX_P68133&nextprot_release=release_2015-10-07&hgnc=ACTA1&description=Actin%2C%20alpha%20skeletal%20muscle#)) with javascript(D3.js), get a very similar [result](http://www.nextprot.org/db/entry/NX_P01308/expression), but with the new viewer
+
