@@ -4,7 +4,10 @@ Generic protein expression view for Human Body
 ## Installation
 ```
 bower install
+npm install
+grunt default
 ```
+open in browser: http://127.0.0.1:5000/
 
 
 ## Ready For GSoC 2016
