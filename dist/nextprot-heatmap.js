@@ -4709,7 +4709,7 @@ this["HBtemplates"] = this["HBtemplates"] || {};
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return "    <li>\r\n        <div>\r\n            <p class=\"tree-toggler\" style=\"display:inline-block;margin-bottom:0px;word-break:break-all;\"><span class=\"glyphicon glyphicon-plus\"></span><span>"
+  return "    <li>\r\n        <div style=\"overflow:hidden\">\r\n            <p class=\"tree-toggler\" style=\"display:inline-block;margin-bottom:0px;word-break:break-all;\"><span class=\"glyphicon glyphicon-plus\"></span><span>"
     + container.escapeExpression(((helper = (helper = helpers.rowLabel || (depth0 != null ? depth0.rowLabel : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"rowLabel","hash":{},"data":data}) : helper)))
     + "</span></p>\r\n            <div class=\"pull-right\">\r\n"
     + ((stack1 = (helpers.forCreateIcons || (depth0 && depth0.forCreateIcons) || alias2).call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"forCreateIcons","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")

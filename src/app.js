@@ -6,7 +6,7 @@ $(function () {
     $.getJSON("data/data.json", function(data) {
 
         var heatMapTable = new HeatMapTable({
-        		header:['Microarray', 'EST', 'IHC'],
+        		header:['Microarray', 'EST', 'test1','test3', 'IHC', 'test2'],
         		tableID: "heatmap-table"
         	});
         heatMapTable.loadJSONData(data);
