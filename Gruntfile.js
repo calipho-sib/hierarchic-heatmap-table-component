@@ -7,7 +7,6 @@ module.exports = function(grunt) {
             },
             basic: {
                 src: ['src/convert-nextprot-to-heatmap.js',
-                    'src/nextprot-init-templates.js',
                     'src/heatmap-table.js',
                     'build/compiled-templates.js'],
                 dest: 'dist/heatmap.js'
