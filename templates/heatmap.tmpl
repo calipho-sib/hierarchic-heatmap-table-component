@@ -25,16 +25,17 @@
     border-radius: 5px;
 }
 
-.circleBox {
+.column {
     display: inline-block;
-    width: 70px;
     text-align: center;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 ul {
     list-style-type: none;
 }
-p.tree-toggler{
+p.tree-toggler span{
     cursor:pointer;
 }
 .glyphicon{
@@ -45,18 +46,21 @@ p.tree-toggler{
 #heatmap-body {
     margin-left: auto;
     margin-right: auto;
-}
+} 
 
 </style>
 
 
 <div id="heatmap-body">
     <div style="overflow:hidden">
+        <div style="display:inline-block;width:400px"></div>
         <div class="pull-right">
             {{#each header}}
-                <div class="circleBox">
-                    {{this}}
-                </div>
+                {{#createHeader this}}
+                    <div class="column {{columnClass}}">
+                        {{columnName}}
+                    </div>
+                {{/createHeader}}
             {{/each}}
         </div>
     </div>

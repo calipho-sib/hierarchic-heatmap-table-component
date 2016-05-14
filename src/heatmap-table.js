@@ -18,6 +18,46 @@
             this.heatmapTable = $("#" + argv.tableID)[0];
             this.header = argv.header;
             this.hasColumnLabel = {};
+            this.headerToNum = {};
+            this.headerCount = 0;
+
+            var self = this;
+            Handlebars.registerHelper('createHeader', function(columnName, block) {
+                self.headerToNum[columnName.toLowerCase()] = self.headerCount;
+                self.headerCount += 1;
+                var result = {};
+                result.columnName = columnName;
+                result.columnClass = columnName.toLowerCase() + " " + "header";
+                return block.fn(result);
+            });
+
+            Handlebars.registerHelper('forCreateIcons', function(values, block) {
+                var accum = '';
+                for(var i = 0; i < self.headerCount; i++) {
+                    var result = {};
+                    result.columnClass = self.header[i].toLowerCase();
+                    for (var j = 0; j < values.length; j++) {
+                        if (self.headerToNum[values[j].columnLabel.toLowerCase()] == i) {
+                            result.circleColor = self.valueToColor[values[j].value];
+                            break;
+                        }
+                    }
+                    accum += block.fn(result);
+                }
+                return accum;
+            });
+
+        }
+    }
+
+    HeatMapTable.prototype.initStyle = function() {
+        for (var i = 0; i < this.header.length; i++) {
+            var self = this;
+            var columnName = this.header[i].toLowerCase();
+            var width = $("."+columnName + '.header').width();
+            $("."+columnName).each(function() {
+                this.style.width = width + "px";
+            });
         }
     }
 
@@ -47,6 +87,7 @@
         var template = HBtemplates['templates/heatmap.tmpl'];
         var result = template(this.data);
         $(this.heatmapTable).append(result);
+        this.initStyle();
     }
 
 }(this));
