@@ -22,37 +22,42 @@ function convertNextProtDataIntoHeatMapTable (data) {
             this.valueToColor = {'High': 'redBG', 'Low':'blueBG', 'Moderate':'grayBG', 'Negative': 'greenBG'};
             this.heatmapTable = $("#" + argv.tableID)[0];
             this.header = argv.header;
-            this.hasColumnLabel = {};
             this.headerToNum = {};
             this.headerCount = 0;
 
-            var self = this;
-            Handlebars.registerHelper('createHeader', function(columnName, block) {
-                self.headerToNum[columnName.toLowerCase()] = self.headerCount;
-                self.headerCount += 1;
-                var result = {};
-                result.columnName = columnName;
-                result.columnClass = columnName.toLowerCase() + " " + "header";
-                return block.fn(result);
-            });
-
-            Handlebars.registerHelper('forCreateIcons', function(values, block) {
-                var accum = '';
-                for(var i = 0; i < self.headerCount; i++) {
-                    var result = {};
-                    result.columnClass = self.header[i].toLowerCase();
-                    for (var j = 0; j < values.length; j++) {
-                        if (self.headerToNum[values[j].columnLabel.toLowerCase()] == i) {
-                            result.circleColor = self.valueToColor[values[j].value];
-                            break;
-                        }
-                    }
-                    accum += block.fn(result);
-                }
-                return accum;
-            });
-
+            this.initHandlebars();
         }
+    }
+
+    HeatMapTable.prototype.initHandlebars = function() {
+        var self = this;
+        Handlebars.registerPartial('create-ul', HBtemplates['templates/heatmap-tree.tmpl']);
+        
+        Handlebars.registerHelper('createHeader', function(columnName, block) {
+            self.headerToNum[columnName.toLowerCase()] = self.headerCount;
+            self.headerCount += 1;
+
+            var result = {};
+            result.columnName = columnName;
+            result.columnClass = columnName.toLowerCase() + " " + "header";
+            return block.fn(result);
+        });
+
+        Handlebars.registerHelper('forCreateIcons', function(values, block) {
+            var accum = '';
+            for(var i = 0; i < self.headerCount; i++) {
+                var result = {};
+                result.columnClass = self.header[i].toLowerCase();
+                for (var j = 0; j < values.length; j++) {
+                    if (self.headerToNum[values[j].columnLabel.toLowerCase()] == i) {
+                        result.circleColor = self.valueToColor[values[j].value];
+                        break;
+                    }
+                }
+                accum += block.fn(result);
+            }
+            return accum;
+        });
     }
 
     HeatMapTable.prototype.initStyle = function() {
@@ -91,7 +96,6 @@ function convertNextProtDataIntoHeatMapTable (data) {
     HeatMapTable.prototype.showData = function() {
         var template = HBtemplates['templates/heatmap.tmpl'];
         var result = template(this.data);
-        console.log(result);
         $(this.heatmapTable).append(result);
         this.initStyle();
     }
