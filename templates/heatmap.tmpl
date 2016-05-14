@@ -55,6 +55,8 @@ p.tree-toggler span{
 </style>
 
 
+<button class="btn btn-default" id="heatmap-collapseAll-btn">CollapseAll</button>
+<button class="btn btn-default" id="heatmap-expandAll-btn">ExpandAll</button>
 <div id="heatmap-body">
     <div style="overflow:hidden">
         <div style="display:inline-block;width:400px"></div>
@@ -68,5 +70,7 @@ p.tree-toggler span{
             {{/each}}
         </div>
     </div>
-    {{> create-ul}}
+    <ul class="tree">
+        {{> create-ul}}
+    </ul>
 </div>

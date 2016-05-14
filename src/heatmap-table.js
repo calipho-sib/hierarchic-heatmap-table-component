@@ -27,7 +27,7 @@
     HeatMapTable.prototype.initHandlebars = function() {
         var self = this;
         Handlebars.registerPartial('create-ul', HBtemplates['templates/heatmap-tree.tmpl']);
-        
+
         Handlebars.registerHelper('createHeader', function(columnName, block) {
             self.headerToNum[columnName.toLowerCase()] = self.headerCount;
             self.headerCount += 1;
@@ -74,11 +74,28 @@
     }
 
     HeatMapTable.prototype.addClickEvent = function() {
-        $('p.tree-toggler').click(function () {
+        $('.heatmap-rowLabel').click(function () {
             $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
+            $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened");
             $(this).parent().parent().children('ul.tree').toggle(300);
         });
-        $('p.tree-toggler').parent().parent().children('ul.tree').toggle();
+        $('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+
+        $("#heatmap-collapseAll-btn").click(function() {
+            $(".heatmap-opened").each(function() {
+                $(this).hide();
+                $(this).toggleClass("heatmap-opened heatmap-closed");
+                $(this).parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-minus glyphicon-plus");
+            });
+        });
+
+        $("#heatmap-expandAll-btn").click(function() {
+            $(".heatmap-closed").each(function() {
+                $(this).show();
+                $(this).toggleClass("heatmap-closed heatmap-opened");
+                $(this).parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
+            });
+        })
     }
 
     HeatMapTable.prototype.loadJSONDataFromURL = function(filePath) {
