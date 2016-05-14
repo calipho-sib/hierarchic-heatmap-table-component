@@ -11,6 +11,10 @@ module.exports = function(grunt) {
                       'build/heatmap-compiled-templates.js'],
                 dest: 'dist/heatmap-table.js'
             },
+            css: {
+                src: ['vendor/css/heatmap-table.css'],
+                dest: 'dist/heatmap-table.css'
+            },
             vendor: {
                 src: ['bower_components/handlebars/handlebars.js'],
                 dest: 'dist/heatmap-table-vendor.js'
@@ -37,7 +41,7 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 },
-                files: ['src/*.js', 'templates/*.tmpl'],
+                files: ['src/*.js', 'templates/*.tmpl', 'vendor/css/*.css'],
                 tasks: ['handlebars:compile', 'concat']
             },
             handlebars: {

@@ -1,60 +1,3 @@
-<style>
-.blueBG {
-    background-color: #0070C0;
-}
-
-.redBG {
-    background-color: #C00000;
-}
-
-.grayBG {
-    background-color: gray;
-}
-
-.greenBG {
-    background-color: green;
-}
-
-.circle {
-    text-align: center;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-}
-
-.heatmap-row {
-    border-bottom: solid 1px #d4d4d4;
-}
-
-.heatmap-column {
-    display: inline-block;
-    text-align: center;
-    margin-right: 5px;
-    margin-left: 5px;
-}
-
-ul {
-    list-style-type: none;
-}
-p.tree-toggler span{
-    cursor:pointer;
-}
-.glyphicon{
-    margin-right:5px;
-    font-size:12px;
-}
-
-#heatmap-body {
-    margin-left: auto;
-    margin-right: auto;
-} 
-
-</style>
-
-
 <button class="btn btn-default" id="heatmap-collapseAll-btn">CollapseAll</button>
 <button class="btn btn-default" id="heatmap-expandAll-btn">ExpandAll</button>
 <div id="heatmap-body">
@@ -70,7 +13,7 @@ p.tree-toggler span{
             {{/each}}
         </div>
     </div>
-    <ul class="tree">
+    <ul class="tree heatmap-ul">
         {{> create-ul}}
     </ul>
 </div>
