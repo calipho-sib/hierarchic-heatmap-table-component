@@ -25,7 +25,11 @@
     border-radius: 5px;
 }
 
-.column {
+.heatmap-row {
+    border-bottom: solid 1px #d4d4d4;
+}
+
+.heatmap-column {
     display: inline-block;
     text-align: center;
     margin-right: 5px;
@@ -57,7 +61,7 @@ p.tree-toggler span{
         <div class="pull-right">
             {{#each header}}
                 {{#createHeader this}}
-                    <div class="column {{columnClass}}">
+                    <div class="heatmap-column {{columnClass}}">
                         {{columnName}}
                     </div>
                 {{/createHeader}}

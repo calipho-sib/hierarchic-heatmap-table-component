@@ -10,8 +10,9 @@ import Queue
 import cPickle as pickle
 import json
 
-def createTerm(termName, is_a, relationship):
+def createTerm(termID, termName, is_a, relationship):
     term = {}
+    term['termID'] = termID
     term['name'] = termName
     term['is_a'] = is_a
     term['relationship'] = relationship
@@ -19,6 +20,8 @@ def createTerm(termName, is_a, relationship):
 
 def createJsonTerm(term):
     termJson = {}
+    termJson['linkLabel'] = '[' + term['termID'] + ']'
+    termJson['linkURL'] = 'http://www.nextprot.org/db/term/' + term['termID']
     termJson['rowLabel'] = term['name']
     termJson['values'] = createValuesJson()
     termJson['children'] = []
@@ -49,7 +52,7 @@ def generateValue():
     return values[random.randint(0, 3)]
 
 data = {}
-data['data'] = []
+data['children'] = []
 is_add = False
 
 def addTermToData(term, dataList):
@@ -65,7 +68,6 @@ def addTermToData(term, dataList):
 
 if __name__ == '__main__':
     f = open("caloha.obo")
-    # f = open("test.txt")
 
     #ignore the head context
     while (f.readline().strip('\n') != '[Term]'): continue
@@ -89,7 +91,8 @@ if __name__ == '__main__':
             line = f.readline().strip('\n')
         
         for info in lineList:
-            if info.find('name:') != -1: termName = info[info.find('name:')+6:]
+            if info.find('id:') != -1: termID = info[info.find('id:')+4:]
+            elif info.find('name:') != -1: termName = info[info.find('name:')+6:]
             elif info.find('is_a:') != -1: is_a = info[info.find('!')+2:]
             elif info.find('relationship') != -1: relationship = info[info.find('!')+2:]
             elif info.find('is_obsolete') != -1: is_obsolete = True
@@ -98,16 +101,14 @@ if __name__ == '__main__':
             continue
 
         if is_a == None and relationship == None:
-            data['data'].append(createJsonTerm(createTerm(termName, is_a, relationship)))
+            data['children'].append(createJsonTerm(createTerm(termID, termName, is_a, relationship)))
         else:
-            termQue.put(createTerm(termName, is_a, relationship))
+            termQue.put(createTerm(termID, termName, is_a, relationship))
 
     count = 0
     while not termQue.empty():
-        # is_add = False
         term = termQue.get()
-        # print 'Now the term is', term
-        addTermToData(term, data['data'])
+        addTermToData(term, data['children'])
         if term['is_a'] != None or term['relationship'] != None :
             termQue.put(term)
         else:
@@ -115,10 +116,6 @@ if __name__ == '__main__':
             print 'add successfully'
             print 'Num:', count
 
-    # picklestring = pickle.dump(data, open('./data.pkl', 'w'))
-
-    # data = pickle.load(open('./data.pkl'))
-
-    f = open('caloha.json', 'w')
+    f = open('data.json', 'w')
     f.write(json.dumps(data,indent=4, sort_keys=True)) 
     f.close() 

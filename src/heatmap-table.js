@@ -86,6 +86,7 @@
     HeatMapTable.prototype.showData = function() {
         var template = HBtemplates['templates/heatmap.tmpl'];
         var result = template(this.data);
+        console.log(result);
         $(this.heatmapTable).append(result);
         this.initStyle();
     }
