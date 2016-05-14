@@ -21,8 +21,8 @@
     "tests"
   ],
   "dependencies": {
-    "nextprot-js": "nextprot#~0.0.61",
     "bootstrap": "~3.3.6",
-    "d3": "~3.5.17"
+    "d3": "~3.5.17",
+    "handlebars": "^4.0.5"
   }
 }

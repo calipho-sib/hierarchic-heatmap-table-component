@@ -5,8 +5,15 @@ $(function () {
     // Related Trello task: https://trello.com/c/DNgw1yLp/12-convert-nextprot-data-into-the-json-format
     $.getJSON("data/data.json", function(data) {
 
-        var heatMapTable = new HeatMapTable({header:['Microarray', 'EST', 'IHC']}, "heatmap-table");
+        var heatMapTable = new HeatMapTable({
+        		header:['Microarray', 'EST', 'IHC'],
+        		tableID: "heatmap-table"
+        	});
         heatMapTable.loadJSONData(data);
+
+
     })
 
 });
+
+Handlebars.registerPartial('create-ul', HBtemplates['templates/heatmap-tree.tmpl']);

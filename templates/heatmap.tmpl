@@ -1,0 +1,64 @@
+<style>
+.blueBG {
+    background-color: #0070C0;
+}
+
+.redBG {
+    background-color: #C00000;
+}
+
+.grayBG {
+    background-color: gray;
+}
+
+.greenBG {
+    background-color: green;
+}
+
+.circle {
+    text-align: center;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.circleBox {
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+}
+p.tree-toggler{
+    cursor:pointer;
+}
+.glyphicon{
+    margin-right:5px;
+    font-size:12px;
+}
+
+#heatmap-body {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+</style>
+
+
+<div id="heatmap-body">
+    <div style="overflow:hidden">
+        <div class="pull-right">
+            {{#each header}}
+                <div class="circleBox">
+                    {{this}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    {{> create-ul}}
+</div>

@@ -1,0 +1,20 @@
+<ul class="tree">
+	{{#each children}}
+    <li>
+        <div>
+            <p class="tree-toggler" style="display:inline-block;margin-bottom:0px;word-break:break-all;"><span class="glyphicon glyphicon-plus"></span>{{rowLabel}}</p>
+            <div class="pull-right">
+            	{{#each values}}
+	                <div class="circleBox">
+	                	<i class="greenBG circle"></i>
+	                	<!-- {{createCircle}} -->
+	                </div>
+	            {{/each}}
+            </div>
+        </div>
+        {{#if children}}
+        	{{> create-ul}}
+        {{/if}}
+    </li>
+    {{/each}}
+</ul>
