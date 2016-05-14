@@ -6,19 +6,21 @@ module.exports = function(grunt) {
                 separator: ';\n'
             },
             basic: {
-                src: ['src/convert-nextprot-to-heatmap.js',
-                    'src/heatmap-table.js',
-                    'build/compiled-templates.js'],
-                dest: 'dist/heatmap.js'
+                 //use core because it is the "base", but needs compiled templates to work 
+                 src: ['src/heatmap-table-core.js',
+                      'build/heatmap-compiled-templates.js'],
+                dest: 'dist/heatmap-table.js'
             },
             vendor: {
                 src: ['bower_components/handlebars/handlebars.js'],
-                dest: 'dist/heatmap-vendor.js'
+                dest: 'dist/heatmap-table-vendor.js'
             },
             bundle: {
-                src: ['dist/heatmap-vendor.js',
-                      'dist/heatmap.js'],
-                dest: 'dist/nextprot-heatmap.js'
+                 //the keyword vendor is used for external dependencies
+                 src: ['dist/heatmap-table-vendor.js', 
+                       'dist/heatmap-table.js'],
+                //the keyword bundle is for the full package source + dependencies
+                dest: 'dist/heatmap-table-bundle.js'
             }
         },
         connect: {
@@ -46,7 +48,7 @@ module.exports = function(grunt) {
         handlebars: {
             compile: {
                 src: 'templates/*.tmpl',
-                dest: 'build/compiled-templates.js',
+                dest: 'build/heatmap-compiled-templates.js',
                 options: {
                     namespace: "HBtemplates"
                 }
