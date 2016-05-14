@@ -7,11 +7,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" /></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/mode/javascript/javascript.min.js"></script>
-    <script src="../src/heatmap-table.js"></script>
+    
+    <link rel="stylesheet" href="../dist/heatmap-table.css">
+    <script type="text/javascript" src="../dist/heatmap-table-vendor.js"></script>
+    <script type="text/javascript" src="../dist/heatmap-table.js"></script>
 </head>
 
 <body>
- <div class="container col-md-10 col-xs-12 col-md-offset-1">
+ <div class="container col-md-11 col-xs-12" style="margin-left:5%">
 <div class="jumbotron">
     <p class="pull-right" style="display: inline-block;"><a href="http://www.nextprot.org" alt="neXtProt"
                                                             style="color:#C50063;">neXtProt</a></p>
@@ -29,17 +32,82 @@
             <p>This is the classic display of a heatmap.<br>
                 ... options :</p>
             <ul>
-                <li><strong>showLineNumbers</strong> <em>(boolean)</em> : Display or not the line numbers</li>
-
+                <li><strong>header</strong> <em>(array)</em> : Show the columns header</li>
+                <li><strong>tableID</strong> <em>(string)</em> : The id of the HTML element</li>
             </ul>
         </div>
         <form>
             <textarea id="code1" name="code1" style="width:500px;max-height:200px;overflow:auto;font-size:11px;">
-
-
-        var heatMapTable = new HeatMapTable({header:['Microarray', 'EST', 'IHC']}, 'heatmap-table');
-        var data = { ... };
-        heatMapTable.loadJSONData(data);
+var heatMapTable = new HeatMapTable({
+                header:['Microarray', 'EST', 'IHC'],
+                tableID: "heatmap-table"
+            });
+var data = {
+  "children": [
+    {
+      "children": [
+        {
+          "children": [ 
+            {
+              "linkLabel": "[TS-0079]", 
+              "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
+              "rowLabel": "Blood", 
+              "values": [
+                {
+                  "columnLabel": "Microarray", 
+                  "value": "Low"
+                }, 
+                {
+                  "columnLabel": "IHC", 
+                  "value": "High"
+                }, 
+                {
+                  "columnLabel": "EST", 
+                  "value": "Low"
+                }
+              ]
+            },   
+          ], 
+          "linkLabel": "[TS-2101]", 
+          "linkURL": "http://www.nextprot.org/db/term/TS-2101", 
+          "rowLabel": "Fluid and secretion", 
+          "values": [
+            {
+              "columnLabel": "Microarray", 
+              "value": "High"
+            }, 
+            {
+              "columnLabel": "IHC", 
+              "value": "Low"
+            }, 
+            {
+              "columnLabel": "EST", 
+              "value": "Negative"
+            }
+          ]
+        }
+      ], 
+      "linkLabel": "[TS-2178]", 
+      "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
+      "rowLabel": "Human anatomical entity", 
+      "values": [
+        {
+          "columnLabel": "Microarray", 
+          "value": "High"
+        }, 
+        {
+          "columnLabel": "IHC", 
+          "value": "High"
+        }, 
+        {
+          "columnLabel": "EST", 
+          "value": "High"
+        }
+      ]
+    }
+  ]
+}
+heatMapTable.loadJSONData(data);
         
     </textarea>
         </form>
@@ -47,7 +115,7 @@
                 onclick=executeCode("#protein-sequence-viewer2",simpleHeatMap)>Execute
         </button>
     </div>
-    <div id="heatmap-table" class="col-md-5 col-xs-10 col-xs-offset-1"
+    <div id="heatmap-table" class="col-md-6 col-xs-10"
          style="height:250px;vertical-align:top;margin-top:15px;"></div>
 
 </div>
@@ -58,24 +126,24 @@
                                                                                 src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
                                                                                 alt="Fork me on GitHub"
                                                                                 data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
-<script defer>
-    var simpleHeatMap;
-    var executeCode = function (outputDiv, mirrorCode) {
-        var code = mirrorCode.getValue();
-        eval(code);
-        $(outputDiv).animate({opacity: "100"}, 2000);
-    };
-    window.onload = function () {
-        simpleHeatMap = CodeMirror.fromTextArea(code1, {
-            mode: "javascript",
-            lineNumbers: true,
-            lineWrapping: true
-        });
-        $(function () {
-            executeCode("#heatmap-table", simpleHeatMap);
-        });
-    };
-</script>
+  <script defer>
+      var simpleHeatMap;
+      var executeCode = function (outputDiv, mirrorCode) {
+          var code = mirrorCode.getValue();
+          eval(code);
+          $(outputDiv).animate({opacity: "100"}, 2000);
+      };
+      window.onload = function () {
+          simpleHeatMap = CodeMirror.fromTextArea(code1, {
+              mode: "javascript",
+              lineNumbers: true,
+              lineWrapping: true
+          });
+          $(function () {
+              executeCode("#heatmap-table", simpleHeatMap);
+          });
+      };
+  </script>
 
 </body>
 
