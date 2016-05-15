@@ -8,108 +8,146 @@
 * All copyright reserved
 */
 
-(function(root) {
+;(function(global) {
 
     'use strict';
 
-    if (root.HeatMapTable === undefined) {
-        root.HeatMapTable = function(argv) {
-            this.valueToColor = {'High': 'redBG', 'Low':'blueBG', 'Moderate':'grayBG', 'Negative': 'greenBG'};
-            this.heatmapTable = $("#" + argv.tableID)[0];
-            this.header = argv.header;
-            this.headerToNum = {};
-            this.headerCount = 0;
-
-            this.initHandlebars();
-        }
+    var HeatMapTable = function(argv) {
+        return new HeatMapTable.init(argv);
     }
 
-    HeatMapTable.prototype.initHandlebars = function() {
-        var self = this;
-        Handlebars.registerPartial('create-ul', HBtemplates['templates/heatmap-tree.tmpl']);
+    HeatMapTable.prototype = {
 
-        Handlebars.registerHelper('createHeader', function(columnName, block) {
-            self.headerToNum[columnName.toLowerCase()] = self.headerCount;
-            self.headerCount += 1;
-
-            var result = {};
-            result.columnName = columnName;
-            result.columnClass = columnName.toLowerCase() + " " + "header";
-            return block.fn(result);
-        });
-
-        Handlebars.registerHelper('forCreateIcons', function(values, block) {
-            var accum = '';
-            for(var i = 0; i < self.headerCount; i++) {
-                var result = {};
-                result.columnClass = self.header[i].toLowerCase();
-                for (var j = 0; j < values.length; j++) {
-                    if (self.headerToNum[values[j].columnLabel.toLowerCase()] == i) {
-                        result.circleColor = self.valueToColor[values[j].value];
-                        break;
-                    }
-                }
-                accum += block.fn(result);
-            }
-            return accum;
-        });
-    }
-
-    HeatMapTable.prototype.initStyle = function() {
-        for (var i = 0; i < this.header.length; i++) {
+        initHandlebars : function() {
             var self = this;
-            var columnName = this.header[i].toLowerCase();
-            var width = $("."+columnName + '.header').width();
-            $("."+columnName).each(function() {
-                this.style.width = width + "px";
+            //Share template for recursively generate children
+            Handlebars.registerPartial('create-children', HBtemplates['templates/heatmap-tree.tmpl']);
+
+            //Create column header
+            Handlebars.registerHelper('createHeader', function(columnName, block) {
+                //record which header in which column
+                self.headerToNum[columnName.toLowerCase()] = self.headerCount;
+
+                //record how many header are there
+                self.headerCount += 1;
+
+                var result = {};
+                result.columnName = columnName;
+                result.columnClass = columnName.toLowerCase() + " " + "header";
+
+                return block.fn(result);
             });
+
+            Handlebars.registerHelper('forCreateCircle', function(values, block) {
+                var accum = '';
+                //create [headerCount] circle
+                for(var i = 0; i < self.headerCount; i++) {
+                    var result = {};
+                    result.columnClass = self.header[i].toLowerCase();
+
+                    //For an circle, searching if there are a value will be set. 
+                    for (var j = 0; j < values.length; j++) {
+                        /*
+                            Example: 
+                                When the values[j].columnLabel.toLowerCase() is est.
+                                And we also have a header call est in the second column
+                                (headerToNum['est'] == 1, start from 0).
+                                Then when create the second circle(i is 1, start from 0),
+                                this condition will be true,
+                                so the result.circleColor will be set the right value.
+                        */
+                        if (self.headerToNum[ values[j].columnLabel.toLowerCase() ] == i) {
+                            result.circleColor = self.valueToColor[values[j].value];
+                            break;
+                        }
+                    }
+                    accum += block.fn(result);
+                }
+                return accum;
+            });
+        },
+
+        initStyle : function() {
+            var self = this;
+            //Setting the width of circles according to the width of its header. 
+            for (var i = 0; i < self.header.length; i++) {
+                //get the header string
+                var columnName = self.header[i].toLowerCase();
+
+                //get the width of header
+                var width = $("."+columnName + '.header').width();
+
+                //This function will be time consuming...Need to improve performance.
+                $("."+columnName).each(function() {
+                    this.style.width = width + "px";
+                });
+            }
+        },
+
+        initTemplate : function() {
+            var template = HBtemplates['templates/heatmap.tmpl'];
+            var result = template(this.data);
+            $(this.heatmapTable).append(result);
+        },
+
+        initClickEvent : function() {
+            //Collapse the table in the begining
+            $('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+
+            $('.heatmap-rowLabel').click(function () {
+                $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
+                $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
+            });
+
+            //Add the click event of collapseAll button
+            $("#heatmap-collapseAll-btn").click(function() {
+                $(".heatmap-opened").each(function() {
+                    $(this).hide()
+                           .toggleClass("heatmap-opened heatmap-closed")
+                           .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-minus glyphicon-plus");
+                });
+            });
+
+            // //Add the click event of expandAll button
+            $("#heatmap-expandAll-btn").click(function() {
+                $(".heatmap-closed").each(function() {
+                    $(this).show()
+                           .toggleClass("heatmap-closed heatmap-opened")
+                           .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
+                });
+            })
+        },
+
+        loadJSONData : function(data) {
+            this.data = data;
+            this.data.header = this.header
+        },
+
+        loadJSONDataFromURL : function(filePath) {
+            var self = this;
+            $.getJSON(filePath, function(data) {
+                self.loadJSONData(data);
+            });
+        },
+
+        show : function() {
+            this.initHandlebars();
+            this.initTemplate();
+            this.initClickEvent();
+            this.initStyle();
         }
     }
 
-    HeatMapTable.prototype.loadJSONData = function(data) {
-        this.data = data;
-        this.data.header = this.header
-        this.showData();
-        this.addClickEvent();
+    HeatMapTable.init = function(argv) {
+        this.valueToColor = {'High': 'redBG', 'Low':'blueBG', 'Moderate':'grayBG', 'Negative': 'greenBG'};
+        this.heatmapTable = $("#" + argv.tableID)[0];
+        this.header = argv.header;
+        this.headerToNum = {};
+        this.headerCount = 0;
     }
 
-    HeatMapTable.prototype.addClickEvent = function() {
-        $('.heatmap-rowLabel').click(function () {
-            $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
-            $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened");
-            $(this).parent().parent().children('ul.tree').toggle(300);
-        });
-        $('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+    HeatMapTable.init.prototype = HeatMapTable.prototype;
 
-        $("#heatmap-collapseAll-btn").click(function() {
-            $(".heatmap-opened").each(function() {
-                $(this).hide();
-                $(this).toggleClass("heatmap-opened heatmap-closed");
-                $(this).parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-minus glyphicon-plus");
-            });
-        });
-
-        $("#heatmap-expandAll-btn").click(function() {
-            $(".heatmap-closed").each(function() {
-                $(this).show();
-                $(this).toggleClass("heatmap-closed heatmap-opened");
-                $(this).parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
-            });
-        })
-    }
-
-    HeatMapTable.prototype.loadJSONDataFromURL = function(filePath) {
-        var self = this;
-        $.getJSON(filePath, function(data) {
-            self.loadJSONData(data);
-        });
-    }
-
-    HeatMapTable.prototype.showData = function() {
-        var template = HBtemplates['templates/heatmap.tmpl'];
-        var result = template(this.data);
-        $(this.heatmapTable).append(result);
-        this.initStyle();
-    }
+    global.HeatMapTable = HeatMapTable;
 
 }(this));

@@ -4,16 +4,16 @@
         <div class="heatmap-row">
             <p class="heatmap-rowLabel tree-toggler"><span class="glyphicon glyphicon-plus"></span><span>{{rowLabel}}</span><span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span></p>
             <div class="pull-right">
-                {{#forCreateIcons values}}
+                {{#forCreateCircle values}}
                     <div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">
                         <i class="heatmap-circle {{circleColor}}"></i>
                     </div>
-                {{/forCreateIcons}}
+                {{/forCreateCircle}}
             </div>
         </div>
         <ul class="tree heatmap-closed">
             {{#if children}}
-                {{> create-ul}}
+                {{> create-children}}
             {{/if}}
         </ul>
     </li>
