@@ -7,16 +7,13 @@ bower install
 npm install
 grunt default
 ```
+
+## How to run the demo:
+
+```
+grunt default
+```
 open in browser: http://127.0.0.1:5000/
-
-
-## Ready For GSoC 2016
-
-How to run the demo:
-
-1. install python and flask(A python back-end framework)
-2. Enter the `server` folder
-3. Run `python server.py`
 
 Todo:
 
