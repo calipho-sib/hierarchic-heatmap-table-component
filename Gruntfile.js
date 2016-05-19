@@ -16,7 +16,8 @@ module.exports = function(grunt) {
                 dest: 'dist/heatmap-table.css'
             },
             vendor: {
-                src: ['bower_components/handlebars/handlebars.js'],
+                src: ['bower_components/handlebars/handlebars.js'，
+                      'bower_components/jquery/dist/jquery.min.js'],
                 dest: 'dist/heatmap-table-vendor.js'
             },
             bundle: {
