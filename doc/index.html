@@ -38,75 +38,79 @@
         </div>
         <form>
             <textarea id="code1" name="code1" style="width:500px;max-height:200px;overflow:auto;font-size:11px;">
+
+            var data = {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [ 
+                        {
+                          "linkLabel": "[TS-0079]", 
+                          "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
+                          "rowLabel": "Blood", 
+                          "values": [
+                            {
+                              "columnLabel": "Microarray", 
+                              "value": "Low"
+                            }, 
+                            {
+                              "columnLabel": "IHC", 
+                              "value": "High"
+                            }, 
+                            {
+                              "columnLabel": "EST", 
+                              "value": "Low"
+                            }
+                          ]
+                        },   
+                      ], 
+                      "linkLabel": "[TS-2101]", 
+                      "linkURL": "http://www.nextprot.org/db/term/TS-2101", 
+                      "rowLabel": "Fluid and secretion", 
+                      "values": [
+                        {
+                          "columnLabel": "Microarray", 
+                          "value": "High"
+                        }, 
+                        {
+                          "columnLabel": "IHC", 
+                          "value": "Low"
+                        }, 
+                        {
+                          "columnLabel": "EST", 
+                          "value": "Negative"
+                        }
+                      ]
+                    }
+                  ], 
+                  "linkLabel": "[TS-2178]", 
+                  "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
+                  "rowLabel": "Human anatomical entity", 
+                  "values": [
+                    {
+                      "columnLabel": "Microarray", 
+                      "value": "High"
+                    }, 
+                    {
+                      "columnLabel": "IHC", 
+                      "value": "High"
+                    }, 
+                    {
+                      "columnLabel": "EST", 
+                      "value": "High"
+                    }
+                  ]
+                }
+              ]
+            }
+
 var heatMapTable = new HeatMapTable({
                 header:['Microarray', 'EST', 'IHC'],
                 tableID: "heatmap-table"
             });
-var data = {
-  "children": [
-    {
-      "children": [
-        {
-          "children": [ 
-            {
-              "linkLabel": "[TS-0079]", 
-              "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
-              "rowLabel": "Blood", 
-              "values": [
-                {
-                  "columnLabel": "Microarray", 
-                  "value": "Low"
-                }, 
-                {
-                  "columnLabel": "IHC", 
-                  "value": "High"
-                }, 
-                {
-                  "columnLabel": "EST", 
-                  "value": "Low"
-                }
-              ]
-            },   
-          ], 
-          "linkLabel": "[TS-2101]", 
-          "linkURL": "http://www.nextprot.org/db/term/TS-2101", 
-          "rowLabel": "Fluid and secretion", 
-          "values": [
-            {
-              "columnLabel": "Microarray", 
-              "value": "High"
-            }, 
-            {
-              "columnLabel": "IHC", 
-              "value": "Low"
-            }, 
-            {
-              "columnLabel": "EST", 
-              "value": "Negative"
-            }
-          ]
-        }
-      ], 
-      "linkLabel": "[TS-2178]", 
-      "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
-      "rowLabel": "Human anatomical entity", 
-      "values": [
-        {
-          "columnLabel": "Microarray", 
-          "value": "High"
-        }, 
-        {
-          "columnLabel": "IHC", 
-          "value": "High"
-        }, 
-        {
-          "columnLabel": "EST", 
-          "value": "High"
-        }
-      ]
-    }
-  ]
-}
+            
+            
 heatMapTable.loadJSONData(data);
 heatMapTable.show(); 
     </textarea>
@@ -129,6 +133,7 @@ heatMapTable.show();
   <script defer>
       var simpleHeatMap;
       var executeCode = function (outputDiv, mirrorCode) {
+          $("#heatmap-table").empty();
           var code = mirrorCode.getValue();
           eval(code);
           $(outputDiv).animate({opacity: "100"}, 2000);
@@ -140,7 +145,7 @@ heatMapTable.show();
               lineWrapping: true
           });
           $(function () {
-              executeCode("#heatmap-table", simpleHeatMap);
+            executeCode("#heatmap-table", simpleHeatMap);
           });
       };
   </script>

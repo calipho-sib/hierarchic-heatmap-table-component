@@ -11,25 +11,19 @@
         <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
         <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
+        <script type="text/javascript" src="src/convert-nextprot-to-heatmap.js"></script>
         <script type="text/javascript" src="dist/heatmap-table.js"></script>
+        <script src="vendor/nextprot-core.js"></script>
+        <script type="text/javascript" src="src/app.js"></script>
+
     </head>
     <body>
-        <div style="margin-left:auto; margin-right:auto; margin-top:100px; width:700px;">
+        
+        <h1 style="text-align:center;margin:30px;">With neXtProt data</h1>
+
+        <div class="container">
+            <div class="col-md-9 col-md-offset-1">
             <div id="heatmap-table"/>
         </div>
     </body>
-    
-    <script>
-        
-        var heatMapTable = HeatMapTable({
-            header:['Microarray', 'EST', 'test1','test3', 'IHC', 'test2'],
-            tableID: "heatmap-table"
-        });
-
-        $.getJSON("../data/data.json", function(data) {
-            heatMapTable.loadJSONData(data);
-            heatMapTable.show();
-        })
-
-    </script>
 </html>
