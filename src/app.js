@@ -16,7 +16,14 @@ $(function () {
 
         var heatMapTable = HeatMapTable({
             header:['Microarray', 'EST', 'IHC'],
-            tableID: "heatmap-table"
+            tableID: "heatmap-table",
+            options: {
+                valuesColorMapping: [
+                    {value:'High', color: '#C00000'},
+                    {value:'Low', color: '#0070C0'}, 
+                    {value:'Moderate', cssClass: 'grayBG'}],
+                    {value:'Negative', cssClass: 'greenBG'}]
+            }
         });
 
         heatMapTable.loadJSONData(data);

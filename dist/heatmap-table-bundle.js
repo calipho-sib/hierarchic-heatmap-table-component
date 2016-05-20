@@ -4670,7 +4670,11 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                                 so the result.circleColor will be set the right value.
                         */
                         if (self.headerToNum[ values[j].columnLabel.toLowerCase() ] === i) {
-                            result.circleColor = self.valueToColor[values[j].value];
+                            if (self.valueToColor[values[j].value].cssClass) {
+                                result.circleColorClass = self.valueToColor[values[j].value].cssClass;
+                            } else if (self.valueToColor[values[j].value].color) {
+                                result.circleColorStyle = self.valueToColor[values[j].value].color;
+                            }
                             break;
                         }
                     }
@@ -4748,11 +4752,27 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             this.initTemplate();
             this.initClickEvent();
             this.initStyle();
+        },
+
+        getValueToColor: function(valuesColorMapping) {
+            var valueToColor = {}
+            for (var i = 0; i < valuesColorMapping.length; i++) {
+                valueToColor[valuesColorMapping[i].value] = {};
+                if (valuesColorMapping[i].color) {
+                    valueToColor[valuesColorMapping[i].value].color = valuesColorMapping[i].color;
+                } else if (valuesColorMapping[i].cssClass) {
+                    valueToColor[valuesColorMapping[i].value].cssClass = valuesColorMapping[i].cssClass;
+                } else {
+                    throw "The value" + values[j].value + "has no color or cssClass";
+                }
+            }
+            return valueToColor
         }
     }
 
     HeatMapTable.init = function(argv) {
-        this.valueToColor = {'High': 'redBG', 'Low':'blueBG', 'Moderate':'grayBG', 'Negative': 'greenBG'};
+        console.log(argv);
+        this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
         this.heatmapTable = $("#" + argv.tableID)[0];
         this.header = argv.header;
         this.headerToNum = {};
@@ -4788,7 +4808,9 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
     + "\", style=\"width:"
     + alias4(((helper = (helper = helpers.columnWidth || (depth0 != null ? depth0.columnWidth : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnWidth","hash":{},"data":data}) : helper)))
     + "\">\r\n                        <i class=\"heatmap-circle "
-    + alias4(((helper = (helper = helpers.circleColor || (depth0 != null ? depth0.circleColor : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColor","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.circleColorClass || (depth0 != null ? depth0.circleColorClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorClass","hash":{},"data":data}) : helper)))
+    + "\" style=\"background-color: "
+    + alias4(((helper = (helper = helpers.circleColorStyle || (depth0 != null ? depth0.circleColorStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorStyle","hash":{},"data":data}) : helper)))
     + "\"></i>\r\n                    </div>\r\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var stack1;

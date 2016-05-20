@@ -57,7 +57,11 @@
                                 so the result.circleColor will be set the right value.
                         */
                         if (self.headerToNum[ values[j].columnLabel.toLowerCase() ] === i) {
-                            result.circleColor = self.valueToColor[values[j].value];
+                            if (self.valueToColor[values[j].value].cssClass) {
+                                result.circleColorClass = self.valueToColor[values[j].value].cssClass;
+                            } else if (self.valueToColor[values[j].value].color) {
+                                result.circleColorStyle = self.valueToColor[values[j].value].color;
+                            }
                             break;
                         }
                     }
@@ -135,11 +139,27 @@
             this.initTemplate();
             this.initClickEvent();
             this.initStyle();
+        },
+
+        getValueToColor: function(valuesColorMapping) {
+            var valueToColor = {}
+            for (var i = 0; i < valuesColorMapping.length; i++) {
+                valueToColor[valuesColorMapping[i].value] = {};
+                if (valuesColorMapping[i].color) {
+                    valueToColor[valuesColorMapping[i].value].color = valuesColorMapping[i].color;
+                } else if (valuesColorMapping[i].cssClass) {
+                    valueToColor[valuesColorMapping[i].value].cssClass = valuesColorMapping[i].cssClass;
+                } else {
+                    throw "The value" + values[j].value + "has no color or cssClass";
+                }
+            }
+            return valueToColor
         }
     }
 
     HeatMapTable.init = function(argv) {
-        this.valueToColor = {'High': 'redBG', 'Low':'blueBG', 'Moderate':'grayBG', 'Negative': 'greenBG'};
+        console.log(argv);
+        this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
         this.heatmapTable = $("#" + argv.tableID)[0];
         this.header = argv.header;
         this.headerToNum = {};

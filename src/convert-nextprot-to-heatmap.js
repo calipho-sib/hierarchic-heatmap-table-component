@@ -1,7 +1,7 @@
 function convertNextProtDataIntoHeatMapTableFormat (data) {
  //TODO convert the data here into the JSON format used by heatmap table
  // Related task: https://trello.com/c/DNgw1yLp/12-convert-nextprot-data-into-the-json-format
- 
+ console.log(data)
  console.log("Found " + data.annot.length + " annotations in nextprot about data expression");
  console.log("Example");
  

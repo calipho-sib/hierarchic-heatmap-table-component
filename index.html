@@ -12,6 +12,16 @@
         <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
         <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
         <script type="text/javascript" src="dist/heatmap-table.js"></script>
+    
+        <style type="text/css">
+            .grayBG {
+                background-color: gray;
+            }
+
+            .greenBG {
+                background-color: green;
+            }
+        </style>
     </head>
     <body>
         <div style="margin-left:auto; margin-right:auto; margin-top:100px; width:700px;">
@@ -22,8 +32,15 @@
     <script>
         
         var heatMapTable = HeatMapTable({
-            header:['Microarray', 'EST', 'test1','test3', 'IHC', 'test2'],
-            tableID: "heatmap-table"
+            header:['Microarray', 'EST', 'IHC'],
+            tableID: "heatmap-table",
+            options: {
+                valuesColorMapping: [
+                    {value:'High', color: '#C00000'},
+                    {value:'Low', color: '#0070C0'}, 
+                    {value:'Moderate', cssClass: 'grayBG'},
+                    {value:'Negative', cssClass: 'greenBG'}]
+            }
         });
 
         $.getJSON("../data/data.json", function(data) {
