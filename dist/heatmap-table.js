@@ -49,14 +49,14 @@
                     for (var j = 0; j < values.length; j++) {
                         /*
                             Example: 
-                                When the values[j].columnLabel.toLowerCase() is est.
+                                When the values[j].columnLabel.toLowerCase() is 'est'.
                                 And we also have a header call est in the second column
                                 (headerToNum['est'] == 1, start from 0).
                                 Then when create the second circle(i is 1, start from 0),
                                 this condition will be true,
                                 so the result.circleColor will be set the right value.
                         */
-                        if (self.headerToNum[ values[j].columnLabel.toLowerCase() ] == i) {
+                        if (self.headerToNum[ values[j].columnLabel.toLowerCase() ] === i) {
                             result.circleColor = self.valueToColor[values[j].value];
                             break;
                         }
