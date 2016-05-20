@@ -39,75 +39,45 @@
         <form>
             <textarea id="code1" name="code1" style="width:500px;max-height:200px;overflow:auto;font-size:11px;">
 
-            var data = {
-              "children": [
-                {
-                  "children": [
-                    {
-                      "children": [ 
-                        {
-                          "linkLabel": "[TS-0079]", 
-                          "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
-                          "rowLabel": "Blood", 
-                          "values": [
-                            {
-                              "columnLabel": "Microarray", 
-                              "value": "Low"
-                            }, 
-                            {
-                              "columnLabel": "IHC", 
-                              "value": "High"
-                            }, 
-                            {
-                              "columnLabel": "EST", 
-                              "value": "Low"
-                            }
-                          ]
-                        },   
-                      ], 
-                      "linkLabel": "[TS-2101]", 
-                      "linkURL": "http://www.nextprot.org/db/term/TS-2101", 
-                      "rowLabel": "Fluid and secretion", 
-                      "values": [
-                        {
-                          "columnLabel": "Microarray", 
-                          "value": "High"
-                        }, 
-                        {
-                          "columnLabel": "IHC", 
-                          "value": "Low"
-                        }, 
-                        {
-                          "columnLabel": "EST", 
-                          "value": "Negative"
-                        }
-                      ]
-                    }
-                  ], 
-                  "linkLabel": "[TS-2178]", 
-                  "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
-                  "rowLabel": "Human anatomical entity", 
-                  "values": [
-                    {
-                      "columnLabel": "Microarray", 
-                      "value": "High"
-                    }, 
-                    {
-                      "columnLabel": "IHC", 
-                      "value": "High"
-                    }, 
-                    {
-                      "columnLabel": "EST", 
-                      "value": "High"
-                    }
-                  ]
-                }
-              ]
-            }
+var data = {
+  "children": [
+    {
+      "children": [
+        {
+          "children": [ 
+            {
+              "linkLabel": "[TS-0079]", 
+              "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
+              "rowLabel": "Blood", 
+              "values": ["Low", "High", "Low"]
+            },   
+          ], 
+          "linkLabel": "[TS-2101]", 
+          "linkURL": "http://www.nextprot.org/db/term/TS-2101", 
+          "rowLabel": "Fluid and secretion", 
+// the last one will be ignore, because there are only three columns
+          "values": ["High", "", "Low", "Negative"]
+        }
+      ], 
+      "linkLabel": "[TS-2178]", 
+      "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
+      "rowLabel": "Human anatomical entity", 
+      "values": ["High", "High", "High"]
+    }
+  ]
+}
 
 var heatMapTable = new HeatMapTable({
                 header:['Microarray', 'EST', 'IHC'],
-                tableID: "heatmap-table"
+                tableID: "heatmap-table",
+                options: {
+                  valuesColorMapping: [
+                      {value:'High', color: '#C00000'},
+                      {value:'Low', color: '#0070C0'}, 
+                      {value:'Moderate', cssClass: 'grayBG'},
+                      {value:'Negative', cssClass: 'greenBG'}
+                  ]
+                }
             });
             
             

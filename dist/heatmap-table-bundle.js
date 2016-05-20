@@ -4654,30 +4654,18 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             Handlebars.registerHelper('forCreateCircle', function(values, block) {
                 var accum = '';
                 //create [headerCount] circle
-                for(var i = 0; i < self.headerCount; i++) {
+                for(var i = 0; i < self.header.length; i++) {
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
 
-                    //For an circle, searching if there are a value will be set. 
-                    for (var j = 0; j < values.length; j++) {
-                        /*
-                            Example: 
-                                When the values[j].columnLabel.toLowerCase() is 'est'.
-                                And we also have a header call est in the second column
-                                (headerToNum['est'] == 1, start from 0).
-                                Then when create the second circle(i is 1, start from 0),
-                                this condition will be true,
-                                so the result.circleColor will be set the right value.
-                        */
-                        if (self.headerToNum[ values[j].columnLabel.toLowerCase() ] === i) {
-                            if (self.valueToColor[values[j].value].cssClass) {
-                                result.circleColorClass = self.valueToColor[values[j].value].cssClass;
-                            } else if (self.valueToColor[values[j].value].color) {
-                                result.circleColorStyle = self.valueToColor[values[j].value].color;
-                            }
-                            break;
+                    if (self.valueToColor[values[i]]) {
+                        if (self.valueToColor[values[i]].cssClass) {
+                            result.circleColorClass = self.valueToColor[values[i]].cssClass;
+                        } else if (self.valueToColor[values[i]].color) {
+                            result.circleColorStyle = self.valueToColor[values[i]].color;
                         }
                     }
+
                     accum += block.fn(result);
                 }
                 return accum;
@@ -4771,7 +4759,6 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
     }
 
     HeatMapTable.init = function(argv) {
-        console.log(argv);
         this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
         this.heatmapTable = $("#" + argv.tableID)[0];
         this.header = argv.header;

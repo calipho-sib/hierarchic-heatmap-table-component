@@ -21,8 +21,9 @@ $(function () {
                 valuesColorMapping: [
                     {value:'High', color: '#C00000'},
                     {value:'Low', color: '#0070C0'}, 
-                    {value:'Moderate', cssClass: 'grayBG'}],
-                    {value:'Negative', cssClass: 'greenBG'}]
+                    {value:'Moderate', cssClass: 'grayBG'},
+                    {value:'Negative', cssClass: 'greenBG'}
+                ]
             }
         });
 
