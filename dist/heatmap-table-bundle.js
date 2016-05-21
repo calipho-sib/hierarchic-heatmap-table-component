@@ -4724,7 +4724,9 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         },
 
         loadJSONData : function(data) {
-            this.data = data;
+            this.originData = {}
+            this.originData['children'] = data['data']
+            this.data = this.originData;
             this.data.header = this.header
         },
 
@@ -4755,6 +4757,13 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 }
             }
             return valueToColor
+        },
+
+        filterByRowsLabel: function(filterString) {
+            return this.originData['children'].filter(function (v) {
+                console.log(v.rowLabel);
+                return v.rowLabel.indexOf(filterString) !== -1;
+            });
         }
     }
 

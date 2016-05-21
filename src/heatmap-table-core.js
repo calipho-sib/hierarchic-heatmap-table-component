@@ -111,7 +111,9 @@
         },
 
         loadJSONData : function(data) {
-            this.data = data;
+            this.originData = {}
+            this.originData['children'] = data['data']
+            this.data = this.originData;
             this.data.header = this.header
         },
 
@@ -142,6 +144,13 @@
                 }
             }
             return valueToColor
+        },
+
+        filterByRowsLabel: function(filterString) {
+            return this.originData['children'].filter(function (v) {
+                console.log(v.rowLabel);
+                return v.rowLabel.indexOf(filterString) !== -1;
+            });
         }
     }
 
