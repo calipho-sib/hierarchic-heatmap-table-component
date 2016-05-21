@@ -50,7 +50,9 @@
                             result.circleColorClass = self.valueToColor[values[i]].cssClass;
                         } else if (self.valueToColor[values[i]].color) {
                             result.circleColorStyle = self.valueToColor[values[i]].color;
-                        }
+                        } 
+                    } else {
+                        result.circleColorStyle = "black";
                     }
 
                     accum += block.fn(result);
