@@ -1,21 +1,20 @@
 
-    {{#each children}}
-    <li>
-        <div class="heatmap-row">
-            <p class="heatmap-rowLabel tree-toggler"><span class="glyphicon glyphicon-plus"></span><span>{{rowLabel}}</span><span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span></p>
-            <div class="pull-right">
-                {{#forCreateCircle values}}
-                    <div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">
-                        <i class="heatmap-circle {{circleColorClass}}" style="background-color: {{circleColorStyle}}"></i>
-                    </div>
-                {{/forCreateCircle}}
-            </div>
+{{#each children}}
+<li>
+    <div class="heatmap-row">
+        <p class="heatmap-rowLabel tree-toggler"><span class="glyphicon glyphicon-plus"></span><span class="rowLabel">{{rowLabel}}</span><span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span></p>
+        <div class="pull-right">
+            {{#forCreateCircle values}}
+                <div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">
+                    <i class="heatmap-circle {{circleColorClass}}" style="background-color: {{circleColorStyle}}"></i>
+                </div>
+            {{/forCreateCircle}}
         </div>
-        <ul class="tree heatmap-closed">
-            {{#if children}}
-                {{> create-children}}
-            {{/if}}
-        </ul>
-    </li>
-    {{/each}}
-
+    </div>
+    <ul class="tree heatmap-closed">
+        {{#if children}}
+            {{> create-children}}
+        {{/if}}
+    </ul>
+</li>
+{{/each}}

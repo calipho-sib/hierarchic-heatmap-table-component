@@ -1,5 +1,16 @@
-<button class="btn btn-default" id="heatmap-collapseAll-btn">CollapseAll</button>
-<button class="btn btn-default" id="heatmap-expandAll-btn">ExpandAll</button>
+<!-- <form class="form-inline"> -->
+<div class="col-md-5">
+    <div class="input-group">
+        <input type="text" id="heatmap-filterByRowName-input" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="heatmap-filterByRowName-search" type="button">Search</button>
+        </span>
+    </div>
+</div>
+    <button class="btn btn-default" id="heatmap-reset-btn">Reset</button>
+    <button class="btn btn-default" id="heatmap-collapseAll-btn">CollapseAll</button>
+    <button class="btn btn-default" id="heatmap-expandAll-btn">ExpandAll</button>
+<!-- </form> -->
 <div id="heatmap-body">
     <div style="overflow:hidden">
         <div style="display:inline-block;width:400px"></div>
@@ -13,7 +24,6 @@
             {{/each}}
         </div>
     </div>
-    <ul class="tree heatmap-ul">
-        {{> create-children}}
+    <ul class="tree heatmap-ul" id="heatmap-rows">
     </ul>
 </div>

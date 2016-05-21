@@ -61,7 +61,7 @@
             });
         },
 
-        initStyle : function() {
+        initCircleStyle : function() {
             var self = this;
             //Setting the width of circles according to the width of its header. 
             for (var i = 0; i < self.header.length; i++) {
@@ -78,13 +78,37 @@
             }
         },
 
-        initTemplate : function() {
+        showHeatMapSkeleton: function() {
             var template = HBtemplates['templates/heatmap.tmpl'];
-            var result = template(this.data);
-            $(this.heatmapTable).append(result);
+            var skeleton = template(this.data);
+            $(this.heatmapTable).append(skeleton);
+        },
+
+        showRows : function() {
+            var rows = HBtemplates['templates/heatmap-tree.tmpl'](this.data);
+            $("#heatmap-rows").empty().append(rows);
+
+            this.initCircleStyle();
+            this.initClickEvent();
+        },
+
+        expandByFilterString: function(root, filterString) {
+            var children = root.children("li");
+            var found = false;
+            var rowLabel = root.parent().children(".heatmap-row").children(".heatmap-rowLabel").children(".rowLabel").text();
+            for (var i = 0; i < children.length; i++) {
+                found |= this.expandByFilterString($(children[i]).children(".heatmap-closed"), filterString);
+            }
+            if (found) {
+                root.show()
+                   .toggleClass("heatmap-closed heatmap-opened")
+                   .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
+            }
+            return found || rowLabel.indexOf(filterString) !== -1
         },
 
         initClickEvent : function() {
+            var self = this;
             //Collapse the table in the begining
             $('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
@@ -110,11 +134,18 @@
                            .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
                 });
             })
+
+            $("#heatmap-reset-btn").click(function() {
+                self.data = self.originData;
+                self.showRows();
+            });
+
+            this.enablefilterButton();
         },
 
         loadJSONData : function(data) {
             this.originData = {}
-            this.originData['children'] = data['data']
+            this.originData['children'] = data.data
             this.data = this.originData;
             this.data.header = this.header
         },
@@ -128,9 +159,8 @@
 
         show : function() {
             this.initHandlebars();
-            this.initTemplate();
-            this.initClickEvent();
-            this.initStyle();
+            this.showHeatMapSkeleton();
+            this.showRows();
         },
 
         getValueToColor: function(valuesColorMapping) {
@@ -149,9 +179,32 @@
         },
 
         filterByRowsLabel: function(filterString) {
-            return this.originData['children'].filter(function (v) {
-                console.log(v.rowLabel);
-                return v.rowLabel.indexOf(filterString) !== -1;
+            var self = this;
+            return {"children": this.filter(this.originData.children, filterString)};
+        },
+
+        filter: function(data, filterString) {
+            var newData = [];
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].rowLabel.indexOf(filterString) !== -1) {
+                    newData.push(data[i]);
+                } else if (data[i].children.length !== 0) {
+                    var newChildren = this.filter(data[i].children, filterString);
+                    if (newChildren.length !== 0) {
+                        data[i].children = newChildren;
+                        newData.push(data[i]);
+                    }
+                }
+            }
+            return newData;
+        },
+        enablefilterButton: function() {
+            var self = this;
+            $("#heatmap-filterByRowName-search").click(function() {
+                var filterString = $("#heatmap-filterByRowName-input").val();
+                self.data = self.filterByRowsLabel(filterString);
+                self.showRows();
+                self.expandByFilterString($("#heatmap-rows"), filterString);
             });
         }
     }
