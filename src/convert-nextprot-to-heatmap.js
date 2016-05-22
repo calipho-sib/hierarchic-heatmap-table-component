@@ -74,5 +74,12 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
     });
 
-    return {};
+    return {
+        "alimentary-system": {
+            data: {}
+        },
+        "cardiovascular-system": {
+            data: {}
+        }
+    };
 }
