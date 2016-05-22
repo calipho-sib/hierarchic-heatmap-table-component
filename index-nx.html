@@ -1,29 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Generic protein expression view for Human Body</title>
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="vendor/css/bootstrap-responsive.min.css">
-        <link rel="stylesheet" href="dist/heatmap-table.css">
 
-        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
-        <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
-        <script type="text/javascript" src="src/convert-nextprot-to-heatmap.js"></script>
-        <script type="text/javascript" src="dist/heatmap-table.js"></script>
-        <script src="vendor/nextprot-core.js"></script>
-        <script type="text/javascript" src="src/app.js"></script>
+<head>
+    <meta charset="utf-8">
+    <title>Generic protein expression view for Human Body</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="dist/heatmap-table.css">
+    <!-- you should include styles inside styles folder -->
+    <link rel="stylesheet" href="styles/nx-protein-expression.css">
 
-    </head>
-    <body>
-        
-        <h1 style="text-align:center;margin:30px;">With neXtProt data</h1>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
+    <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
+    <script type="text/javascript" src="src/convert-nextprot-to-heatmap.js"></script>
+    <script type="text/javascript" src="dist/heatmap-table.js"></script>
+    <script src="vendor/nextprot-core.js"></script>
+    <script type="text/javascript" src="src/app.js"></script>
 
-        <div class="container">
-            <div class="col-md-9 col-md-offset-1">
-            <div id="heatmap-table"/>
+</head>
+
+
+<body>
+
+    <h1 style="text-align:center;margin:30px;">With neXtProt data</h1>
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div id="table-2-columns" class="row">
+                <div class="col-md-6 col-xs-6">
+                    <div class="col-header">Anatomical system</div>
+                    <div>
+                        <a href="#alimentary-system">
+                            <p>Alimentary system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#cardiovascular-system">
+                            <p>Cardiovascular system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="...">
+                            <p>... others from anatomycal system</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6 ">
+                    <div class="col-header">Others</div>
+                    <div>
+                        <a href="#cell-type">
+                            <p>Cell Type</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#body-part">
+                            <p>Body part</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#">
+                            <p>... all others at root</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </body>
+    </div>
+
+    <div class="container">
+
+        <div class="raw">
+            <h2 style="text-align: center; margin: 30px;">Alimentary System</h2>
+            <div id="alimentary-system" />
+        </div>
+
+        <div class="raw">
+            <h2 style="text-align: center; margin: 30px;">CardioVascular System</h2>
+            <div id="cardiovascular-system" />
+        </div>
+
+
+        <div class="raw">
+            <h2 style="text-align: center; margin: 30px;">....</h2>
+            <div id="cardiovascular-system" />
+        </div>
+
+    </div>
+
+</body>
+
 </html>
