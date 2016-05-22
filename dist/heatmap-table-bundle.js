@@ -4659,12 +4659,15 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
                     result.columnWidth = self.columnWidth;
-                    if (self.valueToColor[values[i]]) {
-                        if (self.valueToColor[values[i]].cssClass) {
-                            result.circleColorClass = self.valueToColor[values[i]].cssClass;
-                        } else if (self.valueToColor[values[i]].color) {
-                            result.circleColorStyle = self.valueToColor[values[i]].color;
-                        } 
+                    if (self.valueToColor) {
+                        if (self.valueToColor[values[i]]) {
+                            if (self.valueToColor[values[i]].cssClass) {
+                                result.circleColorClass = self.valueToColor[values[i]].cssClass;
+                            } else if (self.valueToColor[values[i]].color) {
+                                result.circleColorStyle = self.valueToColor[values[i]].color;
+                            }
+                        } else {
+                        result.circleColorStyle = "black"; 
                     } else {
                         result.circleColorStyle = "black";
                     }
@@ -4689,7 +4692,6 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         },
 
         expandByFilterString: function(root, filterString) {
-            console.log(filterString);
             var children = root.children("li");
             var found = false;
             var rowLabel = root.parent().children(".heatmap-row").children(".heatmap-rowLabel").children(".rowLabel").text();
@@ -4701,7 +4703,6 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                    .toggleClass("heatmap-closed heatmap-opened")
                    .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
             }
-            console.log(filterString.toLowerCase());
             return found || rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1
         },
 
@@ -4802,19 +4803,24 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             $("#heatmap-filterByRowName-search").click(function() {
                 var filterString = $("#heatmap-filterByRowName-input").val();
                 self.data = self.filterByRowsLabel(filterString);
+                console.log(self.data);
                 self.showRows();
                 self.expandByFilterString($("#heatmap-rows"), filterString);
+                if (self.data['children'].length === 0) {
+                    $("#heatmap-rows").append("<p>No result be found.</p>");
+                }
             });
         }
     }
 
     HeatMapTable.init = function(argv) {
-        this.header = argv.header;
-        this.headerGroups = argv.options.headerGroups;
-        this.columnWidth = argv.columnWidth || "70px";
-        this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
-        this.headerGroups = argv.options.headerGroups;
         this.heatmapTable = $("#" + argv.tableID)[0];
+        this.header = argv.header;
+        if (argv.options) {
+            this.headerGroups = argv.options.headerGroups;
+            this.columnWidth = argv.options.columnWidth || "70px";
+            this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
+        }
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;
@@ -4868,13 +4874,13 @@ this["HBtemplates"]["templates/heatmap.tmpl"] = Handlebars.template({"1":functio
 },"2":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "                    <div class=\"heatmap-group "
+  return "                        <div class=\"heatmap-group "
     + alias4(((helper = (helper = helpers.columnClass || (depth0 != null ? depth0.columnClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnClass","hash":{},"data":data}) : helper)))
     + "\" style=\"width: "
     + alias4(((helper = (helper = helpers.groupWidth || (depth0 != null ? depth0.groupWidth : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"groupWidth","hash":{},"data":data}) : helper)))
-    + "\">\r\n                        "
+    + "\">\r\n                            "
     + alias4(((helper = (helper = helpers.groupName || (depth0 != null ? depth0.groupName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"groupName","hash":{},"data":data}) : helper)))
-    + "\r\n                    </div>\r\n";
+    + "\r\n                        </div>\r\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -4882,19 +4888,19 @@ this["HBtemplates"]["templates/heatmap.tmpl"] = Handlebars.template({"1":functio
 },"5":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "                    <div class=\"heatmap-column "
+  return "                        <div class=\"heatmap-column "
     + alias4(((helper = (helper = helpers.columnClass || (depth0 != null ? depth0.columnClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnClass","hash":{},"data":data}) : helper)))
     + "\" style=\"width: "
     + alias4(((helper = (helper = helpers.columnWidth || (depth0 != null ? depth0.columnWidth : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnWidth","hash":{},"data":data}) : helper)))
-    + "\">\r\n                        "
+    + "\">\r\n                            "
     + alias4(((helper = (helper = helpers.columnName || (depth0 != null ? depth0.columnName : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnName","hash":{},"data":data}) : helper)))
-    + "\r\n                    </div>\r\n";
+    + "\r\n                        </div>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "<!-- <form class=\"form-inline\"> -->\r\n<div class=\"col-md-5\">\r\n    <div class=\"input-group\">\r\n        <input type=\"text\" id=\"heatmap-filterByRowName-input\" class=\"form-control\" placeholder=\"Search for...\">\r\n        <span class=\"input-group-btn\">\r\n            <button class=\"btn btn-default\" id=\"heatmap-filterByRowName-search\" type=\"button\">Search</button>\r\n        </span>\r\n    </div>\r\n</div>\r\n    <button class=\"btn btn-default\" id=\"heatmap-reset-btn\">Reset</button>\r\n    <button class=\"btn btn-default\" id=\"heatmap-collapseAll-btn\">CollapseAll</button>\r\n    <button class=\"btn btn-default\" id=\"heatmap-expandAll-btn\">ExpandAll</button>\r\n<!-- </form> -->\r\n<div id=\"heatmap-body\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"display:inline-block;width:400px\"></div>\r\n        <div class=\"pull-right\">\r\n"
+  return "<div class=\"col-md-5\">\r\n    <div class=\"input-group\">\r\n        <input type=\"text\" id=\"heatmap-filterByRowName-input\" class=\"form-control\" placeholder=\"Search for...\">\r\n        <span class=\"input-group-btn\">\r\n            <button class=\"btn btn-default\" id=\"heatmap-filterByRowName-search\" type=\"button\">Search</button>\r\n        </span>\r\n    </div>\r\n</div>\r\n<button class=\"btn btn-default\" id=\"heatmap-reset-btn\">Reset</button>\r\n<button class=\"btn btn-default\" id=\"heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default\" id=\"heatmap-expandAll-btn\">ExpandAll</button>\r\n<div id=\"heatmap-body\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.headerGroups : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n        <div class=\"pull-right\">\r\n"
+    + "            </div>\r\n        </div>\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.header : depth0),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-ul\" id=\"heatmap-rows\">\r\n    </ul>\r\n</div>";
+    + "            </div>\r\n        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-ul\" id=\"heatmap-rows\">\r\n    </ul>\r\n</div>";
 },"useData":true});

@@ -14,30 +14,59 @@
 </head>
 
 <body>
- <div class="container col-md-11 col-xs-12" style="margin-left:5%">
+  <div class="container col-md-11 col-xs-12" style="margin-left:5%">
 <div class="jumbotron">
-    <p class="pull-right" style="display: inline-block;"><a href="http://www.nextprot.org" alt="neXtProt"
-                                                            style="color:#C50063;">neXtProt</a></p>
+    <p class="pull-right" style="display: inline-block;">
+      <a href="http://www.nextprot.org" alt="neXtProt" style="color:#C50063;">neXtProt</a>
+    </p>
 
     <h1>HeatMap Table</h1>
 
     <p>This heatmap table shows ... </p>
 </div>
-<div class="row" style="margin-top: 30px;border-bottom:1px solid #E7EAEC;">
-    <div class="panel panel-default col-lg-6 col-md-6">
-        <div class="row panel-heading">
-            <h4 class="text-center">Simple</h4>
-        </div>
-        <div class="panel-body">
-            <p>This is the classic display of a heatmap.<br>
-                ... options :</p>
-            <ul>
-                <li><strong>header</strong> <em>(array)</em> : Show the columns header</li>
-                <li><strong>tableID</strong> <em>(string)</em> : The id of the HTML element</li>
-            </ul>
-        </div>
-        <form>
-            <textarea id="code1" name="code1" style="width:500px;max-height:200px;overflow:auto;font-size:11px;">
+  <div class="panel panel-default col-lg-12 col-md-12">
+    <div class="row panel-heading">
+        <h4 class="text-center">Simple</h4>
+    </div>
+    <div id="heatmap-table" style="width:800px;margin: 20px auto 50px auto; height:auto;">
+    </div>
+    <div class="panel-body pull-left" style="width:50%;">
+        <p>This is the classic display of a heatmap.<br>
+            ... options :</p>
+        <ul>
+            <li><strong>header</strong> <em>(array)</em> : Show the columns header</li>
+            <li><strong>tableID</strong> <em>(string)</em> : The id of the HTML element</li>
+            <li><strong>options</strong> <em>(object)</em> : The option of the heatMap table
+              <ul>
+                <li><strong>headerGroups</strong> <em>(array)</em> : Grouping the headers</li>
+                <li><strong>valuesColorMapping</strong> <em>(array)</em> : Set the color of values</li>
+                <li><strong>columnWidth</strong> <em>(string)</em> : Set the width of columns, "70px" by default</li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+    <form class="pull-right" style="width:50%;">
+        <textarea id="code1" name="code1" style="max-height:200px;overflow:auto;font-size:11px;">
+var heatmapTableOptions = {
+    headerGroups:[ 
+        {groupName: 'mRNAExpression', holdColumns: 2},
+        {groupName: 'ProteinExpression', holdColumns: 1}
+    ],
+    valuesColorMapping: [
+        { value: 'High', color: '#C00000'},
+        { value: 'Low', color: '#0070C0' },
+        { value: 'Moderate', cssClass: 'grayBG'},
+        { value: 'Negative', cssClass: 'greenBG'}
+    ],
+    columnWidth: "120px",
+}
+
+var heatMapTable = new HeatMapTable({
+                header:['Microarray', 'EST', 'IHC'],
+                tableID: "heatmap-table",
+                options: heatmapTableOptions
+            });
+            
 
 var data = {
   "data": [
@@ -52,7 +81,7 @@ var data = {
           "linkLabel": "[TS-2101]",
           "linkURL": "http://www.nextprot.org/db/term/TS-2101",
 // the last one will be ignore, because there are only three columns
-          "values": ["High", "", "Low", "Negative"],
+          "values": ["High", "Low", "Negative"],
           "children": [ 
             {
               "linkLabel": "[TS-0079]", 
@@ -67,30 +96,15 @@ var data = {
   ]
 }
 
-var heatMapTable = new HeatMapTable({
-                header:['Microarray', 'EST', 'IHC'],
-                tableID: "heatmap-table",
-                options: {
-                  valuesColorMapping: [
-                      {value:'High', color: '#C00000'},
-                      {value:'Low', color: '#0070C0'}, 
-                      {value:'Moderate', cssClass: 'grayBG'},
-                      {value:'Negative', cssClass: 'greenBG'}
-                  ]
-                }
-            });
-            
-            
+        
 heatMapTable.loadJSONData(data);
 heatMapTable.show(); 
-    </textarea>
-        </form>
-        <button type="button" class="btn btn-default center-block" style="margin-bottom:20px;"
-                onclick=executeCode("#protein-sequence-viewer2",simpleHeatMap)>Execute
-        </button>
-    </div>
-    <div id="heatmap-table" class="col-md-6 col-xs-10"
-         style="height:250px;vertical-align:top;margin-top:15px;"></div>
+  </textarea>
+          <button type="button" class="btn btn-default center-block" style="margin-bottom:20px;"
+              onclick=executeCode("#protein-sequence-viewer2",simpleHeatMap)>Execute
+      </button>
+      </form>
+  </div>
 
 </div>
 

@@ -46,12 +46,15 @@
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
                     result.columnWidth = self.columnWidth;
-                    if (self.valueToColor[values[i]]) {
-                        if (self.valueToColor[values[i]].cssClass) {
-                            result.circleColorClass = self.valueToColor[values[i]].cssClass;
-                        } else if (self.valueToColor[values[i]].color) {
-                            result.circleColorStyle = self.valueToColor[values[i]].color;
-                        } 
+                    if (self.valueToColor) {
+                        if (self.valueToColor[values[i]]) {
+                            if (self.valueToColor[values[i]].cssClass) {
+                                result.circleColorClass = self.valueToColor[values[i]].cssClass;
+                            } else if (self.valueToColor[values[i]].color) {
+                                result.circleColorStyle = self.valueToColor[values[i]].color;
+                            }
+                        } else {
+                        result.circleColorStyle = "black"; 
                     } else {
                         result.circleColorStyle = "black";
                     }
@@ -187,19 +190,24 @@
             $("#heatmap-filterByRowName-search").click(function() {
                 var filterString = $("#heatmap-filterByRowName-input").val();
                 self.data = self.filterByRowsLabel(filterString);
+                console.log(self.data);
                 self.showRows();
                 self.expandByFilterString($("#heatmap-rows"), filterString);
+                if (self.data['children'].length === 0) {
+                    $("#heatmap-rows").append("<p>No result be found.</p>");
+                }
             });
         }
     }
 
     HeatMapTable.init = function(argv) {
-        this.header = argv.header;
-        this.headerGroups = argv.options.headerGroups;
-        this.columnWidth = argv.columnWidth || "70px";
-        this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
-        this.headerGroups = argv.options.headerGroups;
         this.heatmapTable = $("#" + argv.tableID)[0];
+        this.header = argv.header;
+        if (argv.options) {
+            this.headerGroups = argv.options.headerGroups;
+            this.columnWidth = argv.options.columnWidth || "70px";
+            this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
+        }
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;

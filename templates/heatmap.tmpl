@@ -1,4 +1,3 @@
-<!-- <form class="form-inline"> -->
 <div class="col-md-5">
     <div class="input-group">
         <input type="text" id="heatmap-filterByRowName-input" class="form-control" placeholder="Search for...">
@@ -7,30 +6,32 @@
         </span>
     </div>
 </div>
-    <button class="btn btn-default" id="heatmap-reset-btn">Reset</button>
-    <button class="btn btn-default" id="heatmap-collapseAll-btn">CollapseAll</button>
-    <button class="btn btn-default" id="heatmap-expandAll-btn">ExpandAll</button>
-<!-- </form> -->
+<button class="btn btn-default" id="heatmap-reset-btn">Reset</button>
+<button class="btn btn-default" id="heatmap-collapseAll-btn">CollapseAll</button>
+<button class="btn btn-default" id="heatmap-expandAll-btn">ExpandAll</button>
 <div id="heatmap-body">
     <div style="overflow:hidden">
-        <div style="display:inline-block;width:400px"></div>
-        <div class="pull-right">
-            {{#each headerGroups}}
-                {{#createHeaderGroups this}}
-                    <div class="heatmap-group {{columnClass}}" style="width: {{groupWidth}}">
-                        {{groupName}}
-                    </div>
-                {{/createHeaderGroups}}
-            {{/each}}
+        <div style="overflow:hidden">
+            <div class="pull-right">
+                {{#each headerGroups}}
+                    {{#createHeaderGroups this}}
+                        <div class="heatmap-group {{columnClass}}" style="width: {{groupWidth}}">
+                            {{groupName}}
+                        </div>
+                    {{/createHeaderGroups}}
+                {{/each}}
+            </div>
         </div>
-        <div class="pull-right">
-            {{#each header}}
-                {{#createHeader this}}
-                    <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
-                        {{columnName}}
-                    </div>
-                {{/createHeader}}
-            {{/each}}
+        <div style="overflow:hidden">
+            <div class="pull-right">
+                {{#each header}}
+                    {{#createHeader this}}
+                        <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+                            {{columnName}}
+                        </div>
+                    {{/createHeader}}
+                {{/each}}
+            </div>
         </div>
     </div>
     <ul class="tree heatmap-ul" id="heatmap-rows">
