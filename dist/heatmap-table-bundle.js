@@ -4804,7 +4804,6 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             $("#heatmap-filterByRowName-search").click(function() {
                 var filterString = $("#heatmap-filterByRowName-input").val();
                 self.data = self.filterByRowsLabel(filterString);
-                console.log(self.data);
                 self.showRows();
                 self.expandByFilterString($("#heatmap-rows"), filterString);
                 if (self.data['children'].length === 0) {

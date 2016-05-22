@@ -191,7 +191,6 @@
             $("#heatmap-filterByRowName-search").click(function() {
                 var filterString = $("#heatmap-filterByRowName-input").val();
                 self.data = self.filterByRowsLabel(filterString);
-                console.log(self.data);
                 self.showRows();
                 self.expandByFilterString($("#heatmap-rows"), filterString);
                 if (self.data['children'].length === 0) {
