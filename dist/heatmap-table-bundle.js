@@ -4789,7 +4789,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             for (var i = 0; i < data.length; i++) {
                 if (data[i].rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
                     newData.push(data[i]);
-                } else if (data[i].children.length !== 0) {
+                } else if (data[i].children && data[i].children.length !== 0) {
                     var newChildren = this.filter(data[i].children, filterString);
                     if (newChildren.length !== 0) {
                         data[i].children = newChildren;
