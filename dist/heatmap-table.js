@@ -54,7 +54,8 @@
                                 result.circleColorStyle = self.valueToColor[values[i]].color;
                             }
                         } else {
-                        result.circleColorStyle = "black"; 
+                            result.circleColorStyle = "black";
+                        }
                     } else {
                         result.circleColorStyle = "black";
                     }

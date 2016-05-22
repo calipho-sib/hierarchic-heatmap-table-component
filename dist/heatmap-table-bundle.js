@@ -4667,7 +4667,8 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                                 result.circleColorStyle = self.valueToColor[values[i]].color;
                             }
                         } else {
-                        result.circleColorStyle = "black"; 
+                            result.circleColorStyle = "black";
+                        }
                     } else {
                         result.circleColorStyle = "black";
                     }
