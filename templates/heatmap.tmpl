@@ -15,9 +15,18 @@
     <div style="overflow:hidden">
         <div style="display:inline-block;width:400px"></div>
         <div class="pull-right">
+            {{#each headerGroups}}
+                {{#createHeaderGroups this}}
+                    <div class="heatmap-group {{columnClass}}" style="width: {{groupWidth}}">
+                        {{groupName}}
+                    </div>
+                {{/createHeaderGroups}}
+            {{/each}}
+        </div>
+        <div class="pull-right">
             {{#each header}}
                 {{#createHeader this}}
-                    <div class="heatmap-column {{columnClass}}">
+                    <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
                         {{columnName}}
                     </div>
                 {{/createHeader}}

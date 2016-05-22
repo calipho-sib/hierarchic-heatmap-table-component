@@ -25,26 +25,27 @@
 
             //Create column header
             Handlebars.registerHelper('createHeader', function(columnName, block) {
-                //record which header in which column
-                self.headerToNum[columnName.toLowerCase()] = self.headerCount;
-
-                //record how many header are there
-                self.headerCount += 1;
-
                 var result = {};
+                result.columnWidth = self.columnWidth;
                 result.columnName = columnName;
-                result.columnClass = columnName.toLowerCase() + " " + "header";
+                return block.fn(result);
+            });
 
+            //Create group header
+            Handlebars.registerHelper('createHeaderGroups', function(headerGroups, block) {
+                var result = {};
+                result.groupWidth = (parseInt(self.columnWidth) * headerGroups.holdColumns) + "px";
+                result.groupName = headerGroups.groupName;
                 return block.fn(result);
             });
 
             Handlebars.registerHelper('forCreateCircle', function(values, block) {
                 var accum = '';
-                //create [headerCount] circle
+
                 for(var i = 0; i < self.header.length; i++) {
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
-
+                    result.columnWidth = self.columnWidth;
                     if (self.valueToColor[values[i]]) {
                         if (self.valueToColor[values[i]].cssClass) {
                             result.circleColorClass = self.valueToColor[values[i]].cssClass;
@@ -61,23 +62,6 @@
             });
         },
 
-        initCircleStyle : function() {
-            var self = this;
-            //Setting the width of circles according to the width of its header. 
-            for (var i = 0; i < self.header.length; i++) {
-                //get the header string
-                var columnName = self.header[i].toLowerCase();
-
-                //get the width of header
-                var width = $("."+columnName + '.header').width();
-
-                //This function will be time consuming...Need to improve performance.
-                $("."+columnName).each(function() {
-                    this.style.width = width + "px";
-                });
-            }
-        },
-
         showHeatMapSkeleton: function() {
             var template = HBtemplates['templates/heatmap.tmpl'];
             var skeleton = template(this.data);
@@ -88,7 +72,6 @@
             var rows = HBtemplates['templates/heatmap-tree.tmpl'](this.data);
             $("#heatmap-rows").empty().append(rows);
 
-            this.initCircleStyle();
             this.initClickEvent();
         },
 
@@ -104,7 +87,7 @@
                    .toggleClass("heatmap-closed heatmap-opened")
                    .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
             }
-            return found || rowLabel.indexOf(filterString) !== -1
+            return found || rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1
         },
 
         initClickEvent : function() {
@@ -144,10 +127,11 @@
         },
 
         loadJSONData : function(data) {
-            this.originData = {}
-            this.originData['children'] = data.data
+            this.originData = {};
+            this.originData['children'] = data.data;
             this.data = this.originData;
-            this.data.header = this.header
+            this.data.header = this.header;
+            this.data.headerGroups = this.headerGroups;
         },
 
         loadJSONDataFromURL : function(filePath) {
@@ -186,7 +170,7 @@
         filter: function(data, filterString) {
             var newData = [];
             for (var i = 0; i < data.length; i++) {
-                if (data[i].rowLabel.indexOf(filterString) !== -1) {
+                if (data[i].rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
                     newData.push(data[i]);
                 } else if (data[i].children.length !== 0) {
                     var newChildren = this.filter(data[i].children, filterString);
@@ -210,11 +194,12 @@
     }
 
     HeatMapTable.init = function(argv) {
-        this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
-        this.heatmapTable = $("#" + argv.tableID)[0];
         this.header = argv.header;
-        this.headerToNum = {};
-        this.headerCount = 0;
+        this.headerGroups = argv.options.headerGroups;
+        this.columnWidth = argv.columnWidth || "70px";
+        this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
+        this.headerGroups = argv.options.headerGroups;
+        this.heatmapTable = $("#" + argv.tableID)[0];
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;

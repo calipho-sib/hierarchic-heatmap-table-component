@@ -39,6 +39,13 @@
     margin-left: 5px;
 }
 
+.heatmap-group {
+    display: inline-block;
+    text-align: center;
+    margin-right: 5px;
+    margin-left: 5px; 
+}
+
 .heatmap-circle {
     text-align: center;
     display: inline-block;

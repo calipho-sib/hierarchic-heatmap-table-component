@@ -17,7 +17,11 @@ $(function () {
         var heatMapTable = HeatMapTable({
             header:['Microarray', 'EST', 'IHC'],
             tableID: "heatmap-table",
+            columnWidth: "70px",
             options: {
+                headerGroups:[ {groupName: 'mRNAExpression', holdColumns: 2},
+                               {groupName: 'ProteinExpression', holdColumns: 1}
+                            ],
                 valuesColorMapping: [
                     {value:'High', color: '#C00000'},
                     {value:'Low', color: '#0070C0'}, 

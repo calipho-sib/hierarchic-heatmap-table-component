@@ -24,7 +24,7 @@
         </style>
     </head>
     <body>
-        <div style="margin-left:auto; margin-right:auto; margin-top:100px; width:700px;">
+        <div style="margin-left:auto; margin-right:auto; margin-top:100px; width:800px;">
             <div id="heatmap-table"/>
         </div>
     </body>
@@ -34,7 +34,11 @@
         var heatMapTable = HeatMapTable({
             header:['Microarray', 'EST', 'IHC'],
             tableID: "heatmap-table",
+            columnWidth: "120px",
             options: {
+                headerGroups:[ {groupName: 'mRNAExpression', holdColumns: 2},
+                               {groupName: 'ProteinExpression', holdColumns: 1}
+                            ],
                 valuesColorMapping: [
                     {value:'High', color: '#C00000'},
                     {value:'Low', color: '#0070C0'}, 

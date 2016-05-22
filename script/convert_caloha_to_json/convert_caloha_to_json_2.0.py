@@ -41,10 +41,8 @@ def generateValue():
 
 data = {}
 data['children'] = []
-is_add = False
 
 def addTermToData(term, dataList):
-    global is_add
     for i in range(len(dataList)):
         if term['relationship'] != None and term['relationship'].lower() == dataList[i]['rowLabel'].lower():
             dataList[i]['children'].append(createJsonTerm(term))
