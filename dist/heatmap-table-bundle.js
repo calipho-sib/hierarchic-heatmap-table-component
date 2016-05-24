@@ -4659,7 +4659,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
                     result.columnWidth = self.columnWidth;
-                    if (self.valueToColor && values) {
+                    if (values && values[i]) {
                         if (self.valueToColor[values[i]]) {
                             if (self.valueToColor[values[i]].cssClass) {
                                 result.circleColorClass = self.valueToColor[values[i]].cssClass;
@@ -4669,8 +4669,6 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                         } else {
                             result.circleColorStyle = "black";
                         }
-                    } else {
-                        result.circleColorStyle = "black";
                     }
 
                     accum += block.fn(result);

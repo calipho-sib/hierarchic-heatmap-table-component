@@ -52,55 +52,39 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
-    // var treeNodesMap = {};
+    // console.log(data.annot);
+    function addAnnotToHeatMapTable(data, annot) {
+        if (data.cvTermAccessionCode === annot.cvTermAccessionCode) {
+            data.values = [];
+            for(var i = 0; i < annot.evidences.length; i++) {
 
-    // function addTermToTree(annot) {
-    //     var termCode = annot.cvTermAccessionCode;
-    //     if (treeNodesMap[termCode] === undefined) {
-    //         //if the term is not in the tree
-    //         treeNodesMap[termCode] = termDict[termCode];
-    //     }
-    //     if (termDict[termCode].ancestorAccession) {
-    //         for (var j = 0; j < termDict[termCode].ancestorAccession.length; j++) {
-    //             console.log(termDict[termCode].ancestorAccession);
-    //             var ancestor = termDict[termCode].ancestorAccession[i];
-    //             addTermToTree(ancestor);
-    //             if (treeNodesMap[ancestor].children) {
-    //                 treeNodesMap[ancestor].children = [];
-    //             }
-    //             treeNodesMap[ancestor].children.push(termDict[termCode]);
-    //         }
-    //     }
-    // }
+                var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
 
-    // for(var i=0; i<data.annot.length; i++) {
-    //     console.log(data.annot[i].cvTermName);
-    //     var annot = data.annot[i];
-        // console.log(annot.cvTermAccessionCode+ "  " +termDict[annot.cvTermAccessionCode].name)
-        // console.log("i:");
-        // console.log(i);
-        // addTermToTree(annot);
-     // console.log(termDict[annot.cvTermAccessionCode]);
-     // console.log('=====');         
-     // for(var j=0; j<annot.evidences.length; j++) {
-         
-         // var evidence = annot.evidences[j]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
-         
-         // Can be immunolocalization evidence -> IHC
-         // Can be microarray RNA expression level evidence -> Microarray
-         // Can be transcript expression evidence -> EST
-         // console.log("\tmethod: " + evidence.evidenceCodeName); 
+                data.values.push(evidence.expressionLevel);
+                // Can be immunolocalization evidence -> IHC
+                // Can be microarray RNA expression level evidence -> Microarray
+                // Can be transcript expression evidence -> EST
+                // console.log("\tmethod: " + evidence.evidenceCodeName); 
 
-         //It depends on the methodology, can be weak / low, moderate / medium, strong / high, not detected, positive
-         // console.log("\tvalue: " + evidence.expressionLevel);
+                // It depends on the methodology, can be weak / low, moderate / medium, strong / high, not detected, positive
+                // console.log("\tvalue: " + evidence.expressionLevel);
+
+                //Don't worry about quality for now, but see it will need to be present on the filters: http://www.nextprot.org/db/entry/NX_P01308/expression
+                // console.log("\tquality: " + evidence.qualityQualifier);
+                // console.log("\t");
          
-         //Don't worry about quality for now, but see it will need to be present on the filters: http://www.nextprot.org/db/entry/NX_P01308/expression
-         // console.log("\tquality: " + evidence.qualityQualifier);
-         // console.log("\t");
-         
-     // }
-//     }
-//     console.log(treeNodesMap);
+            }
+        }
+
+        for (var i = 0; i < data.children.length; i++) {
+            addAnnotToHeatMapTable(data.children[i], annot);
+        }
+    }
+
+    for(var i=0; i<data.annot.length; i++) {
+        var annot = data.annot[i];
+        addAnnotToHeatMapTable(heatMapTableTree[0], annot);        
+    }
 
     var rowLabelsToheatMapTable = {
         "Alimentary system": "alimentary-system",

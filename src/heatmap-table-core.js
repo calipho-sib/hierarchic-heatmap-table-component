@@ -46,7 +46,7 @@
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
                     result.columnWidth = self.columnWidth;
-                    if (self.valueToColor && values) {
+                    if (values && values[i]) {
                         if (self.valueToColor[values[i]]) {
                             if (self.valueToColor[values[i]].cssClass) {
                                 result.circleColorClass = self.valueToColor[values[i]].cssClass;
@@ -56,8 +56,6 @@
                         } else {
                             result.circleColorStyle = "black";
                         }
-                    } else {
-                        result.circleColorStyle = "black";
                     }
 
                     accum += block.fn(result);
