@@ -4,11 +4,12 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 type: "get",
                 url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
                 async: false,
+                dataType: 'json',
+                crossDomain: true,
                 success: function (data) {
                     terminologyList = data["terminologyList"]
                 },
                 error: function (msg) { 
-                    alert('error'); 
                 }
             }
         );
