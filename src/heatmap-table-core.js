@@ -46,7 +46,7 @@
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
                     result.columnWidth = self.columnWidth;
-                    if (self.valueToColor) {
+                    if (self.valueToColor && values) {
                         if (self.valueToColor[values[i]]) {
                             if (self.valueToColor[values[i]].cssClass) {
                                 result.circleColorClass = self.valueToColor[values[i]].cssClass;
@@ -74,7 +74,7 @@
 
         showRows : function() {
             var rows = HBtemplates['templates/heatmap-tree.tmpl'](this.data);
-            $("#heatmap-rows").empty().append(rows);
+            $(this.heatmapTable).find(".heatmap-rows").empty().append(rows);
 
             this.initClickEvent();
         },
@@ -97,16 +97,16 @@
         initClickEvent : function() {
             var self = this;
             //Collapse the table in the begining
-            $('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+            $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
-            $('.heatmap-rowLabel').click(function () {
+            $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
                 $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
             });
 
             //Add the click event of collapseAll button
-            $("#heatmap-collapseAll-btn").click(function() {
-                $(".heatmap-opened").each(function() {
+            $(this.heatmapTable).find(".heatmap-collapseAll-btn").click(function() {
+                $(this.heatmapTable).find(".heatmap-opened").each(function() {
                     $(this).hide()
                            .toggleClass("heatmap-opened heatmap-closed")
                            .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-minus glyphicon-plus");
@@ -114,15 +114,15 @@
             });
 
             // //Add the click event of expandAll button
-            $("#heatmap-expandAll-btn").click(function() {
-                $(".heatmap-closed").each(function() {
+            $(this.heatmapTable).find(".heatmap-expandAll-btn").click(function() {
+                $(this.heatmapTable).find(".heatmap-closed").each(function() {
                     $(this).show()
                            .toggleClass("heatmap-closed heatmap-opened")
                            .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
                 });
             })
 
-            $("#heatmap-reset-btn").click(function() {
+            $(this.heatmapTable).find(".heatmap-reset-btn").click(function() {
                 self.data = self.originData;
                 self.showRows();
             });
@@ -188,19 +188,21 @@
         },
         enablefilterButton: function() {
             var self = this;
-            $("#heatmap-filterByRowName-search").click(function() {
-                var filterString = $("#heatmap-filterByRowName-input").val();
+            $(this.heatmap).find(".heatmap-filterByRowName-search").click(function() {
+                var filterString = $(this.heatmap).find(".heatmap-filterByRowName-input").val();
                 self.data = self.filterByRowsLabel(filterString);
                 self.showRows();
-                self.expandByFilterString($("#heatmap-rows"), filterString);
+                self.expandByFilterString($(this.heatmap).find(".heatmap-rows"), filterString);
                 if (self.data['children'].length === 0) {
-                    $("#heatmap-rows").append("<p>No result be found.</p>");
+                    $(this.heatmap).find(".heatmap-rows").append("<p>No result be found.</p>");
                 }
             });
         }
     }
 
     HeatMapTable.init = function(argv) {
+        this.originData = {};
+        this.data = {};
         this.heatmapTable = $("#" + argv.tableID)[0];
         this.header = argv.header;
         if (argv.options) {
@@ -214,4 +216,4 @@
 
     global.HeatMapTable = HeatMapTable;
 
-}(this));
+}(window));

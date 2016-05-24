@@ -26,7 +26,23 @@ $(function () {
     }
 
     var heatmapTableHeader = ['Microarray', 'EST', 'IHC'];
-    var heatmapTableNames = ['alimentary-system', 'cardiovascular-system']; //Complete with all...
+    var heatmapTableNames = ['alimentary-system', 
+                             'cardiovascular-system',
+                             'dermal-system',
+                             "endocrine-system",
+                             "exocrine-system",
+                             "hemolymphoid-and-immune-system",
+                             "musculoskeletal-system",
+                             "nervous-system",
+                             "reproductive-system",
+                             "respiratory-system",
+                             "urinary-system",
+                             "sense-organ",
+                             "body-part",
+                             "tissue",
+                             "cell-type",
+                             "fluid-and-secretion",
+                             "gestational-structure"];
 
 
     var applicationName = 'protein expression app'; //please provide a name for your application
@@ -43,19 +59,18 @@ $(function () {
         for (var i = 0; i < heatmapTableNames.length; i++) {
 
             var heatMapTableName = heatmapTableNames[i];
-            console.log(heatMapTableName);
-
+            
             var heatMapTable = HeatMapTable({
                 header: heatmapTableHeader,
                 tableID: heatMapTableName,
                 options: heatmapTableOptions
             });
 
-
             var data = dataMap[heatMapTableName];
             heatMapTable.loadJSONData(data);
             heatMapTable.show();
 
+            $("#"+heatMapTableName).children('p').remove();
         }
 
     });

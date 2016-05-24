@@ -4659,7 +4659,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                     var result = {};
                     result.columnClass = self.header[i].toLowerCase();
                     result.columnWidth = self.columnWidth;
-                    if (self.valueToColor) {
+                    if (self.valueToColor && values) {
                         if (self.valueToColor[values[i]]) {
                             if (self.valueToColor[values[i]].cssClass) {
                                 result.circleColorClass = self.valueToColor[values[i]].cssClass;
@@ -4687,7 +4687,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
 
         showRows : function() {
             var rows = HBtemplates['templates/heatmap-tree.tmpl'](this.data);
-            $("#heatmap-rows").empty().append(rows);
+            $(this.heatmapTable).find(".heatmap-rows").empty().append(rows);
 
             this.initClickEvent();
         },
@@ -4710,16 +4710,16 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         initClickEvent : function() {
             var self = this;
             //Collapse the table in the begining
-            $('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+            $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
-            $('.heatmap-rowLabel').click(function () {
+            $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
                 $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
             });
 
             //Add the click event of collapseAll button
-            $("#heatmap-collapseAll-btn").click(function() {
-                $(".heatmap-opened").each(function() {
+            $(this.heatmapTable).find(".heatmap-collapseAll-btn").click(function() {
+                $(this.heatmapTable).find(".heatmap-opened").each(function() {
                     $(this).hide()
                            .toggleClass("heatmap-opened heatmap-closed")
                            .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-minus glyphicon-plus");
@@ -4727,15 +4727,15 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             });
 
             // //Add the click event of expandAll button
-            $("#heatmap-expandAll-btn").click(function() {
-                $(".heatmap-closed").each(function() {
+            $(this.heatmapTable).find(".heatmap-expandAll-btn").click(function() {
+                $(this.heatmapTable).find(".heatmap-closed").each(function() {
                     $(this).show()
                            .toggleClass("heatmap-closed heatmap-opened")
                            .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
                 });
             })
 
-            $("#heatmap-reset-btn").click(function() {
+            $(this.heatmapTable).find(".heatmap-reset-btn").click(function() {
                 self.data = self.originData;
                 self.showRows();
             });
@@ -4801,19 +4801,21 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         },
         enablefilterButton: function() {
             var self = this;
-            $("#heatmap-filterByRowName-search").click(function() {
-                var filterString = $("#heatmap-filterByRowName-input").val();
+            $(this.heatmap).find(".heatmap-filterByRowName-search").click(function() {
+                var filterString = $(this.heatmap).find(".heatmap-filterByRowName-input").val();
                 self.data = self.filterByRowsLabel(filterString);
                 self.showRows();
-                self.expandByFilterString($("#heatmap-rows"), filterString);
+                self.expandByFilterString($(this.heatmap).find(".heatmap-rows"), filterString);
                 if (self.data['children'].length === 0) {
-                    $("#heatmap-rows").append("<p>No result be found.</p>");
+                    $(this.heatmap).find(".heatmap-rows").append("<p>No result be found.</p>");
                 }
             });
         }
     }
 
     HeatMapTable.init = function(argv) {
+        this.originData = {};
+        this.data = {};
         this.heatmapTable = $("#" + argv.tableID)[0];
         this.header = argv.header;
         if (argv.options) {
@@ -4827,7 +4829,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
 
     global.HeatMapTable = HeatMapTable;
 
-}(this));;
+}(window));;
 this["HBtemplates"] = this["HBtemplates"] || {};
 
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
@@ -4898,9 +4900,9 @@ this["HBtemplates"]["templates/heatmap.tmpl"] = Handlebars.template({"1":functio
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "<div class=\"col-md-5\">\r\n    <div class=\"input-group\">\r\n        <input type=\"text\" id=\"heatmap-filterByRowName-input\" class=\"form-control\" placeholder=\"Search for...\">\r\n        <span class=\"input-group-btn\">\r\n            <button class=\"btn btn-default\" id=\"heatmap-filterByRowName-search\" type=\"button\">Search</button>\r\n        </span>\r\n    </div>\r\n</div>\r\n<button class=\"btn btn-default\" id=\"heatmap-reset-btn\">Reset</button>\r\n<button class=\"btn btn-default\" id=\"heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default\" id=\"heatmap-expandAll-btn\">ExpandAll</button>\r\n<div id=\"heatmap-body\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n"
+  return "<div class=\"col-md-5\">\r\n    <div class=\"input-group\">\r\n        <input type=\"text\" class=\"heatmap-filterByRowName-input form-control\" placeholder=\"Search for...\">\r\n        <span class=\"input-group-btn\">\r\n            <button class=\"btn btn-default heatmap-filterByRowName-search\" type=\"button\">Search</button>\r\n        </span>\r\n    </div>\r\n</div>\r\n<button class=\"btn btn-default heatmap-reset-btn\">Reset</button>\r\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\r\n<div class=\"heatmap-body\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.headerGroups : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "            </div>\r\n        </div>\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.header : depth0),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "            </div>\r\n        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-ul\" id=\"heatmap-rows\">\r\n    </ul>\r\n</div>";
+    + "            </div>\r\n        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-ul heatmap-rows\">\r\n    </ul>\r\n</div>";
 },"useData":true});
