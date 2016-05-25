@@ -52,18 +52,24 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
-    // console.log(data.annot);
+    console.log(data.annot);
     var valueToInt = {
-        "high": 1
+        "high": 6,
+        "medium": 5,
+        "low": 4,
+        "negative": 3,
+        "not detected": 2,
+        "positive": 1
     }
 
+    var values = {};
     function addAnnotToHeatMapTable(data, annot) {
         if (data.cvTermAccessionCode === annot.cvTermAccessionCode) {
             data.values = ["", "", ""];
             for(var i = 0; i < annot.evidences.length; i++) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
-
+                values[evidence.expressionLevel] = 1;
                 data.values.push(evidence.expressionLevel);
                 // Can be immunolocalization evidence -> IHC
                 // Can be microarray RNA expression level evidence -> Microarray
@@ -85,10 +91,13 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
+    console.log(data.annot);
     for(var i=0; i<data.annot.length; i++) {
         var annot = data.annot[i];
         addAnnotToHeatMapTable(heatMapTableTree[0], annot);        
     }
+
+    console.log(values);
 
     var rowLabelsToheatMapTable = {
         "Alimentary system": "alimentary-system",
