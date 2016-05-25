@@ -53,9 +53,13 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     }
 
     // console.log(data.annot);
+    var valueToInt = {
+        "high": 1
+    }
+
     function addAnnotToHeatMapTable(data, annot) {
         if (data.cvTermAccessionCode === annot.cvTermAccessionCode) {
-            data.values = [];
+            data.values = ["", "", ""];
             for(var i = 0; i < annot.evidences.length; i++) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well

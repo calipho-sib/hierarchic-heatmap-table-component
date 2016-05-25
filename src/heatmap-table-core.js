@@ -125,7 +125,17 @@
                 self.showRows();
             });
 
-            this.enablefilterButton();
+            $(this.heatmapTable).find(".heatmap-filterByRowName-search").click(function() {
+                var filterString = $(self.heatmapTable).find(".heatmap-filterByRowName-input").val();
+                if (filterString === "") return ;
+
+                self.data = self.filterByRowsLabel(filterString);
+                self.showRows();
+                self.expandByFilterString($(self.heatmapTable).find(".heatmap-rows"), filterString);
+                if (self.data['children'].length === 0) {
+                    $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
+                }
+            });
         },
 
         loadJSONData : function(data) {
@@ -165,7 +175,6 @@
         },
 
         filterByRowsLabel: function(filterString) {
-            var self = this;
             return {"children": this.filter(this.originData.children, filterString)};
         },
 
@@ -184,18 +193,6 @@
             }
             return newData;
         },
-        enablefilterButton: function() {
-            var self = this;
-            $(this.heatmap).find(".heatmap-filterByRowName-search").click(function() {
-                var filterString = $(this.heatmap).find(".heatmap-filterByRowName-input").val();
-                self.data = self.filterByRowsLabel(filterString);
-                self.showRows();
-                self.expandByFilterString($(this.heatmap).find(".heatmap-rows"), filterString);
-                if (self.data['children'].length === 0) {
-                    $(this.heatmap).find(".heatmap-rows").append("<p>No result be found.</p>");
-                }
-            });
-        }
     }
 
     HeatMapTable.init = function(argv) {
