@@ -62,10 +62,6 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         for (var i = 0; i < data.values.length; i++) {
             if (data.values[i] == "" || data.values[i] == undefined) {
                 data.values[i] = values[i];
-            } else {
-                console.log(data);
-                console.log(data.values[i] + " ---- " + values[i]);
-                console.log(data.values[i] == "");
             }
         }
         if (data.ancestorAccession) {
@@ -93,9 +89,6 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                     data.values[5] = "Weak"
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
                     data.values[6] = "NotDetected"
-                } else {
-                    // console.log("other:");
-                    // console.log(evidence);
                 }
 
 
