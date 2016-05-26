@@ -54,16 +54,20 @@ var heatmapTableOptions = {
         {groupName: 'ProteinExpression', holdColumns: 1}
     ],
     valuesColorMapping: [
-        { value: 'High', color: '#C00000'},
-        { value: 'Low', color: '#0070C0' },
-        { value: 'Moderate', cssClass: 'grayBG'},
-        { value: 'Negative', cssClass: 'greenBG'}
+        { value: 'Positive', color: '#FFA10A'},
+        { value: 'NotDetected', color: 'lightgray'},
+        { value: 'Weak', color: '#FFE6BD'},
+        { value: 'Low', color: '#FFE6BD'},
+        { value: 'Strong', color: 'greenBG'},
+        { value: 'Moderate', color: '#FFC870'},
+        { value: 'Medium', color: '#FFC870'}
+
     ],
     columnWidth: "120px",
 }
 
 var heatMapTable = new HeatMapTable({
-                header:['Microarray', 'EST', 'IHC'],
+  header:['MANotDetected','MAPositive','ESTPositive'],
                 tableID: "heatmap-table",
                 options: heatmapTableOptions
             });
@@ -75,20 +79,20 @@ var data = {
       "rowLabel": "Human anatomical entity",
       "linkLabel": "[TS-2178]",
       "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
-      "values": ["High", "High", "High"],
+      "values": ["NotDetected", "Positive", "Positive"],
       "children": [
         {
           "rowLabel": "Fluid and secretion",
           "linkLabel": "[TS-2101]",
           "linkURL": "http://www.nextprot.org/db/term/TS-2101",
 // the last one will be ignore, because there are only three columns
-          "values": ["High", "Low", "Negative"],
+          "values": ["NotDetected", "Positive", "Positive"],
           "children": [ 
             {
               "linkLabel": "[TS-0079]", 
               "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
               "rowLabel": "Blood", 
-              "values": ["Low", "High", "Low"],
+              "values": ["", "Positive", "Positive"],
               "children": []
             }
           ]
@@ -101,6 +105,7 @@ var data = {
         
 heatMapTable.loadJSONData(data);
 heatMapTable.show(); 
+  
   </textarea>
           <button type="button" class="btn btn-default center-block" style="margin-bottom:20px;"
               onclick=executeCode("#protein-sequence-viewer2",simpleHeatMap)>Execute
