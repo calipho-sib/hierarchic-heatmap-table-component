@@ -2,14 +2,17 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     $.ajax(
             {
                 type: "get",
-                url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
+                // url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
+                url: "../data/nextprot-anatomy-cv.json",
                 async: false,
-                dataType: 'json',
                 crossDomain: true,
                 success: function (data) {
+                    console.log("Get data.")
+                    console.log(data);
                     terminologyList = data["terminologyList"]
                 },
-                error: function (msg) { 
+                error: function (msg) {
+                    console.log(msg);
                 }
             }
         );
@@ -22,8 +25,10 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         termDict[terminologyList[i].accession] = terminologyList[i];
         if (terminologyList[i].ancestorAccession === null) {
             var node = {};
+            node.ancestorAccession = null;
             node.children = [];
-            node.values = [];
+            node.values = ["",  "", "", "", "", "", ""];
+            console.log(node);
             node.rowLabel = terminologyList[i].name;
             node.cvTermAccessionCode = terminologyList[i].accession;
             node.linkLabel = "[" + terminologyList[i].accession + "]"
@@ -39,8 +44,9 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
             for (var i = 0; i < currTerm.childAccession.length; i++) {
                 var childTerm = termDict[currTerm.childAccession[i]];
                 var childNode = {};
+                childNode.ancestorAccession = currNode;
                 childNode.children = [];
-                childNode.values = [];
+                childNode.values = ["",  "", "", "", "", "", ""];
                 childNode.cvTermAccessionCode = childTerm.accession;
                 childNode.rowLabel = childTerm.name;
                 childNode.linkLabel = "[" + childTerm.accession + "]"
@@ -52,25 +58,47 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
-    console.log(data.annot);
-    var valueToInt = {
-        "high": 6,
-        "medium": 5,
-        "low": 4,
-        "negative": 3,
-        "not detected": 2,
-        "positive": 1
+    function updateAncestorValues(data, values) {
+        for (var i = 0; i < data.values.length; i++) {
+            if (data.values[i] == "" || data.values[i] == undefined) {
+                data.values[i] = values[i];
+            } else {
+                console.log(data);
+                console.log(data.values[i] + " ---- " + values[i]);
+                console.log(data.values[i] == "");
+            }
+        }
+        if (data.ancestorAccession) {
+            updateAncestorValues(data.ancestorAccession, values);
+        }
     }
 
-    var values = {};
     function addAnnotToHeatMapTable(data, annot) {
         if (data.cvTermAccessionCode === annot.cvTermAccessionCode) {
-            data.values = ["", "", ""];
             for(var i = 0; i < annot.evidences.length; i++) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
-                values[evidence.expressionLevel] = 1;
-                data.values.push(evidence.expressionLevel);
+
+                if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
+                    data.values[0] = "Positive"
+                } else if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "not detected") {
+                    data.values[1] = "NotDetected"
+                } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
+                    data.values[2] = "Positive"
+                } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
+                    data.values[3] = "Strong"
+                } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
+                    data.values[4] = "Moderate"
+                } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
+                    data.values[5] = "Weak"
+                } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
+                    data.values[6] = "NotDetected"
+                } else {
+                    // console.log("other:");
+                    // console.log(evidence);
+                }
+
+
                 // Can be immunolocalization evidence -> IHC
                 // Can be microarray RNA expression level evidence -> Microarray
                 // Can be transcript expression evidence -> EST
@@ -84,6 +112,10 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 // console.log("\t");
          
             }
+
+            if (data.ancestorAccession) {
+                updateAncestorValues(data.ancestorAccession, data.values);
+            }
         }
 
         for (var i = 0; i < data.children.length; i++) {
@@ -91,13 +123,10 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
-    console.log(data.annot);
-    for(var i=0; i<data.annot.length; i++) {
+    for(var i = 0; i < data.annot.length; i++) {
         var annot = data.annot[i];
         addAnnotToHeatMapTable(heatMapTableTree[0], annot);        
     }
-
-    console.log(values);
 
     var rowLabelsToheatMapTable = {
         "Alimentary system": "alimentary-system",

@@ -6,26 +6,24 @@ $(function () {
 
     var heatmapTableOptions = {
         valuesColorMapping: [
-            {
-                value: 'High',
-                color: '#C00000'
-                    },
-            {
-                value: 'Low',
-                color: '#0070C0'
-                    },
-            {
-                value: 'Moderate',
-                cssClass: 'grayBG'
-                    },
-            {
-                value: 'Negative',
-                cssClass: 'greenBG'
-                    }
-                ]
+            { value: 'Positive', color: '#FFA10A'},
+            { value: 'NotDetected', color: 'lightgray'},
+            { value: 'Weak', color: '#FFE6BD'},
+            { value: 'Low', color: '#FFE6BD'},
+            { value: 'Strong', color: 'greenBG'},
+            { value: 'Moderate', color: '#FFC870'},
+            { value: 'Medium', color: '#FFC870'}
+        ],
+        columnWidth: "90px"
     }
 
-    var heatmapTableHeader = ['Microarray', 'EST', 'IHC'];
+    var heatmapTableHeader = ['MAPositive',
+                              'MANotDetected',
+                              'ESTPositive', 
+                              'IHCStrong', 
+                              'IHCModerated',
+                              'IHCWeak',
+                              'IHCNotDetected'];
     var heatmapTableNames = ['alimentary-system', 
                              'cardiovascular-system',
                              'dermal-system',
