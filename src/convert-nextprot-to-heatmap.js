@@ -2,8 +2,8 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     $.ajax(
             {
                 type: "get",
-                // url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
-                url: "../data/nextprot-anatomy-cv.json",
+                url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
+                // url: "../data/nextprot-anatomy-cv.json",
                 async: false,
                 crossDomain: true,
                 success: function (data) {
