@@ -47,7 +47,7 @@ $(function () {
     var clientInfo = 'JinJin'; //please provide some information about you
     var nx = new Nextprot.Client(applicationName, clientInfo);
 
-    var proteinAccession = 'NX_P38398'; //Corresponds to Breast cancer protein -> http://www.nextprot.org/db/entry/NX_P38398/expression
+    var proteinAccession = 'NX_P01308'; //Corresponds to Breast cancer protein -> http://www.nextprot.org/db/entry/NX_P38398/expression
 
     nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
 
@@ -68,6 +68,10 @@ $(function () {
             heatMapTable.loadJSONData(data);
             heatMapTable.show();
 
+            $("#"+heatMapTableName).find(".rowLabel").first().click();
+            $("#"+heatMapTableName).find(".heatmap-rows .tree").first().children().each(function() {
+                $(this).find(".rowLabel").first().click();
+            });
             $("#"+heatMapTableName).children('p').remove();
         }
 
