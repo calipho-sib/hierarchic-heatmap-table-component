@@ -2,8 +2,8 @@
 Generic protein expression view for Human Body
 
 ## Heatmap documentation
-https://rawgit.com/calipho-sib/protein-expression/master/doc/index.html
-
+https://calipho-sib.github.io/protein-expression/doc
+ 
 ## Installation
 ```
 bower install
