@@ -1,56 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Generic protein expression view for Human Body</title>
-        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/vendor/css/bootstrap-responsive.min.css">
-        <link rel="stylesheet" href="/dist/heatmap-table.css">
 
-        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/bower_components/d3/d3.min.js"></script>
-        <script type="text/javascript" src="/dist/heatmap-table-vendor.js"></script>
-        <script type="text/javascript" src="/dist/heatmap-table.js"></script>
-    
-        <style type="text/css">
-            .grayBG {
-                background-color: gray;
-            }
+<head>
+    <meta charset="utf-8">
+    <title>Generic protein expression view for Human Body</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="dist/heatmap-table.css">
+    <!-- you should include styles inside styles folder -->
+    <link rel="stylesheet" href="styles/nx-protein-expression.css">
 
-            .greenBG {
-                background-color: green;
-            }
-        </style>
-    </head>
-    <body>
-        <div style="margin-left:auto; margin-right:auto; margin-top:100px; width:800px;">
-            <div id="heatmap-table"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- // <script type="text/javascript" src="bower_components/d3/d3.min.js"></script> -->
+    <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
+    <script type="text/javascript" src="src/convert-nextprot-to-heatmap.js"></script>
+    <script type="text/javascript" src="dist/heatmap-table.js"></script>
+    <script type="text/javascript" src="vendor/nextprot-core.js"></script>
+    <script type="text/javascript" src="src/app.js"></script>
+
+</head>
+
+<style type="text/css">
+    p {
+        text-align: center;
+    }
+    .glyphicon-refresh-animate {
+        -animation: spin .7s infinite linear;
+        -webkit-animation: spin2 .7s infinite linear;
+    }
+
+    @-webkit-keyframes spin2 {
+        from { -webkit-transform: rotate(0deg);}
+        to { -webkit-transform: rotate(360deg);}
+    }
+
+    @keyframes spin {
+        from { transform: scale(1) rotate(0deg);}
+        to { transform: scale(1) rotate(360deg);}
+    }
+
+</style>
+
+<body>
+
+    <h1 style="text-align:center;margin:30px;">With neXtProt data</h1>
+
+    <div class="row">
+        <div class="col-md-3 col-md-offset-1">
+            <img src="http://rawgit.com/calipho-sib/protein-expression/master/vendor/humanbody.png">
         </div>
-    </body>
-    
-    <script>
-        
-        var heatMapTable = HeatMapTable({
-            header:['Microarray', 'EST', 'IHC'],
-            tableID: "heatmap-table",
-            columnWidth: "120px",
-            options: {
-                headerGroups:[ {groupName: 'mRNAExpression', holdColumns: 2},
-                               {groupName: 'ProteinExpression', holdColumns: 1}
-                            ],
-                valuesColorMapping: [
-                    {value:'High', color: '#C00000'},
-                    {value:'Low', color: '#0070C0'}, 
-                    {value:'Moderate', cssClass: 'grayBG'},
-                    {value:'Negative', cssClass: 'greenBG'}]
-            }
-        });
+        <div class="col-md-7">
+            <div id="table-2-columns" class="row">
+                <div class="col-md-6 col-xs-6">
+                    <div class="col-header">Anatomical system</div>
+                    <div>
+                        <a href="#alimentary-system">
+                            <p>Alimentary system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#cardiovascular-system">
+                            <p>Cardiovascular system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#dermal-system">
+                            <p>Dermal system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#endocrine-system">
+                            <p>Endocrine system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#exocrine-system">
+                            <p>Exocrine system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#hemolymphoid-and-immune-system">
+                            <p>Hemolymphoid and immune system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#musculoskeletal-system">
+                            <p>Musculoskeletal system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#nervous-system">
+                            <p>Nervous system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#reproductive-system">
+                            <p>Reproductive system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#respiratory-system">
+                            <p>Respiratory system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#urinary-system">
+                            <p>Urinary system</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#sense-organ">
+                            <p>Sense organ</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6 ">
+                    <div class="col-header">Others</div>
+                    <div>
+                        <a href="#body-part">
+                            <p>Body part</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#tissue">
+                            <p>Tissue</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#cell-type">
+                            <p>Cell type</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#fluid-and-secretion">
+                            <p>Fluid and secretion</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#gestational-structure">
+                            <p>Gestational structure</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        $.getJSON("../data/data.json", function(data) {
-            heatMapTable.loadJSONData(data);
-            heatMapTable.show();
-        })
+    <div class="container">
 
-    </script>
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Alimentary System</h3>
+            <div id="alimentary-system">
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">CardioVascular System</h3>
+            <div id="cardiovascular-system">
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Dermal system</h3>
+            <div id="dermal-system">
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Endocrine system</h3>
+            <div id="endocrine-system">
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Exocrine system</h3>
+            <div id="exocrine-system" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Hemolymphoid and immune system</h3>
+            <div id="hemolymphoid-and-immune-system" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Musculoskeletal system</h3>
+            <div id="musculoskeletal-system" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Nervous system</h3>
+            <div id="nervous-system" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Reproductive system</h3>
+            <div id="reproductive-system" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Respiratory system</h3>
+            <div id="respiratory-system" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Urinary system</h3>
+            <div id="urinary-system" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Sense organ</h3>
+            <div id="sense-organ" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Body part</h3>
+            <div id="body-part" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Tissue</h3>
+            <div id="tissue" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Cell type</h3>
+            <div id="cell-type" >
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Fluid and secretion</h3>
+            <div id="fluid-and-secretion">
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+        <div class="raw">
+            <h3 style="text-align: center; margin: 30px;">Gestational structure</h3>
+            <div id="gestational-structure">
+                <p><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
 </html>
