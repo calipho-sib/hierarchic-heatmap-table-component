@@ -14,16 +14,16 @@ $(function () {
             { value: 'Moderate', color: '#FFC870'},
             { value: 'Medium', color: '#FFC870'}
         ],
-        columnWidth: "90px"
+        columnWidth: "50px"
     }
 
-    var heatmapTableHeader = ['MAPositive',
-                              'MANotDetected',
-                              'ESTPositive', 
-                              'IHCStrong', 
-                              'IHCModerated',
-                              'IHCWeak',
-                              'IHCNotDetected'];
+    var heatmapTableHeader = ['MA-P',
+                              'MA-ND',
+                              'EST-P', 
+                              'IHC-S', 
+                              'IHC-M',
+                              'IHC-W',
+                              'IHC-ND'];
     var heatmapTableNames = ['alimentary-system', 
                              'cardiovascular-system',
                              'dermal-system',
