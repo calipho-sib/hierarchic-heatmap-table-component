@@ -10,7 +10,7 @@ $(function () {
             { value: 'NotDetected', color: 'lightgray'},
             { value: 'Weak', color: '#FFE6BD'},
             { value: 'Low', color: '#FFE6BD'},
-            { value: 'Strong', color: 'greenBG'},
+            { value: 'Strong', color: '#FFC870'},
             { value: 'Moderate', color: '#FFC870'},
             { value: 'Medium', color: '#FFC870'}
         ],
