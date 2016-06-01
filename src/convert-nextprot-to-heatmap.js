@@ -1,6 +1,5 @@
 function convertNextProtDataIntoHeatMapTableFormat (data) {
     console.log(data);
-
     $.ajax(
             {
                 type: "get",
@@ -74,9 +73,6 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
     function addAnnotToHeatMapTable(data, annot) {
         if (data.cvTermAccessionCode === annot.cvTermAccessionCode) {
-            if (data.cvTermAccessionCode == "TS-0741") {
-                console.log(annot);
-            }
             for(var i = 0; i < annot.evidences.length; i++) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
@@ -98,19 +94,14 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
                     data.values[2] = "Positive"
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
-                    console.log('test');
                     data.values[3] = "Strong"
-                    console.log(data);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
                     data.values[4] = "Moderate"
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
                     data.values[5] = "Weak"
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
                     data.values[6] = "NotDetected"
-                } else {
-                    console.log(evidence);
                 }
-
 
                 // Can be immunolocalization evidence -> IHC
                 // Can be microarray RNA expression level evidence -> Microarray
