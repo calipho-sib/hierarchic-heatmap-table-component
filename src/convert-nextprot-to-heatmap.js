@@ -81,7 +81,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 var detail = {};
                 detail['evidenceCodeName'] = evidence.evidenceCodeName;
                 detail['dbSource'] = evidence.resourceDb;
-                detail['ensemblLink'] = evidence.resourceAccession;
+                detail['ensemblLink'] = evidence.resourceAccession.replace(/amp;/g, "");
                 detail['ensembl'] = "ENSG00000254647";
 
 
