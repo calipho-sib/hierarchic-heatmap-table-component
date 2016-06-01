@@ -62,6 +62,12 @@
                 }
                 return accum;
             });
+
+            Handlebars.registerHelper('addDetail', function(detailData) {
+                var source   = $('#'+self.detailTemplate).html();
+                var template = Handlebars.compile(source);
+                return new Handlebars.SafeString(template(detailData));
+            });
         },
 
         showHeatMapSkeleton: function() {
@@ -136,6 +142,13 @@
                     $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
                 }
             });
+
+            $(self.heatmapTable).find(".heatmap-zoom").each(function() {
+                $(this).click(function() {
+                    $(this).parent().parent().parent().children(".heatmap-detail").toggle();
+                    $(this).toggleClass("glyphicon-zoom-out", "glyphicon-zoom-in");
+                });
+            });
         },
 
         loadJSONData : function(data) {
@@ -201,6 +214,7 @@
         this.heatmapTable = $("#" + argv.tableID)[0];
         this.header = argv.header;
         if (argv.options) {
+            this.detailTemplate = argv.options.detailTemplate;
             this.headerGroups = argv.options.headerGroups;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);

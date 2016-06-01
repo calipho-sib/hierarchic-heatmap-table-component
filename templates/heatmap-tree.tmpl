@@ -4,6 +4,9 @@
     <div class="heatmap-row">
         <p class="heatmap-rowLabel tree-toggler"><span class="glyphicon glyphicon-plus"></span><span class="rowLabel">{{rowLabel}}</span><span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span></p>
         <div class="pull-right">
+            {{#if detailData}}
+                <i class="glyphicon glyphicon-zoom-in heatmap-zoom"></i>
+            {{/if}}
             {{#forCreateCircle values}}
                 <div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">
                     <i class="heatmap-circle {{circleColorClass}}" style="background-color: {{circleColorStyle}}"></i>
@@ -11,6 +14,15 @@
             {{/forCreateCircle}}
         </div>
     </div>
+    {{#if detailData}}
+        <div class="heatmap-detail">
+            {{#each detailData}}
+                <div>
+                {{addDetail this}}
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
     <ul class="tree heatmap-closed">
         {{#if children}}
             {{> create-children}}

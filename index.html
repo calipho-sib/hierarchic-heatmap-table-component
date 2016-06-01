@@ -41,6 +41,16 @@
         to { transform: scale(1) rotate(360deg);}
     }
 
+    .detection-method {
+        background-color: #7cba0f;
+        color: white;
+    }
+
+    .dbSource {
+        background-color: #dedede;
+        color: #999;
+    }
+
 </style>
 
 <body>
@@ -272,5 +282,10 @@
     </div>
 
 </body>
+
+<script id="detailTemplate" type="text/x-handlebars-template">
+    <span class="detection-method">{{evidenceCodeName}}</span>  <span class="dbSource">{{dbSource}}</span>  <span class="ensembl-link"><a href="http://bgee.unil.ch/bgee/bgee?page=expression&action=data&{{ensemblLink}}">{{ensembl}}</a></span>
+</script>
+
 
 </html>

@@ -63,3 +63,11 @@
 .heatmap-inline {
     display: inline-block;
 }
+
+.heatmap-detail {
+    display: none;
+}
+
+.heatmap-zoom:hover {
+    cursor:pointer;
+}

@@ -1,4 +1,6 @@
 function convertNextProtDataIntoHeatMapTableFormat (data) {
+    console.log(data);
+
     $.ajax(
             {
                 type: "get",
@@ -28,7 +30,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
             node.ancestorAccession = null;
             node.children = [];
             node.values = ["",  "", "", "", "", "", ""];
-            console.log(node);
+            node.detailData = [];
             node.rowLabel = terminologyList[i].name;
             node.cvTermAccessionCode = terminologyList[i].accession;
             node.linkLabel = "[" + terminologyList[i].accession + "]"
@@ -47,6 +49,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 childNode.ancestorAccession = currNode;
                 childNode.children = [];
                 childNode.values = ["",  "", "", "", "", "", ""];
+                childNode.detailData = [];
                 childNode.cvTermAccessionCode = childTerm.accession;
                 childNode.rowLabel = childTerm.name;
                 childNode.linkLabel = "[" + childTerm.accession + "]"
@@ -74,6 +77,15 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
             for(var i = 0; i < annot.evidences.length; i++) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
+
+                var detail = {};
+                detail['evidenceCodeName'] = evidence.evidenceCodeName;
+                detail['dbSource'] = evidence.resourceDb;
+                detail['ensemblLink'] = evidence.resourceAccession;
+                detail['ensembl'] = "ENSG00000254647";
+
+
+                data.detailData.push(detail);
 
                 if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
                     data.values[0] = "Positive"
@@ -154,6 +166,8 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     }
 
     findHeatMapData(heatMapTableTree[0], 0);
+
+    console.log(heatMapTableDict);
 
     return heatMapTableDict;
 }

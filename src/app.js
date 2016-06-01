@@ -14,7 +14,8 @@ $(function () {
             { value: 'Moderate', color: '#FFC870'},
             { value: 'Medium', color: '#FFC870'}
         ],
-        columnWidth: "50px"
+        columnWidth: "50px",
+        detailTemplate: "detailTemplate"
     }
 
     var heatmapTableHeader = ['MA-P',
