@@ -10,7 +10,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 success: function (data) {
                     console.log("Get data.")
                     console.log(data);
-                    terminologyList = data["terminologyList"]
+                    cvTermList = data["cvTermList"]
                 },
                 error: function (msg) {
                     console.log(msg);
@@ -22,18 +22,18 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     var queue = [];
     var heatMapTableTree = [];
     var count = 0;
-    for (var i = 0; i < terminologyList.length; i++) {
-        termDict[terminologyList[i].accession] = terminologyList[i];
-        if (terminologyList[i].ancestorAccession === null) {
+    for (var i = 0; i < cvTermList.length; i++) {
+        termDict[cvTermList[i].accession] = cvTermList[i];
+        if (cvTermList[i].ancestorAccession === null) {
             var node = {};
             node.ancestorAccession = null;
             node.children = [];
             node.values = ["",  "", "", "", "", "", ""];
             node.detailData = [];
-            node.rowLabel = terminologyList[i].name;
-            node.cvTermAccessionCode = terminologyList[i].accession;
-            node.linkLabel = "[" + terminologyList[i].accession + "]"
-            node.linkURL = "http://www.nextprot.org/db/term/" + terminologyList[i].name;
+            node.rowLabel = cvTermList[i].name;
+            node.cvTermAccessionCode = cvTermList[i].accession;
+            node.linkLabel = "[" + cvTermList[i].accession + "]"
+            node.linkURL = "http://www.nextprot.org/db/term/" + cvTermList[i].name;
             heatMapTableTree.push(node);
             queue.push(heatMapTableTree[0]);
         }
