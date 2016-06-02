@@ -82,26 +82,36 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 detail['dbSource'] = evidence.resourceDb;
                 detail['ensemblLink'] = evidence.resourceAccession.replace(/amp;/g, "");
                 detail['ensembl'] = "ENSG00000254647";
-
-
-                data.detailData.push(detail);
+                detail['value'] = "";
+                if (evidence.qualityQualifier === "SILVER") {
+	                detail['qualityQualifier'] = evidence.qualityQualifier;
+	            }
 
                 if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
-                    data.values[0] = "Positive"
+                    data.values[0] = "Positive";
+                    detail['value'] = "Positive";
                 } else if ((evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "not detected") 
                             || (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "negative" && evidence.negativeEvidence === true)) {
-                    data.values[1] = "NotDetected"
+                    data.values[1] = "NotDetected";
+                    detail['value'] = "NotDetected";
                 } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
-                    data.values[2] = "Positive"
+                    data.values[2] = "Positive";
+                    detail['value'] = "Positive";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
-                    data.values[3] = "Strong"
+                    data.values[3] = "Strong";
+                    detail['value'] = "Strong";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
-                    data.values[4] = "Moderate"
+                    data.values[4] = "Moderate";
+                    detail['value'] = "Moderate";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
-                    data.values[5] = "Weak"
+                    data.values[5] = "Weak";
+                    detail['value'] = "Weak";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
-                    data.values[6] = "NotDetected"
+                    data.values[6] = "NotDetected";
+                    detail['value'] = "NotDetected";
                 }
+
+	            data.detailData.push(detail);
 
                 // Can be immunolocalization evidence -> IHC
                 // Can be microarray RNA expression level evidence -> Microarray

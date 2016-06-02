@@ -51,6 +51,33 @@
         color: #999;
     }
 
+    .silver {
+        background-color: #dedede;
+        color: #999;
+    }
+
+    .Positive {
+        color: #FFA10A;
+    }
+    .NotDetected {
+        color: lightgray;
+    }
+    .Weak {
+        color: #FFE6BD;
+    }
+    .Low {
+        color: #FFE6BD;
+    }
+    .Strong {
+        color: #FFC870;
+    }
+    .Moderate {
+        color: #FFC870;
+    }
+    .Medium {
+        color: #FFC870;
+    }
+
 </style>
 
 <body>
@@ -285,6 +312,12 @@
 
 <script id="detailTemplate" type="text/x-handlebars-template">
     <span class="detection-method">{{evidenceCodeName}}</span>  <span class="dbSource">{{dbSource}}</span>  <span class="ensembl-link"><a href="http://bgee.unil.ch/bgee/bgee?page=expression&action=data&{{ensemblLink}}">{{ensembl}}</a></span>
+    <div>
+        <span class="{{value}} glyphicon glyphicon-stop"></span>
+        {{#if qualityQualifier}}
+        <span class="silver">{{qualityQualifier}}</span>
+        {{/if}}
+    </div>
 </script>
 
 
