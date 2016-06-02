@@ -26,12 +26,12 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         termDict[cvTermList[i].accession] = cvTermList[i];
         if (cvTermList[i].ancestorAccession === null) {
             var node = {};
-            node.ancestorAccession = null;
+            node.ancestorIds = null;
             node.children = [];
             node.values = ["",  "", "", "", "", "", ""];
             node.detailData = [];
             node.rowLabel = cvTermList[i].name;
-            node.cvTermAccessionCode = cvTermList[i].accession;
+            node.id = cvTermList[i].accession;
             node.linkLabel = "[" + cvTermList[i].accession + "]"
             node.linkURL = "http://www.nextprot.org/db/term/" + cvTermList[i].name;
             heatMapTableTree.push(node);
@@ -40,16 +40,16 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     }
     while (queue.length !== 0) {
         var currNode = queue.shift();
-        var currTerm = termDict[currNode.cvTermAccessionCode];
+        var currTerm = termDict[currNode.id];
         if (currTerm && currTerm.childAccession) {
             for (var i = 0; i < currTerm.childAccession.length; i++) {
                 var childTerm = termDict[currTerm.childAccession[i]];
                 var childNode = {};
-                childNode.ancestorAccession = currNode;
+                childNode.ancestorIds = currNode;
                 childNode.children = [];
                 childNode.values = ["",  "", "", "", "", "", ""];
                 childNode.detailData = [];
-                childNode.cvTermAccessionCode = childTerm.accession;
+                childNode.id= childTerm.accession;
                 childNode.rowLabel = childTerm.name;
                 childNode.linkLabel = "[" + childTerm.accession + "]"
                 childNode.linkURL = "http://www.nextprot.org/db/term/" + childTerm.name;
@@ -66,13 +66,13 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 data.values[i] = values[i];
             }
         }
-        if (data.ancestorAccession) {
-            updateAncestorValues(data.ancestorAccession, values);
+        if (data.ancestorIds) {
+            updateAncestorValues(data.ancestorIds, values);
         }
     }
 
     function addAnnotToHeatMapTable(data, annot) {
-        if (data.cvTermAccessionCode === annot.cvTermAccessionCode) {
+        if (data.id === annot.cvTermAccessionCode) {
             for(var i = 0; i < annot.evidences.length; i++) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
@@ -89,25 +89,32 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
                 if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
                     data.values[0] = "Positive";
+                    // data.flag = true;
                     detail['value'] = "Positive";
                 } else if ((evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "not detected") 
                             || (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "negative" && evidence.negativeEvidence === true)) {
                     data.values[1] = "NotDetected";
+                    // data.flag = true;
                     detail['value'] = "NotDetected";
                 } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
                     data.values[2] = "Positive";
+                    // data.flag = true;
                     detail['value'] = "Positive";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
                     data.values[3] = "Strong";
+                    // data.flag = true;
                     detail['value'] = "Strong";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
                     data.values[4] = "Moderate";
+                    // data.flag = true;
                     detail['value'] = "Moderate";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
                     data.values[5] = "Weak";
+                    // data.flag = true;
                     detail['value'] = "Weak";
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
                     data.values[6] = "NotDetected";
+                    // data.flag = true;
                     detail['value'] = "NotDetected";
                 }
 
@@ -127,8 +134,8 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
          
             }
 
-            if (data.ancestorAccession) {
-                updateAncestorValues(data.ancestorAccession, data.values);
+            if (data.ancestorIds) {
+                updateAncestorValues(data.ancestorIds, data.values);
             }
         }
 

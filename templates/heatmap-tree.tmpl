@@ -2,7 +2,11 @@
 {{#each children}}
 <li>
     <div class="heatmap-row">
-        <p class="heatmap-rowLabel tree-toggler"><span class="glyphicon glyphicon-plus"></span><span class="rowLabel">{{rowLabel}}</span><span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span></p>
+        <p class="heatmap-rowLabel tree-toggler"><span class="glyphicon glyphicon-plus"></span><span class="rowLabel">{{rowLabel}}</span><span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span>
+        {{#if flag}}
+            <span class="glyphicon glyphicon-tags"></span>
+        {{/if}}
+        </p>
         <div class="pull-right">
             {{#if detailData}}
                 <i class="glyphicon glyphicon-zoom-in heatmap-zoom"></i>
