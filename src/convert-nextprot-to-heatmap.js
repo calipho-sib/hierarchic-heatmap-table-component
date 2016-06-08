@@ -1,22 +1,47 @@
 function convertNextProtDataIntoHeatMapTableFormat (data) {
     console.log(data);
     $.ajax(
-            {
-                type: "get",
-                // url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
-                url: "data/nextprot-anatomy-cv.json",
-                async: false,
-                crossDomain: true,
-                success: function (data) {
-                    console.log("Get data.")
-                    console.log(data);
-                    cvTermList = data["cvTermList"]
-                },
-                error: function (msg) {
-                    console.log(msg);
-                }
+        {
+            type: "get",
+            // url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
+            url: "data/nextprot-anatomy-cv.json",
+            async: false,
+            success: function (data) {
+                console.log("Get data.")
+                console.log(data);
+                cvTermList = data["cvTermList"]
+            },
+            error: function (msg) {
+                console.log(msg);
             }
-        );
+        }
+    );
+
+
+    var experimentalContext = {};
+    $.ajax(
+        {
+            type: "get",
+            // url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
+            url: "data/experimental-context.json",
+            async: false,
+            success: function (data) {
+                data = data['entry']['experimentalContexts'];
+                console.log("Get experimental-context.")
+                for (var i = 0; i < data.length; i++) {
+                	if (data[i].developmentalStage) {
+		                experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
+   					} else {
+   						experimentalContext[data[i].contextId] = "unknown"
+   					}
+                }
+                console.log(experimentalContext);
+            },
+            error: function (msg) {
+                console.log(msg);
+            }
+        }
+    );
 
     var termDict = {};
     var queue = [];
@@ -89,33 +114,33 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
                 if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
                     data.values[0] = "Positive";
-                    // data.flag = true;
                     detail['value'] = "Positive";
+                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
                 } else if ((evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "not detected") 
                             || (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "negative" && evidence.negativeEvidence === true)) {
                     data.values[1] = "NotDetected";
-                    // data.flag = true;
                     detail['value'] = "NotDetected";
+                    detail['description'] = "Expression not detected at " + experimentalContext[evidence.experimentalContextId]
                 } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
                     data.values[2] = "Positive";
-                    // data.flag = true;
                     detail['value'] = "Positive";
+                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
                     data.values[3] = "Strong";
-                    // data.flag = true;
                     detail['value'] = "Strong";
+                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
                     data.values[4] = "Moderate";
-                    // data.flag = true;
                     detail['value'] = "Moderate";
+                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
                     data.values[5] = "Weak";
-                    // data.flag = true;
                     detail['value'] = "Weak";
+                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
                     data.values[6] = "NotDetected";
-                    // data.flag = true;
                     detail['value'] = "NotDetected";
+                    detail['description'] = "Expression not detected at " + experimentalContext[evidence.experimentalContextId]
                 }
 
 	            data.detailData.push(detail);

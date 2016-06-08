@@ -70,6 +70,8 @@ $(function () {
             heatMapTable.loadJSONData(data);
             heatMapTable.show();
 
+            console.log("Create " + heatMapTableName + " Done.");
+
             $("#"+heatMapTableName).find(".rowLabel").first().click();
             $("#"+heatMapTableName).find(".heatmap-rows .tree").first().children().each(function() {
                 $(this).find(".rowLabel").first().click();
