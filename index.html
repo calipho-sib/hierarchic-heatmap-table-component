@@ -378,7 +378,7 @@
 </body>
 
 <script id="detailTemplate" type="text/x-handlebars-template">
-    <span class="detection-method">{{evidenceCodeName}}</span>  <span class="dbSource">{{dbSource}}</span>  <span class="ensembl-link"><a href="http://bgee.unil.ch/bgee/bgee?page=expression&action=data&{{ensemblLink}}">{{ensembl}}</a></span>
+    <span class="detection-method">{{evidenceCodeName}}</span>  <span class="dbSource">{{dbSource}}</span>  <span class="ensembl-link"><a href="{{ensemblLink}}">{{ensembl}}</a></span>
     <div>
         <span class="{{value}} glyphicon glyphicon-stop"></span>
         <span>{{description}}</span>

@@ -29,13 +29,11 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 data = data['entry']['experimentalContexts'];
                 console.log("Get experimental-context.")
                 for (var i = 0; i < data.length; i++) {
-                	if (data[i].developmentalStage) {
+                	if (data[i].developmentalStage && data[i].developmentalStage.name != "unknown") {
 		                experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
-   					} else {
-   						experimentalContext[data[i].contextId] = "unknown"
    					}
                 }
-                console.log(experimentalContext);
+                // console.log(experimentalContext);
             },
             error: function (msg) {
                 console.log(msg);
@@ -96,67 +94,63 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
+    function createDetailWithEvidence(evidence, value) {
+		var detail = {};
+        detail['evidenceCodeName'] = evidence.evidenceCodeName;
+        detail['dbSource'] = evidence.resourceDb;
+        detail['value'] = value;
+        if (evidence.antibodies) {
+        	detail['ensembl'] = evidence.antibodies;
+        	detail['ensemblLink'] = "http://www.proteinatlas.org/" + evidence.resourceAccession.replace(/amp;/g, "");
+        } else {
+        	detail['ensembl'] = "ENSG00000254647";
+        	detail['ensemblLink'] = "http://bgee.unil.ch/bgee/bgee?page=expression&action=data&" + evidence.resourceAccession.replace(/amp;/g, "");
+        }
+        
+        if (evidence.qualityQualifier === "SILVER") {
+            detail['qualityQualifier'] = evidence.qualityQualifier;
+        }
+
+        if (experimentalContext[evidence.experimentalContextId]) {
+            detail['description'] = "Expression " + evidence.expressionLevel + " at " + experimentalContext[evidence.experimentalContextId];
+		} else {
+			detail['description'] = "Expression " + evidence.expressionLevel
+		}
+        return detail;
+    }
+
     function addAnnotToHeatMapTable(data, annot) {
         if (data.id === annot.cvTermAccessionCode) {
             for(var i = 0; i < annot.evidences.length; i++) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
-
                 var detail = {};
-                detail['evidenceCodeName'] = evidence.evidenceCodeName;
-                detail['dbSource'] = evidence.resourceDb;
-                detail['ensemblLink'] = evidence.resourceAccession.replace(/amp;/g, "");
-                detail['ensembl'] = "ENSG00000254647";
-                detail['value'] = "";
-                if (evidence.qualityQualifier === "SILVER") {
-	                detail['qualityQualifier'] = evidence.qualityQualifier;
-	            }
-
                 if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
                     data.values[0] = "Positive";
-                    detail['value'] = "Positive";
-                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
+                    detail = createDetailWithEvidence(evidence, data.values[0]);       
                 } else if ((evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "not detected") 
                             || (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "negative" && evidence.negativeEvidence === true)) {
                     data.values[1] = "NotDetected";
-                    detail['value'] = "NotDetected";
-                    detail['description'] = "Expression not detected at " + experimentalContext[evidence.experimentalContextId]
-                } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
+              		detail = createDetailWithEvidence(evidence, data.values[1]);
+    			} else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
                     data.values[2] = "Positive";
-                    detail['value'] = "Positive";
-                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
+                    detail = createDetailWithEvidence(evidence, data.values[2]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
                     data.values[3] = "Strong";
-                    detail['value'] = "Strong";
-                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
+                    detail = createDetailWithEvidence(evidence, data.values[3]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
                     data.values[4] = "Moderate";
-                    detail['value'] = "Moderate";
-                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
+                    detail = createDetailWithEvidence(evidence, data.values[4]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
                     data.values[5] = "Weak";
-                    detail['value'] = "Weak";
-                    detail['description'] = "Expression detected at " + experimentalContext[evidence.experimentalContextId]
+                    detail = createDetailWithEvidence(evidence, data.values[5]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
                     data.values[6] = "NotDetected";
-                    detail['value'] = "NotDetected";
-                    detail['description'] = "Expression not detected at " + experimentalContext[evidence.experimentalContextId]
+                    detail = createDetailWithEvidence(evidence, data.values[6]);
+                    detail['description'] = "Expression not detected";
                 }
 
 	            data.detailData.push(detail);
-
-                // Can be immunolocalization evidence -> IHC
-                // Can be microarray RNA expression level evidence -> Microarray
-                // Can be transcript expression evidence -> EST
-                // console.log("\tmethod: " + evidence.evidenceCodeName); 
-
-                // It depends on the methodology, can be weak / low, moderate / medium, strong / high, not detected, positive
-                // console.log("\tvalue: " + evidence.expressionLevel);
-
-                //Don't worry about quality for now, but see it will need to be present on the filters: http://www.nextprot.org/db/entry/NX_P01308/expression
-                // console.log("\tquality: " + evidence.qualityQualifier);
-                // console.log("\t");
-         
             }
 
             if (data.ancestorIds) {
