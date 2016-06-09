@@ -1,5 +1,8 @@
 function convertNextProtDataIntoHeatMapTableFormat (data) {
     console.log(data);
+
+    var cvTermList = {};
+    var xrefDict = data['xrefs'];
     $.ajax(
         {
             type: "get",
@@ -99,12 +102,14 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         detail['evidenceCodeName'] = evidence.evidenceCodeName;
         detail['dbSource'] = evidence.resourceDb;
         detail['value'] = value;
+        detail['ensemblLink'] = xrefDict[evidence.resourceId].resolvedUrl.replace(/amp;/g, "");
         if (evidence.antibodies) {
         	detail['ensembl'] = evidence.antibodies;
-        	detail['ensemblLink'] = "http://www.proteinatlas.org/" + evidence.resourceAccession.replace(/amp;/g, "");
         } else {
-        	detail['ensembl'] = "ENSG00000254647";
-        	detail['ensemblLink'] = "http://bgee.unil.ch/bgee/bgee?page=expression&action=data&" + evidence.resourceAccession.replace(/amp;/g, "");
+        	detail['ensembl'] = evidence.resourceAccession.slice(evidence.resourceAccession.indexOf("gene_id=")+8);
+        	if (detail['ensembl'].indexOf("&amp") !== -1) {
+	        	detail['ensembl'] = detail['ensembl'].substring(0, detail['ensembl'].indexOf("&amp"));
+    		}
         }
         
         if (evidence.qualityQualifier === "SILVER") {
@@ -112,7 +117,11 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
 
         if (experimentalContext[evidence.experimentalContextId]) {
-            detail['description'] = "Expression " + evidence.expressionLevel + " at " + experimentalContext[evidence.experimentalContextId];
+        	if (evidence.expressionLevel === "negative") {
+        		detail['description'] = "Expression not detected at " + experimentalContext[evidence.experimentalContextId];
+        	} else {
+	            detail['description'] = "Expression " + evidence.expressionLevel + " at " + experimentalContext[evidence.experimentalContextId];
+			}
 		} else {
 			detail['description'] = "Expression " + evidence.expressionLevel
 		}
