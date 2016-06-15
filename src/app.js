@@ -91,6 +91,31 @@ $(function () {
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
         $("#"+heatMapTableName).children('p').remove();
+
+
+        var rowLabelsToId = {
+            "Alimentary system": "alimentary-system",
+            "Cardiovascular system": "cardiovascular-system",
+            "Dermal system": "dermal-system",
+            "Endocrine system": "endocrine-system",
+            "Exocrine system": "exocrine-system",
+            "Hemolymphoid and immune system": "hemolymphoid-and-immune-system",
+            "Musculoskeletal system": "musculoskeletal-system",
+            "Nervous system": "nervous-system",
+            "Reproductive system": "reproductive-system",
+            "Respiratory system": "respiratory-system",
+            "Urinary system": "urinary-system",
+            "Sense organ": "sense-organ",
+            "Body part": "body-part",
+            "Tissue": "tissue",
+            "Cell type": "cell-type",
+            "Fluid and secretion": "fluid-and-secretion",
+            "Gestational structure": "gestational-structure"
+        }
+        $("#"+heatMapTableName).children(".heatmap-body").children("ul").children("li").each(function() {
+            var rowLabel = $($(this).children(".heatmap-row").children(".heatmap-rowLabel").children(".rowLabel")[0]).text();
+            this.id = rowLabelsToId[rowLabel];
+        });
     });
 
 
