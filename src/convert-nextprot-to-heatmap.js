@@ -223,6 +223,12 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     findHeatMapData(heatMapTableTree[0], 0);
 
     // return heatMapTableDict;
+    heatmapData.sort(function(a, b) {
+    	if(a.rowLabel < b.rowLabel) return -1;
+	    if(a.rowLabel > b.rowLabel) return 1;
+	    return 0;
+    });
+
     console.log(heatmapData);
     return {'data': heatmapData};
 }
