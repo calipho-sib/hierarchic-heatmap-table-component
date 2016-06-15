@@ -197,12 +197,23 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         "Gestational structure": "gestational-structure"
     }
 
-    var heatMapTableDict = {};
+    // var heatMapTableDict = {};
 
+    // function findHeatMapData(data, step) {
+    //     if (step > 2) return;
+    //     if (rowLabelsToheatMapTable[data.rowLabel]) {
+    //         heatMapTableDict[rowLabelsToheatMapTable[data.rowLabel]] = {'data': [data]};
+    //     }
+    //     for (var i = 0; i < data.children.length; i++) {
+    //         findHeatMapData(data.children[i], step+1);
+    //     }
+    // }
+
+    var heatmapData = [];
     function findHeatMapData(data, step) {
         if (step > 2) return;
         if (rowLabelsToheatMapTable[data.rowLabel]) {
-            heatMapTableDict[rowLabelsToheatMapTable[data.rowLabel]] = {'data': [data]};
+            heatmapData.push(data);
         }
         for (var i = 0; i < data.children.length; i++) {
             findHeatMapData(data.children[i], step+1);
@@ -211,7 +222,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
     findHeatMapData(heatMapTableTree[0], 0);
 
-    console.log(heatMapTableDict);
-
-    return heatMapTableDict;
+    // return heatMapTableDict;
+    console.log(heatmapData);
+    return {'data': heatmapData};
 }

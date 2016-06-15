@@ -25,23 +25,23 @@ $(function () {
                               'IHC-M',
                               'IHC-W',
                               'IHC-ND'];
-    var heatmapTableNames = ['alimentary-system', 
-                             'cardiovascular-system',
-                             'dermal-system',
-                             "endocrine-system",
-                             "exocrine-system",
-                             "hemolymphoid-and-immune-system",
-                             "musculoskeletal-system",
-                             "nervous-system",
-                             "reproductive-system",
-                             "respiratory-system",
-                             "urinary-system",
-                             "sense-organ",
-                             "body-part",
-                             "tissue",
-                             "cell-type",
-                             "fluid-and-secretion",
-                             "gestational-structure"];
+    // var heatmapTableNames = ['alimentary-system', 
+    //                          'cardiovascular-system',
+    //                          'dermal-system',
+    //                          "endocrine-system",
+    //                          "exocrine-system",
+    //                          "hemolymphoid-and-immune-system",
+    //                          "musculoskeletal-system",
+    //                          "nervous-system",
+    //                          "reproductive-system",
+    //                          "respiratory-system",
+    //                          "urinary-system",
+    //                          "sense-organ",
+    //                          "body-part",
+    //                          "tissue",
+    //                          "cell-type",
+    //                          "fluid-and-secretion",
+    //                          "gestational-structure"];
 
 
     var applicationName = 'protein expression app'; //please provide a name for your application
@@ -54,31 +54,43 @@ $(function () {
     nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
 
         //Suppose you have a map here for each "roots" another way of doing is calling this method inside the for loop for passing the name of the heatmap table as a parameter
-        var dataMap = convertNextProtDataIntoHeatMapTableFormat(data);
+        // var dataMap = convertNextProtDataIntoHeatMapTableFormat(data);
 
-        for (var i = 0; i < heatmapTableNames.length; i++) {
+        // for (var i = 0; i < heatmapTableNames.length; i++) {
 
-            var heatMapTableName = heatmapTableNames[i];
+            // var heatMapTableName = heatmapTableNames[i];
             
-            var heatMapTable = HeatMapTable({
-                header: heatmapTableHeader,
-                tableID: heatMapTableName,
-                options: heatmapTableOptions
-            });
+        //     var heatMapTable = HeatMapTable({
+        //         header: heatmapTableHeader,
+        //         tableID: heatMapTableName,
+        //         options: heatmapTableOptions
+        //     });
 
-            var data = dataMap[heatMapTableName];
-            heatMapTable.loadJSONData(data);
-            heatMapTable.show();
+        //     var data = dataMap[heatMapTableName];
+        //     heatMapTable.loadJSONData(data);
+        //     heatMapTable.show();
 
-            console.log("Create " + heatMapTableName + " Done.");
+        //     console.log("Create " + heatMapTableName + " Done.");
 
-            $("#"+heatMapTableName).find(".rowLabel").first().click();
-            $("#"+heatMapTableName).find(".heatmap-rows .tree").first().children().each(function() {
-                $(this).find(".rowLabel").first().click();
-            });
-            $("#"+heatMapTableName).children('p').remove();
-        }
+        //     $("#"+heatMapTableName).find(".rowLabel").first().click();
+        //     $("#"+heatMapTableName).find(".heatmap-rows .tree").first().children().each(function() {
+        //         $(this).find(".rowLabel").first().click();
+        //     });
+        //     $("#"+heatMapTableName).children('p').remove();
+        // }
 
+        var heatmapData = convertNextProtDataIntoHeatMapTableFormat(data);
+        var heatMapTableName = "heatmap-table";
+            
+        var heatMapTable = HeatMapTable({
+            header: heatmapTableHeader,
+            tableID: heatMapTableName,
+            options: heatmapTableOptions
+        });
+
+        heatMapTable.loadJSONData(heatmapData);
+        heatMapTable.show();
+        $("#"+heatMapTableName).children('p').remove();
     });
 
 
