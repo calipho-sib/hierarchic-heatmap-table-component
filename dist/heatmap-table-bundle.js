@@ -4644,6 +4644,13 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
                 return block.fn(result);
             });
 
+            Handlebars.registerHelper('createIcon', function(data) {
+                if (data.children.length > 0 || data.detailData.length > 0) {
+                    return new Handlebars.SafeString('<span class="glyphicon glyphicon-plus"></span>');
+                }
+                return new Handlebars.SafeString('<span class="glyphicon glyphicon-record"></span>');
+            });
+
             //Create group header
             Handlebars.registerHelper('createHeaderGroups', function(headerGroups, block) {
                 var result = {};
@@ -4756,12 +4763,12 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
                 }
             });
 
-            $(self.heatmapTable).find(".heatmap-zoom").each(function() {
-                $(this).click(function() {
-                    $(this).parent().parent().parent().children(".heatmap-detail").toggle();
-                    $(this).toggleClass("glyphicon-zoom-out", "glyphicon-zoom-in");
-                });
-            });
+            // $(self.heatmapTable).find(".heatmap-zoom").each(function() {
+            //     $(this).click(function() {
+            //         $(this).parent().parent().parent().children(".heatmap-detail").toggle();
+            //         $(this).toggleClass("glyphicon-zoom-out", "glyphicon-zoom-in");
+            //     });
+            // });
         },
 
         loadJSONData : function(data) {
@@ -4844,26 +4851,26 @@ this["HBtemplates"] = this["HBtemplates"] || {};
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<li>\r\n    <div class=\"heatmap-row\">\r\n        <p class=\"heatmap-rowLabel tree-toggler\"><span class=\"glyphicon glyphicon-plus\"></span><span class=\"rowLabel\">"
+  return "<li>\r\n    <div class=\"heatmap-row\">\r\n        <p class=\"heatmap-rowLabel tree-toggler\">\r\n"
+    + ((stack1 = (helpers.createIcon || (depth0 && depth0.createIcon) || alias2).call(alias1,depth0,{"name":"createIcon","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "            <span class=\"rowLabel\">"
     + alias4(((helper = (helper = helpers.rowLabel || (depth0 != null ? depth0.rowLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"rowLabel","hash":{},"data":data}) : helper)))
-    + "</span><span><a href=\""
+    + "</span>\r\n            <span><a href=\""
     + alias4(((helper = (helper = helpers.linkURL || (depth0 != null ? depth0.linkURL : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkURL","hash":{},"data":data}) : helper)))
     + "\" target=\"_blank\">"
     + alias4(((helper = (helper = helpers.linkLabel || (depth0 != null ? depth0.linkLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkLabel","hash":{},"data":data}) : helper)))
-    + "</a></span>\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.flag : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </p>\r\n        <div class=\"pull-right\">\r\n"
+    + "</a></span>\r\n        </p>\r\n        <div class=\"pull-right\">\r\n<!--             "
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + " -->\r\n"
     + ((stack1 = (helpers.forCreateCircle || (depth0 && depth0.forCreateCircle) || alias2).call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"forCreateCircle","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n    </div>\r\n"
+    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    <ul class=\"tree heatmap-closed\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.children : depth0),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </ul>\r\n</li>\r\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    return "            <span class=\"glyphicon glyphicon-tags\"></span>\r\n";
+    return "";
 },"4":function(container,depth0,helpers,partials,data) {
-    return "                <i class=\"glyphicon glyphicon-zoom-in heatmap-zoom\"></i>\r\n";
+    return "\r\n                <i class=\"glyphicon glyphicon-zoom-in heatmap-zoom\"></i>\r\n            ";
 },"6":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
@@ -4879,13 +4886,13 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
 },"8":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "        <div class=\"heatmap-detail\">\r\n"
+  return "            <div class=\"heatmap-detail\">\r\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.detailData : depth0),{"name":"each","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n";
+    + "            </div>\r\n";
 },"9":function(container,depth0,helpers,partials,data) {
-    return "                <div>\r\n                "
+    return "                    <div>\r\n                    "
     + container.escapeExpression((helpers.addDetail || (depth0 && depth0.addDetail) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"addDetail","hash":{},"data":data}))
-    + "\r\n                </div>\r\n";
+    + "\r\n                    </div>\r\n";
 },"11":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -4893,8 +4900,7 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "\r\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.children : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+  return ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.children : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"usePartial":true,"useData":true});
 
 this["HBtemplates"]["templates/heatmap.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {

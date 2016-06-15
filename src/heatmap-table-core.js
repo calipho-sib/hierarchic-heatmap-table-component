@@ -31,6 +31,13 @@
                 return block.fn(result);
             });
 
+            Handlebars.registerHelper('createIcon', function(data) {
+                if (data.children.length > 0 || data.detailData.length > 0) {
+                    return new Handlebars.SafeString('<span class="glyphicon glyphicon-plus"></span>');
+                }
+                return new Handlebars.SafeString('<span class="glyphicon glyphicon-record"></span>');
+            });
+
             //Create group header
             Handlebars.registerHelper('createHeaderGroups', function(headerGroups, block) {
                 var result = {};
@@ -143,12 +150,12 @@
                 }
             });
 
-            $(self.heatmapTable).find(".heatmap-zoom").each(function() {
-                $(this).click(function() {
-                    $(this).parent().parent().parent().children(".heatmap-detail").toggle();
-                    $(this).toggleClass("glyphicon-zoom-out", "glyphicon-zoom-in");
-                });
-            });
+            // $(self.heatmapTable).find(".heatmap-zoom").each(function() {
+            //     $(this).click(function() {
+            //         $(this).parent().parent().parent().children(".heatmap-detail").toggle();
+            //         $(this).toggleClass("glyphicon-zoom-out", "glyphicon-zoom-in");
+            //     });
+            // });
         },
 
         loadJSONData : function(data) {

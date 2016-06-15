@@ -64,9 +64,9 @@
     display: inline-block;
 }
 
-.heatmap-detail {
+/*.heatmap-detail {
     display: none;
-}
+}*/
 
 .heatmap-zoom:hover {
     cursor:pointer;
