@@ -381,8 +381,9 @@
 
 <script type="text/javascript">
     Handlebars.registerHelper('createHeader', function(columnName, block) {
+        console.log(columnName);
         var result = {};
-        result.columnWidth = self.columnWidth;
+        result.columnWidth = "50px";
         result.columnName = columnName;
         return block.fn(result);
     });
@@ -390,9 +391,11 @@
 
 <script id="headerTemplate" type="text/x-handlebars-template">
     {{#each header}}
-            <div class="heatmap-column" style="width: 50px;">
-                {{this}}
+        {{#createHeader this}}
+            <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+                {{columnName}}
             </div>
+        {{/createHeader}}
     {{/each}}
 </script>
 

@@ -75,7 +75,7 @@
                 return new Handlebars.SafeString(template(detailData));
             });
 
-           Handlebars.registerHelper('createHeader', function() {
+           Handlebars.registerHelper('heatmapCreateHeader', function() {
                 var source   = $('#'+self.headerTemplate).html();
                 var template = Handlebars.compile(source);
                 return new Handlebars.SafeString(template(self.headerTemplateData));
