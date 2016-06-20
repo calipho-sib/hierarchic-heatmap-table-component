@@ -232,36 +232,39 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 	    return 0;
     });
 
-    var levelPriorityDict = {
-    	"High": 5,
-    	"Medium": 4,
-    	"Low": 3,
-    	"Positive": 2,
-		"NotDetected": 1
-    }
-    var codePriorityDict = {
-    	"Microarray": 3,
-    	"EST": 2,
-    	"IHC": 1
-    }
+    function sortDetail(detailList) {
+	    var levelPriorityDict = {
+	    	"High": 5,
+	    	"Medium": 4,
+	    	"Low": 3,
+	    	"Positive": 2,
+			"NotDetected": 1
+	    }
+	    var codePriorityDict = {
+	    	"Microarray": 3,
+	    	"EST": 2,
+	    	"IHC": 1
+	    }
 
 
-    for (var i = 0; i < detailList.length; i++) {
-		if (detailList[i].length > 0) {
-			detailList[i].sort(function(a, b) {
-				if (levelPriorityDict[a.value] === levelPriorityDict[b.value]) {
-					if (codePriorityDict[a.evidenceCodeName] === codePriorityDict[b.evidenceCodeName]) return 0;
-					if (codePriorityDict[a.evidenceCodeName] < codePriorityDict[b.evidenceCodeName]) return -1;
-					if (codePriorityDict[a.evidenceCodeName] > codePriorityDict[b.evidenceCodeName]) return 1;
-				} else if (levelPriorityDict[a.value] < levelPriorityDict[b.value]) {
-					return 1;
-				} else if (levelPriorityDict[a.value] > levelPriorityDict[b.value]) {
-					return -1;
-				}
-			});
+	    for (var i = 0; i < detailList.length; i++) {
+			if (detailList[i].length > 0) {
+				detailList[i].sort(function(a, b) {
+					if (levelPriorityDict[a.value] === levelPriorityDict[b.value]) {
+						if (codePriorityDict[a.evidenceCodeName] === codePriorityDict[b.evidenceCodeName]) return 0;
+						if (codePriorityDict[a.evidenceCodeName] < codePriorityDict[b.evidenceCodeName]) return -1;
+						if (codePriorityDict[a.evidenceCodeName] > codePriorityDict[b.evidenceCodeName]) return 1;
+					} else if (levelPriorityDict[a.value] < levelPriorityDict[b.value]) {
+						return 1;
+					} else if (levelPriorityDict[a.value] > levelPriorityDict[b.value]) {
+						return -1;
+					}
+				});
+			}
 		}
 	}
-    console.log(detailList);
+
+	sortDetail(detailList);
 
     return {'data': heatmapData};
 }
