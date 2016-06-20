@@ -32,9 +32,9 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 data = data['entry']['experimentalContexts'];
                 console.log("Get experimental-context.")
                 for (var i = 0; i < data.length; i++) {
-                	if (data[i].developmentalStage && data[i].developmentalStage.name != "unknown") {
-		                experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
-   					}
+                    if (data[i].developmentalStage && data[i].developmentalStage.name != "unknown") {
+                        experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
+                    }
                 }
             },
             error: function (msg) {
@@ -101,24 +101,24 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     }
 
     var codeNameToShortName = {
-    	"microarray RNA expression level evidence": "Microarray",
-    	"transcript expression evidence": "EST",
-    	"immunolocalization evidence": "IHC"
+        "microarray RNA expression level evidence": "Microarray",
+        "transcript expression evidence": "EST",
+        "immunolocalization evidence": "IHC"
     }
 
     function createDetailWithEvidence(evidence, value) {
-		var detail = {};
+        var detail = {};
         detail['evidenceCodeName'] = codeNameToShortName[evidence.evidenceCodeName];
         detail['dbSource'] = evidence.resourceDb;
         detail['value'] = value;
         detail['ensemblLink'] = xrefDict[evidence.resourceId].resolvedUrl.replace(/amp;/g, "");
         if (evidence.antibodies) {
-        	detail['ensembl'] = evidence.antibodies;
+            detail['ensembl'] = evidence.antibodies;
         } else {
-        	detail['ensembl'] = evidence.resourceAccession.slice(evidence.resourceAccession.indexOf("gene_id=")+8);
-        	if (detail['ensembl'].indexOf("&amp") !== -1) {
-	        	detail['ensembl'] = detail['ensembl'].substring(0, detail['ensembl'].indexOf("&amp"));
-    		}
+            detail['ensembl'] = evidence.resourceAccession.slice(evidence.resourceAccession.indexOf("gene_id=")+8);
+            if (detail['ensembl'].indexOf("&amp") !== -1) {
+                detail['ensembl'] = detail['ensembl'].substring(0, detail['ensembl'].indexOf("&amp"));
+            }
         }
         
         if (evidence.qualityQualifier === "SILVER") {
@@ -126,18 +126,18 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
 
         if (experimentalContext[evidence.experimentalContextId]) {
-        	if (evidence.expressionLevel === "negative") {
-        		detail['description'] = "Expression not detected at " + experimentalContext[evidence.experimentalContextId];
-        	} else {
-	            detail['description'] = "Expression " + evidence.expressionLevel + " at " + experimentalContext[evidence.experimentalContextId];
-			}
-		} else {
-			if (evidence.expressionLevel === "negative") {
-        		detail['description'] = "Expression not detected";
-        	} else {
-				detail['description'] = "Expression " + evidence.expressionLevel
-        	}
-		}
+            if (evidence.expressionLevel === "negative") {
+                detail['description'] = "Expression not detected at " + experimentalContext[evidence.experimentalContextId];
+            } else {
+                detail['description'] = "Expression " + evidence.expressionLevel + " at " + experimentalContext[evidence.experimentalContextId];
+            }
+        } else {
+            if (evidence.expressionLevel === "negative") {
+                detail['description'] = "Expression not detected";
+            } else {
+                detail['description'] = "Expression " + evidence.expressionLevel
+            }
+        }
         return detail;
     }
 
@@ -154,8 +154,8 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 } else if ((evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "not detected") 
                             || (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "negative" && evidence.negativeEvidence === true)) {
                     data.values[1] = "NotDetected";
-              		detail = createDetailWithEvidence(evidence, data.values[1]);
-    			} else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
+                    detail = createDetailWithEvidence(evidence, data.values[1]);
+                } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
                     data.values[2] = "Positive";
                     detail = createDetailWithEvidence(evidence, data.values[2]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
@@ -173,7 +173,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                     detail['description'] = "Expression not detected";
                 }
 
-	            data.detailData.push(detail);
+                data.detailData.push(detail);
             }
 
             if (data.ancestorIds) {
@@ -211,8 +211,6 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         "Gestational structure": "gestational-structure"
     }
 
-
-
     var heatmapData = [];
     function findHeatMapData(data, step) {
         if (step > 2) return;
@@ -227,44 +225,43 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
     findHeatMapData(heatMapTableRoot, 0);
 
     heatmapData.sort(function(a, b) {
-    	if(a.rowLabel < b.rowLabel) return -1;
-	    if(a.rowLabel > b.rowLabel) return 1;
-	    return 0;
+        if(a.rowLabel < b.rowLabel) return -1;
+        if(a.rowLabel > b.rowLabel) return 1;
+        return 0;
     });
 
     function sortDetail(detailList) {
-	    var levelPriorityDict = {
-	    	"High": 5,
-	    	"Medium": 4,
-	    	"Low": 3,
-	    	"Positive": 2,
-			"NotDetected": 1
-	    }
-	    var codePriorityDict = {
-	    	"Microarray": 3,
-	    	"EST": 2,
-	    	"IHC": 1
-	    }
+        var levelPriorityDict = {
+            "High": 5,
+            "Medium": 4,
+            "Low": 3,
+            "Positive": 2,
+            "NotDetected": 1
+        }
+        var codePriorityDict = {
+            "Microarray": 3,
+            "EST": 2,
+            "IHC": 1
+        }
 
+        for (var i = 0; i < detailList.length; i++) {
+            if (detailList[i].length > 0) {
+                detailList[i].sort(function(a, b) {
+                    if (levelPriorityDict[a.value] === levelPriorityDict[b.value]) {
+                        if (codePriorityDict[a.evidenceCodeName] === codePriorityDict[b.evidenceCodeName]) return 0;
+                        if (codePriorityDict[a.evidenceCodeName] < codePriorityDict[b.evidenceCodeName]) return -1;
+                        if (codePriorityDict[a.evidenceCodeName] > codePriorityDict[b.evidenceCodeName]) return 1;
+                    } else if (levelPriorityDict[a.value] < levelPriorityDict[b.value]) {
+                        return 1;
+                    } else if (levelPriorityDict[a.value] > levelPriorityDict[b.value]) {
+                        return -1;
+                    }
+                });
+            }
+        }
+    }
 
-	    for (var i = 0; i < detailList.length; i++) {
-			if (detailList[i].length > 0) {
-				detailList[i].sort(function(a, b) {
-					if (levelPriorityDict[a.value] === levelPriorityDict[b.value]) {
-						if (codePriorityDict[a.evidenceCodeName] === codePriorityDict[b.evidenceCodeName]) return 0;
-						if (codePriorityDict[a.evidenceCodeName] < codePriorityDict[b.evidenceCodeName]) return -1;
-						if (codePriorityDict[a.evidenceCodeName] > codePriorityDict[b.evidenceCodeName]) return 1;
-					} else if (levelPriorityDict[a.value] < levelPriorityDict[b.value]) {
-						return 1;
-					} else if (levelPriorityDict[a.value] > levelPriorityDict[b.value]) {
-						return -1;
-					}
-				});
-			}
-		}
-	}
-
-	sortDetail(detailList);
+    sortDetail(detailList);
 
     return {'data': heatmapData};
 }
