@@ -32,7 +32,7 @@
             // });
 
             Handlebars.registerHelper('createIcon', function(data) {
-                if (data.children.length > 0 || data.detailData.length > 0) {
+                if (data.children.length > 0 || (data.detailData && data.detailData.length > 0)) {
                     return new Handlebars.SafeString('<span class="glyphicon glyphicon-plus"></span>');
                 }
                 return new Handlebars.SafeString('<span class="glyphicon glyphicon-record"></span>');
