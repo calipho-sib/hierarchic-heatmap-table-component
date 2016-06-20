@@ -36,7 +36,6 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 		                experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
    					}
                 }
-                // console.log(experimentalContext);
             },
             error: function (msg) {
                 console.log(msg);
@@ -46,8 +45,8 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
     var termDict = {};
     var queue = [];
-    var heatMapTableTree = [];
-    var count = 0;
+    var heatMapTableRoot = null;
+    var detailList = [];
     for (var i = 0; i < cvTermList.length; i++) {
         termDict[cvTermList[i].accession] = cvTermList[i];
         if (cvTermList[i].ancestorAccession === null) {
@@ -60,8 +59,10 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
             node.id = cvTermList[i].accession;
             node.linkLabel = "[" + cvTermList[i].accession + "]"
             node.linkURL = "http://www.nextprot.org/db/term/" + cvTermList[i].name;
-            heatMapTableTree.push(node);
-            queue.push(heatMapTableTree[0]);
+            heatMapTableRoot = node;
+            queue.push(heatMapTableRoot);
+
+            detailList.push(node.detailData);
         }
     }
     while (queue.length !== 0) {
@@ -82,6 +83,8 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 queue.push(childNode);
 
                 currNode.children.push(childNode);
+
+                detailList.push(childNode.detailData);
             }
         }
     }
@@ -97,9 +100,15 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
+    var codeNameToShortName = {
+    	"microarray RNA expression level evidence": "Microarray",
+    	"transcript expression evidence": "EST",
+    	"immunolocalization evidence": "IHC"
+    }
+
     function createDetailWithEvidence(evidence, value) {
 		var detail = {};
-        detail['evidenceCodeName'] = evidence.evidenceCodeName;
+        detail['evidenceCodeName'] = codeNameToShortName[evidence.evidenceCodeName];
         detail['dbSource'] = evidence.resourceDb;
         detail['value'] = value;
         detail['ensemblLink'] = xrefDict[evidence.resourceId].resolvedUrl.replace(/amp;/g, "");
@@ -123,7 +132,11 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 	            detail['description'] = "Expression " + evidence.expressionLevel + " at " + experimentalContext[evidence.experimentalContextId];
 			}
 		} else {
-			detail['description'] = "Expression " + evidence.expressionLevel
+			if (evidence.expressionLevel === "negative") {
+        		detail['description'] = "Expression not detected";
+        	} else {
+				detail['description'] = "Expression " + evidence.expressionLevel
+        	}
 		}
         return detail;
     }
@@ -134,6 +147,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
                 var evidence = annot.evidences[i]; //There might be more than one evidence for each "statement", this should be reflected on the heatMapTable table as well
                 var detail = {};
+
                 if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
                     data.values[0] = "Positive";
                     detail = createDetailWithEvidence(evidence, data.values[0]);       
@@ -145,13 +159,13 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                     data.values[2] = "Positive";
                     detail = createDetailWithEvidence(evidence, data.values[2]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
-                    data.values[3] = "Strong";
+                    data.values[3] = "High";
                     detail = createDetailWithEvidence(evidence, data.values[3]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
-                    data.values[4] = "Moderate";
+                    data.values[4] = "Medium";
                     detail = createDetailWithEvidence(evidence, data.values[4]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
-                    data.values[5] = "Weak";
+                    data.values[5] = "Low";
                     detail = createDetailWithEvidence(evidence, data.values[5]);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
                     data.values[6] = "NotDetected";
@@ -174,7 +188,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
 
     for(var i = 0; i < data.annot.length; i++) {
         var annot = data.annot[i];
-        addAnnotToHeatMapTable(heatMapTableTree[0], annot);        
+        addAnnotToHeatMapTable(heatMapTableRoot, annot);        
     }
 
     var rowLabelsToheatMapTable = {
@@ -197,17 +211,7 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         "Gestational structure": "gestational-structure"
     }
 
-    // var heatMapTableDict = {};
 
-    // function findHeatMapData(data, step) {
-    //     if (step > 2) return;
-    //     if (rowLabelsToheatMapTable[data.rowLabel]) {
-    //         heatMapTableDict[rowLabelsToheatMapTable[data.rowLabel]] = {'data': [data]};
-    //     }
-    //     for (var i = 0; i < data.children.length; i++) {
-    //         findHeatMapData(data.children[i], step+1);
-    //     }
-    // }
 
     var heatmapData = [];
     function findHeatMapData(data, step) {
@@ -220,15 +224,44 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         }
     }
 
-    findHeatMapData(heatMapTableTree[0], 0);
+    findHeatMapData(heatMapTableRoot, 0);
 
-    // return heatMapTableDict;
     heatmapData.sort(function(a, b) {
     	if(a.rowLabel < b.rowLabel) return -1;
 	    if(a.rowLabel > b.rowLabel) return 1;
 	    return 0;
     });
 
-    console.log(heatmapData);
+    var levelPriorityDict = {
+    	"High": 5,
+    	"Medium": 4,
+    	"Low": 3,
+    	"Positive": 2,
+		"NotDetected": 1
+    }
+    var codePriorityDict = {
+    	"Microarray": 3,
+    	"EST": 2,
+    	"IHC": 1
+    }
+
+
+    for (var i = 0; i < detailList.length; i++) {
+		if (detailList[i].length > 0) {
+			detailList[i].sort(function(a, b) {
+				if (levelPriorityDict[a.value] === levelPriorityDict[b.value]) {
+					if (codePriorityDict[a.evidenceCodeName] === codePriorityDict[b.evidenceCodeName]) return 0;
+					if (codePriorityDict[a.evidenceCodeName] < codePriorityDict[b.evidenceCodeName]) return -1;
+					if (codePriorityDict[a.evidenceCodeName] > codePriorityDict[b.evidenceCodeName]) return 1;
+				} else if (levelPriorityDict[a.value] < levelPriorityDict[b.value]) {
+					return 1;
+				} else if (levelPriorityDict[a.value] > levelPriorityDict[b.value]) {
+					return -1;
+				}
+			});
+		}
+	}
+    console.log(detailList);
+
     return {'data': heatmapData};
 }

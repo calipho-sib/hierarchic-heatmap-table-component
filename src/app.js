@@ -3,9 +3,9 @@ $(function () {
     var headerTemplateData  = {header:['MA-P',
                                   'MA-ND',
                                   'EST-P', 
-                                  'IHC-S', 
+                                  'IHC-H', 
                                   'IHC-M',
-                                  'IHC-W',
+                                  'IHC-L',
                                   'IHC-ND']
                               };
 
@@ -13,11 +13,9 @@ $(function () {
         valuesColorMapping: [
             { value: 'Positive', color: '#FFA10A'},
             { value: 'NotDetected', color: 'lightgray'},
-            { value: 'Weak', color: '#FFE6BD'},
             { value: 'Low', color: '#FFE6BD'},
-            { value: 'Strong', color: '#FFC870'},
-            { value: 'Moderate', color: '#FFC870'},
-            { value: 'Medium', color: '#FFC870'}
+            { value: 'Medium', color: '#FFC870'},
+            { value: 'High', color: '#FFC870'}
         ],
         columnWidth: "50px",
         detailTemplate: "detailTemplate",

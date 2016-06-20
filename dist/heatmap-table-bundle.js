@@ -4840,7 +4840,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
         if (argv.options) {
             this.detailTemplate = argv.options.detailTemplate;
             this.headerTemplate = argv.options.headerTemplate;
-            console.log(argv.options.headerTemplateData);
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
