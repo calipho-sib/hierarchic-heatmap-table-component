@@ -24,12 +24,12 @@
             Handlebars.registerPartial('create-children', HBtemplates['templates/heatmap-tree.tmpl']);
 
             //Create column header
-            Handlebars.registerHelper('createHeader', function(columnName, block) {
-                var result = {};
-                result.columnWidth = self.columnWidth;
-                result.columnName = columnName;
-                return block.fn(result);
-            });
+            // Handlebars.registerHelper('createHeader', function(columnName, block) {
+            //     var result = {};
+            //     result.columnWidth = self.columnWidth;
+            //     result.columnName = columnName;
+            //     return block.fn(result);
+            // });
 
             Handlebars.registerHelper('createIcon', function(data) {
                 if (data.children.length > 0 || data.detailData.length > 0) {
@@ -39,19 +39,18 @@
             });
 
             //Create group header
-            Handlebars.registerHelper('createHeaderGroups', function(headerGroups, block) {
-                var result = {};
-                result.groupWidth = (parseInt(self.columnWidth) * headerGroups.holdColumns) + "px";
-                result.groupName = headerGroups.groupName;
-                return block.fn(result);
-            });
+            // Handlebars.registerHelper('createHeaderGroups', function(headerGroups, block) {
+            //     var result = {};
+            //     result.groupWidth = (parseInt(self.columnWidth) * headerGroups.holdColumns) + "px";
+            //     result.groupName = headerGroups.groupName;
+            //     return block.fn(result);
+            // });
 
             Handlebars.registerHelper('forCreateCircle', function(values, block) {
                 var accum = '';
-
-                for(var i = 0; i < self.header.length; i++) {
+                for(var i = 0; i < values.length; i++) {
                     var result = {};
-                    result.columnClass = self.header[i].toLowerCase();
+                    // result.columnClass = self.header[i].toLowerCase();
                     result.columnWidth = self.columnWidth;
                     if (values && values[i]) {
                         if (self.valueToColor[values[i]]) {
@@ -74,6 +73,12 @@
                 var source   = $('#'+self.detailTemplate).html();
                 var template = Handlebars.compile(source);
                 return new Handlebars.SafeString(template(detailData));
+            });
+
+           Handlebars.registerHelper('createHeader', function() {
+                var source   = $('#'+self.headerTemplate).html();
+                var template = Handlebars.compile(source);
+                return new Handlebars.SafeString(template(self.headerTemplateData));
             });
         },
 
@@ -162,8 +167,8 @@
             this.originData = {};
             this.originData['children'] = data.data;
             this.data = this.originData;
-            this.data.header = this.header;
-            this.data.headerGroups = this.headerGroups;
+            // this.data.header = this.header;
+            // this.data.headerGroups = this.headerGroups;
         },
 
         loadJSONDataFromURL : function(filePath) {
@@ -219,10 +224,11 @@
         this.originData = {};
         this.data = {};
         this.heatmapTable = $("#" + argv.tableID)[0];
-        this.header = argv.header;
         if (argv.options) {
             this.detailTemplate = argv.options.detailTemplate;
-            this.headerGroups = argv.options.headerGroups;
+            this.headerTemplate = argv.options.headerTemplate;
+            console.log(argv.options.headerTemplateData);
+            this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
         }

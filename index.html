@@ -216,12 +216,10 @@
                     <span class="filters pull-left">Filter：</span>
                     <div class="filters checkbox pull-left">
                         <label>
-                          <input type="checkbox" checked/> GOLD
+                          <input type="radio"  name="goldOrSilver" value="goldOnly" checked/> Gold only
                         </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
                         <label>
-                          <input type="checkbox" checked/> SILVER
+                          <input type="radio"  name="goldOrSilver" value="goldAndSilver"/> Gold and silver
                         </label>
                     </div>
                     <div class="filters checkbox pull-left">
@@ -236,16 +234,6 @@
                     </div>
                     <div class="filters checkbox pull-left">
                         <label>
-                          <input type="checkbox" checked/> Weak
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" checked/> Low
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
                           <input type="checkbox" checked/> Strong
                         </label>
                     </div>
@@ -256,7 +244,7 @@
                     </div>
                     <div class="filters checkbox pull-left">
                         <label>
-                          <input type="checkbox" checked/> Medium
+                          <input type="checkbox" checked/> Weak
                         </label>
                     </div>
                 </div>
@@ -390,15 +378,32 @@
         {{/if}}
     </div>
 </script>
-<script>
-    // var nx = new Nextprot.Client("demo", "calipho");
-    // //nx.getSparqlPrefixes().then();
-    // nx.executeSparql("SELECT * WHERE { ?subject ?predicate ?object .} limit 10", false).then(
-    //     function (data) {
-    //         console.log(data);
-    //     }
-    // );
 
+<script type="text/javascript">
+    Handlebars.registerHelper('createHeader', function(columnName, block) {
+        var result = {};
+        result.columnWidth = self.columnWidth;
+        result.columnName = columnName;
+        return block.fn(result);
+    });
+
+    var heatmapTableHeader = {header:['MA-P',
+                                  'MA-ND',
+                                  'EST-P', 
+                                  'IHC-S', 
+                                  'IHC-M',
+                                  'IHC-W',
+                                  'IHC-ND']
+                              };
+
+</script>
+
+<script id="headerTemplate" type="text/x-handlebars-template">
+    {{#each header}}
+            <div class="heatmap-column" style="width: 50px;">
+                {{this}}
+            </div>
+    {{/each}}
 </script>
 
 </html>
