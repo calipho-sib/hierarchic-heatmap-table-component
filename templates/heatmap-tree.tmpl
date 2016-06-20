@@ -8,11 +8,9 @@
             <span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span>
         </p>
         <div class="pull-right">
-            {{#forCreateCircle values}}
-                <div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">
-                    <i class="heatmap-circle {{circleColorClass}}" style="background-color: {{circleColorStyle}}"></i>
-                </div>
-            {{/forCreateCircle}}
+            {{#each values}}
+                {{showValue this}}
+            {{/each}}
         </div>
     </div>
     <ul class="tree heatmap-closed">

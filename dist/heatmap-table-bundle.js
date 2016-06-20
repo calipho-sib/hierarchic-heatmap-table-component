@@ -4636,14 +4636,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             //Share template for recursively generate children
             Handlebars.registerPartial('create-children', HBtemplates['templates/heatmap-tree.tmpl']);
 
-            //Create column header
-            // Handlebars.registerHelper('createHeader', function(columnName, block) {
-            //     var result = {};
-            //     result.columnWidth = self.columnWidth;
-            //     result.columnName = columnName;
-            //     return block.fn(result);
-            // });
-
             Handlebars.registerHelper('createIcon', function(data) {
                 if (data.children.length > 0 || (data.detailData && data.detailData.length > 0)) {
                     return new Handlebars.SafeString('<span class="glyphicon glyphicon-plus"></span>');
@@ -4651,35 +4643,31 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
                 return new Handlebars.SafeString('<span class="glyphicon glyphicon-record"></span>');
             });
 
-            //Create group header
-            // Handlebars.registerHelper('createHeaderGroups', function(headerGroups, block) {
-            //     var result = {};
-            //     result.groupWidth = (parseInt(self.columnWidth) * headerGroups.holdColumns) + "px";
-            //     result.groupName = headerGroups.groupName;
-            //     return block.fn(result);
-            // });
-
-            Handlebars.registerHelper('forCreateCircle', function(values, block) {
+            Handlebars.registerHelper('showValue', function(value, block) {
                 var accum = '';
-                for(var i = 0; i < values.length; i++) {
-                    var result = {};
-                    // result.columnClass = self.header[i].toLowerCase();
-                    result.columnWidth = self.columnWidth;
-                    if (values && values[i]) {
-                        if (self.valueToColor[values[i]]) {
-                            if (self.valueToColor[values[i]].cssClass) {
-                                result.circleColorClass = self.valueToColor[values[i]].cssClass;
-                            } else if (self.valueToColor[values[i]].color) {
-                                result.circleColorStyle = self.valueToColor[values[i]].color;
-                            }
-                        } else {
-                            result.circleColorStyle = "black";
-                        }
-                    }
 
-                    accum += block.fn(result);
+                var valueHtml = '<div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">{{{valueStyle}}}</div>';
+                var circleHtml = '<i class="heatmap-circle {{circleColorClass}}" style="background-color: {{circleColorStyle}}"></i>';
+                var valueTemplate = Handlebars.compile(valueHtml);
+                var circleTemplate = Handlebars.compile(circleHtml);
+
+                var result = {};
+                // result.columnClass = self.header[i].toLowerCase();
+                result.columnWidth = self.columnWidth;
+                if (self.valueToStyle[value]) {
+                    if (self.valueToStyle[value].cssClass) {
+                        result.circleColorClass = self.valueToStyle[value].cssClass;
+                    } else if (self.valueToStyle[value].color) {
+                        result.circleColorStyle = self.valueToStyle[value].color;
+                    } else if (self.valueToStyle[value].html) {
+                        result.valueStyle = self.valueToStyle[value].html;
+                        return new Handlebars.SafeString(valueTemplate(result));
+                    }
+                } else {
+                    result.circleColorStyle = "black";
                 }
-                return accum;
+                result.valueStyle = circleTemplate(result);
+                return new Handlebars.SafeString(valueTemplate(result));
             });
 
             Handlebars.registerHelper('addDetail', function(detailData) {
@@ -4797,19 +4785,21 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             this.showRows();
         },
 
-        getValueToColor: function(valuesColorMapping) {
-            var valueToColor = {}
+        getValueToStyle: function(valuesColorMapping) {
+            var valueToStyle = {}
             for (var i = 0; i < valuesColorMapping.length; i++) {
-                valueToColor[valuesColorMapping[i].value] = {};
+                valueToStyle[valuesColorMapping[i].value] = {};
                 if (valuesColorMapping[i].color) {
-                    valueToColor[valuesColorMapping[i].value].color = valuesColorMapping[i].color;
+                    valueToStyle[valuesColorMapping[i].value].color = valuesColorMapping[i].color;
                 } else if (valuesColorMapping[i].cssClass) {
-                    valueToColor[valuesColorMapping[i].value].cssClass = valuesColorMapping[i].cssClass;
+                    valueToStyle[valuesColorMapping[i].value].cssClass = valuesColorMapping[i].cssClass;
+                } else if (valuesColorMapping[i].html) {
+                    valueToStyle[valuesColorMapping[i].value].html = valuesColorMapping[i].html;
                 } else {
                     throw "The value" + values[j].value + "has no color or cssClass";
                 }
             }
-            return valueToColor
+            return valueToStyle
         },
 
         filterByRowsLabel: function(filterString) {
@@ -4842,7 +4832,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             this.headerTemplate = argv.options.headerTemplate;
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
-            this.valueToColor = this.getValueToColor(argv.options.valuesColorMapping);
+            this.valueToStyle = this.getValueToStyle(argv.options.valuesColorMapping);
         }
     }
 
@@ -4865,7 +4855,7 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
     + "\" target=\"_blank\">"
     + alias4(((helper = (helper = helpers.linkLabel || (depth0 != null ? depth0.linkLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkLabel","hash":{},"data":data}) : helper)))
     + "</a></span>\r\n        </p>\r\n        <div class=\"pull-right\">\r\n"
-    + ((stack1 = (helpers.forCreateCircle || (depth0 && depth0.forCreateCircle) || alias2).call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"forCreateCircle","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.children : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -4873,17 +4863,9 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
 },"2":function(container,depth0,helpers,partials,data) {
     return "";
 },"4":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
-
-  return "                <div class=\"heatmap-column "
-    + alias4(((helper = (helper = helpers.columnClass || (depth0 != null ? depth0.columnClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnClass","hash":{},"data":data}) : helper)))
-    + "\", style=\"width:"
-    + alias4(((helper = (helper = helpers.columnWidth || (depth0 != null ? depth0.columnWidth : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnWidth","hash":{},"data":data}) : helper)))
-    + "\">\r\n                    <i class=\"heatmap-circle "
-    + alias4(((helper = (helper = helpers.circleColorClass || (depth0 != null ? depth0.circleColorClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorClass","hash":{},"data":data}) : helper)))
-    + "\" style=\"background-color: "
-    + alias4(((helper = (helper = helpers.circleColorStyle || (depth0 != null ? depth0.circleColorStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorStyle","hash":{},"data":data}) : helper)))
-    + "\"></i>\r\n                </div>\r\n";
+    return "                "
+    + container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}))
+    + "\r\n";
 },"6":function(container,depth0,helpers,partials,data) {
     var stack1;
 
