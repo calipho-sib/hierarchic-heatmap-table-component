@@ -1,4 +1,4 @@
-function convertNextProtDataIntoHeatMapTableFormat (data) {
+function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
     console.log(data);
 
     var cvTermList = {};
@@ -13,29 +13,6 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
                 console.log("Get data.")
                 console.log(data);
                 cvTermList = data["cvTermList"]
-            },
-            error: function (msg) {
-                console.log(msg);
-            }
-        }
-    );
-
-
-    var experimentalContext = {};
-    $.ajax(
-        {
-            type: "get",
-            // url: "https://api.nextprot.org/terminology/nextprot-anatomy-cv.json",
-            url: "data/experimental-context.json",
-            async: false,
-            success: function (data) {
-                data = data['entry']['experimentalContexts'];
-                console.log("Get experimental-context.")
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].developmentalStage && data[i].developmentalStage.name != "unknown") {
-                        experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
-                    }
-                }
             },
             error: function (msg) {
                 console.log(msg);
@@ -112,6 +89,8 @@ function convertNextProtDataIntoHeatMapTableFormat (data) {
         detail['dbSource'] = evidence.resourceDb;
         detail['value'] = value;
         detail['ensemblLink'] = xrefDict[evidence.resourceId].resolvedUrl.replace(/amp;/g, "");
+        
+        //setting ensembl
         if (evidence.antibodies) {
             detail['ensembl'] = evidence.antibodies;
         } else {

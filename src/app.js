@@ -28,12 +28,34 @@ $(function () {
     var clientInfo = 'JinJin'; //please provide some information about you
     var nx = new Nextprot.Client(applicationName, clientInfo);
 
-    //var proteinAccession = 'NX_P01308'; //Corresponds to Breast cancer protein -> http://www.nextprot.org/db/entry/NX_P38398/expression
-    var proteinAccession = nx.getEntryName();
+    var proteinAccession = 'NX_P54868'; //Corresponds to Breast cancer protein -> http://www.nextprot.org/db/entry/NX_P38398/expression
+    // var proteinAccession = nx.getEntryName();
 
     nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
 
-        var heatmapData = convertNextProtDataIntoHeatMapTableFormat(data);
+        var experimentalContext = {};
+        $.ajax(
+            {
+                type: "get",
+                url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
+                async: false,
+                success: function (data) {
+                    data = data['entry']['experimentalContexts'];
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].developmentalStage && data[i].developmentalStage.name != "unknown") {
+                            experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
+                        }
+                    }
+                    // console.log("Get experimental-context.");
+                    // console.log(experimentalContext);
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            }
+        );
+
+        var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
         var heatMapTableName = "heatmap-table";
         var heatMapTable = HeatMapTable({
