@@ -13,11 +13,7 @@ $(function () {
         valuesColorMapping: [
             // { value: 'Positive', color: '#FFA10A'},
             { value: 'Positive', color: '#FFA10A'},
-            { value: 'NotDetected', html: '<div>\
-                                      <img style="width:15px" src="http://www.downtowntomsriver.com/chili/images/chili_icon.gif">\
-                                      <img style="width:15px" src="http://www.downtowntomsriver.com/chili/images/chili_icon.gif">\
-                                      <img style="width:15px" src="http://www.downtowntomsriver.com/chili/images/chili_icon.gif">\
-                                  </div>'},
+            { value: 'NotDetected', color: "lightgray"},
             { value: 'Low', color: '#FFE6BD'},
             { value: 'Medium', color: '#FFC870'},
             { value: 'High', color: '#FFC870'}

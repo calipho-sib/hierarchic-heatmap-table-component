@@ -28,7 +28,7 @@
                     return new Handlebars.SafeString('<span class="glyphicon glyphicon-plus"></span>');
                 }
                 return new Handlebars.SafeString('<span class="glyphicon glyphicon-record"></span>');
-            });
+            }); 
 
             Handlebars.registerHelper('showValue', function(value, block) {
                 var accum = '';
@@ -49,9 +49,12 @@
                     } else if (self.valueToStyle[value].html) {
                         result.valueStyle = self.valueToStyle[value].html;
                         return new Handlebars.SafeString(valueTemplate(result));
+                    } else {
+                        result.circleColorStyle = "black";
+                        return new Handlebars.SafeString(valueTemplate(result));
                     }
                 } else {
-                    result.circleColorStyle = "black";
+                    return new Handlebars.SafeString(valueTemplate(result));
                 }
                 result.valueStyle = circleTemplate(result);
                 return new Handlebars.SafeString(valueTemplate(result));
