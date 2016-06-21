@@ -22,6 +22,10 @@
 	cursor:pointer;
 }
 
+.heatmap-no-cursor {
+    cursor: auto !important;
+}
+
 .heatmap-rowLabel a {
 	margin-left:5px;
 	font-size:12px;

@@ -23,11 +23,26 @@
             //Share template for recursively generate children
             Handlebars.registerPartial('create-children', HBtemplates['templates/heatmap-tree.tmpl']);
 
-            Handlebars.registerHelper('createIcon', function(data) {
+            Handlebars.registerHelper('createRow', function(data) {
+                var rowHtml = '<p class="{{class}} heatmap-rowLabel tree-toggler">\
+                                    {{{iconHtml}}}\
+                                    <span class="rowLabel">{{{rowLabel}}}</span>\
+                                    <span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span>\
+                                </p>'
+                var rowTemplate = Handlebars.compile(rowHtml);
+                
+                var iconHtml = null;
+                var result = {};
+                result.rowLabel = data.rowLabel;
+                result.linkURL = data.linkURL;
+                result.linkLabel = data.linkLabel;
                 if (data.children.length > 0 || (data.detailData && data.detailData.length > 0)) {
-                    return new Handlebars.SafeString('<span class="glyphicon glyphicon-plus"></span>');
+                    result.iconHtml = '<span class="glyphicon glyphicon-plus"></span>';
+                } else {
+                    result.class = "heatmap-no-cursor";
+                    result.iconHtml ='<span class="glyphicon glyphicon-record"></span>';
                 }
-                return new Handlebars.SafeString('<span class="glyphicon glyphicon-record"></span>');
+                return new Handlebars.SafeString(rowTemplate(result));
             }); 
 
             Handlebars.registerHelper('showValue', function(value, block) {
@@ -234,39 +249,31 @@
 this["HBtemplates"] = this["HBtemplates"] || {};
 
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "<li>\r\n    <div class=\"heatmap-row\">\r\n        <p class=\"heatmap-rowLabel tree-toggler\">\r\n"
-    + ((stack1 = (helpers.createIcon || (depth0 && depth0.createIcon) || alias2).call(alias1,depth0,{"name":"createIcon","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "            <span class=\"rowLabel\">"
-    + ((stack1 = ((helper = (helper = helpers.rowLabel || (depth0 != null ? depth0.rowLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"rowLabel","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + "</span>\r\n            <span><a href=\""
-    + alias4(((helper = (helper = helpers.linkURL || (depth0 != null ? depth0.linkURL : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkURL","hash":{},"data":data}) : helper)))
-    + "\" target=\"_blank\">"
-    + alias4(((helper = (helper = helpers.linkLabel || (depth0 != null ? depth0.linkLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkLabel","hash":{},"data":data}) : helper)))
-    + "</a></span> \r\n        </p>\r\n        <div class=\"pull-right\">\r\n"
-    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return "<li>\r\n    <div class=\"heatmap-row\">\r\n        "
+    + container.escapeExpression((helpers.createRow || (depth0 && depth0.createRow) || helpers.helperMissing).call(alias1,depth0,{"name":"createRow","hash":{},"data":data}))
+    + "\r\n        <div class=\"pull-right\">\r\n"
+    + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed\">\r\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.children : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.children : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </ul>\r\n</li>\r\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    return "";
-},"4":function(container,depth0,helpers,partials,data) {
     return "                "
     + container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}))
     + "\r\n";
-},"6":function(container,depth0,helpers,partials,data) {
+},"4":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "            <div class=\"heatmap-detail\">\r\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.detailData : depth0),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.detailData : depth0),{"name":"each","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "            </div>\r\n";
-},"7":function(container,depth0,helpers,partials,data) {
+},"5":function(container,depth0,helpers,partials,data) {
     return "                    <div>\r\n                    "
     + container.escapeExpression((helpers.addDetail || (depth0 && depth0.addDetail) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"addDetail","hash":{},"data":data}))
     + "\r\n                    </div>\r\n";
-},"9":function(container,depth0,helpers,partials,data) {
+},"7":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return ((stack1 = container.invokePartial(partials["create-children"],depth0,{"name":"create-children","data":data,"indent":"            ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");

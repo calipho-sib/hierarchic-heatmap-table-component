@@ -23,11 +23,26 @@
             //Share template for recursively generate children
             Handlebars.registerPartial('create-children', HBtemplates['templates/heatmap-tree.tmpl']);
 
-            Handlebars.registerHelper('createIcon', function(data) {
+            Handlebars.registerHelper('createRow', function(data) {
+                var rowHtml = '<p class="{{class}} heatmap-rowLabel tree-toggler">\
+                                    {{{iconHtml}}}\
+                                    <span class="rowLabel">{{{rowLabel}}}</span>\
+                                    <span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span>\
+                                </p>'
+                var rowTemplate = Handlebars.compile(rowHtml);
+                
+                var iconHtml = null;
+                var result = {};
+                result.rowLabel = data.rowLabel;
+                result.linkURL = data.linkURL;
+                result.linkLabel = data.linkLabel;
                 if (data.children.length > 0 || (data.detailData && data.detailData.length > 0)) {
-                    return new Handlebars.SafeString('<span class="glyphicon glyphicon-plus"></span>');
+                    result.iconHtml = '<span class="glyphicon glyphicon-plus"></span>';
+                } else {
+                    result.class = "heatmap-no-cursor";
+                    result.iconHtml ='<span class="glyphicon glyphicon-record"></span>';
                 }
-                return new Handlebars.SafeString('<span class="glyphicon glyphicon-record"></span>');
+                return new Handlebars.SafeString(rowTemplate(result));
             }); 
 
             Handlebars.registerHelper('showValue', function(value, block) {

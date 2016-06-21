@@ -1,12 +1,7 @@
 {{#each children}}
 <li>
     <div class="heatmap-row">
-        <p class="heatmap-rowLabel tree-toggler">
-            {{#createIcon this}}
-            {{/createIcon}}
-            <span class="rowLabel">{{{rowLabel}}}</span>
-            <span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span>
-        </p>
+        {{createRow this}}
         <div class="pull-right">
             {{#each values}}
                 {{showValue this}}
