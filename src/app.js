@@ -28,8 +28,8 @@ $(function () {
     var clientInfo = 'JinJin'; //please provide some information about you
     var nx = new Nextprot.Client(applicationName, clientInfo);
 
-    var proteinAccession = 'NX_P54868'; //Corresponds to Breast cancer protein -> http://www.nextprot.org/db/entry/NX_P38398/expression
-    // var proteinAccession = nx.getEntryName();
+    // var proteinAccession = 'NX_P54868'; //Corresponds to Breast cancer protein -> http://www.nextprot.org/db/entry/NX_P38398/expression
+    var proteinAccession = nx.getEntryName();
 
     nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
 
