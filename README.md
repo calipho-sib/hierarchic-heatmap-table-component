@@ -1,5 +1,12 @@
-# Generic-protein-expression-view
-Generic protein expression view for Human Body
+# neXtProt - The knowledge resource on human proteins
+
+This is a code repository for the SIB - Swiss Institute of Bioinformatics CALIPHO group neXtProt project
+
+See: http://www.nextprot.org/
+
+# Protein expression viewer
+
+Protein expression view for neXtProt
 
 ## Heatmap documentation
 https://calipho-sib.github.io/protein-expression/doc
