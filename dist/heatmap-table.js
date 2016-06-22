@@ -12,7 +12,7 @@
 
     'use strict';
 
-    var HeatMapTable = function(argv) {
+    var HeatMapTable = function(argv) { 
         return new HeatMapTable.init(argv);
     }
 

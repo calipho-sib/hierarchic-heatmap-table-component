@@ -23,7 +23,7 @@
   "dependencies": {
     "bootstrap": "~3.3.6",
     "d3": "~3.5.17",
-    "handlebars": "~4.0.5",
+    "handlebars": "^4.0.5",
     "iframe-resizer": "^3.5.3"
   }
 }

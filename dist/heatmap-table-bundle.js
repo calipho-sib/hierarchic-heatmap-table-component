@@ -4625,7 +4625,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 
     'use strict';
 
-    var HeatMapTable = function(argv) {
+    var HeatMapTable = function(argv) { 
         return new HeatMapTable.init(argv);
     }
 
