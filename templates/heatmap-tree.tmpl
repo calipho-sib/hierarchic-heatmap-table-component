@@ -1,4 +1,4 @@
-{{#each children}}
+
 <li>
     <div class="heatmap-row">
         {{createRow this}}
@@ -18,9 +18,8 @@
                 {{/each}}
             </div>
         {{/if}}
-        {{#if children}}
-            {{> create-children}}
-        {{/if}}
+        {{#each childrenHTML}}
+            {{this}}
+        {{/each}}
     </ul>
 </li>
-{{/each}}

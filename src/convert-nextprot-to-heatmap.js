@@ -242,5 +242,5 @@ function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
 
     sortDetail(detailList);
 
-    return {'data': heatmapData};
+    return heatmapData;
 }

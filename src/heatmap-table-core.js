@@ -1,13 +1,3 @@
-/*
-* @File: generic-protein-expression-view.js
-* @Description: Generic protein expression view for Human Body
-* @Author: JinJin Lin
-* @Email:   jinjin.lin@outlook.com
-* @Date:   2016-03-12 15:20:55
-* @Last Modified time: 2016-05-08 20:44:24
-* All copyright reserved
-*/
-
 ;(function(global) {
 
     'use strict';
@@ -24,18 +14,14 @@
             Handlebars.registerPartial('create-children', HBtemplates['templates/heatmap-tree.tmpl']);
 
             Handlebars.registerHelper('createRow', function(data) {
-                var rowHtml = '<p class="{{class}} heatmap-rowLabel tree-toggler">\
-                                    {{{iconHtml}}}\
-                                    <span class="rowLabel">{{{rowLabel}}}</span>\
-                                    <span><a href="{{linkURL}}" target="_blank">{{linkLabel}}</a></span>\
-                                </p>'
-                var rowTemplate = Handlebars.compile(rowHtml);
+                var rowTemplate = HBtemplates['templates/heatmap-row.tmpl']
                 
                 var iconHtml = null;
                 var result = {};
                 result.rowLabel = data.rowLabel;
                 result.linkURL = data.linkURL;
                 result.linkLabel = data.linkLabel;
+
                 if (data.children.length > 0 || (data.detailData && data.detailData.length > 0)) {
                     result.iconHtml = '<span class="glyphicon glyphicon-plus"></span>';
                 } else {
@@ -71,7 +57,9 @@
                 } else {
                     return new Handlebars.SafeString(valueTemplate(result));
                 }
+
                 result.valueStyle = circleTemplate(result);
+
                 return new Handlebars.SafeString(valueTemplate(result));
             });
 
@@ -88,15 +76,56 @@
             });
         },
 
-        showHeatMapSkeleton: function() {
-            var template = HBtemplates['templates/heatmap.tmpl'];
-            var skeleton = template(this.data);
-            $(this.heatmapTable).append(skeleton);
+        showHeatmapBody: function() {
+            if (this.heatmapBody) {
+                $(this.heatmapTable).append(this.heatmapBody);
+            } else {
+                var template = HBtemplates['templates/heatmap-body.tmpl'];
+                this.heatmapBody = template();
+                $(this.heatmapTable).append(this.heatmapBody);
+            }
         },
 
-        showRows : function() {
-            var rows = HBtemplates['templates/heatmap-tree.tmpl'](this.data);
-            $(this.heatmapTable).find("#heatmap-rows").empty().append(rows);
+        showHeatmapSkeleton: function() {
+            var template = HBtemplates['templates/heatmap-skeleton.tmpl'];
+            $(this.heatmapTable).append(template());
+        },
+
+        showHeatmapRows : function(isReset) {
+            $(this.heatmapTable).find(".heatmap-rows").empty()
+            if (isReset && this.heatmapRowsHTML) {
+
+                $(this.heatmapTable).find(".heatmap-body").append(this.heatmapRowsHTML.clone());
+
+            } else {
+           
+                var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
+                for (var i = 0; i < this.data.length; i++) {
+                    var row = this.createRow(this.data[i]);
+                    heatmapRowsHTML.append(row);
+                }
+
+                $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML.clone());
+
+                if (this.heatmapRowsHTML === null) {
+                    this.heatmapRowsHTML = heatmapRowsHTML.clone();
+                }
+            }
+
+            $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+
+        },
+
+        createRow: function(data) {
+            data.childrenHTML = [];
+            if (data.children && data.children.length > 0) {
+                for (var i = 0; i < data.children.length; i++) {
+                    var childreRowsHTML = new Handlebars.SafeString(this.createRow(data.children[i]));
+                    data.childrenHTML.push(childreRowsHTML);
+                }
+            }
+            var rows = this.heatmapTreeTmpl(data);
+            return rows;
         },
 
         expandByFilterString: function(root, filterString, isRoot) {
@@ -116,8 +145,6 @@
 
         initClickEvent : function() {
             var self = this;
-            //Collapse the table in the begining
-            $(self.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
             $(self.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
@@ -144,35 +171,27 @@
 
             $(self.heatmapTable).find(".heatmap-reset-btn").click(function() {
                 self.data = self.originData;
-                self.show();
+                self.resetHeatMap();
             });
 
-            $(self.heatmapTable).find("#heatmap-filterByRowName-search").click(function() {
-                var filterString = $(self.heatmapTable).find("#heatmap-filterByRowName-input").val();
+            $(self.heatmapTable).find(".heatmap-filterByRowName-search").click(function() {
+                var filterString = $(self.heatmapTable).find(".heatmap-filterByRowName-input").val();
                 if (filterString === "") return ;
 
                 self.data = self.filterByRowsLabel(filterString);
-                self.showRows();
-                self.expandByFilterString($(self.heatmapTable).find("#heatmap-rows"), filterString, true);
-                if (self.data['children'].length === 0) {
-                    $(self.heatmapTable).find("#heatmap-rows").append("<p>No result be found.</p>");
+                console.log(self.data);
+                self.showHeatmapRows();
+                self.expandByFilterString($(self.heatmapTable).find(".heatmap-rows"), filterString, true);
+                if (self.data.length === 0) {
+                    $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
                 }
             });
 
-            // $(self.heatmapTable).find(".heatmap-zoom").each(function() {
-            //     $(this).click(function() {
-            //         $(this).parent().parent().parent().children(".heatmap-detail").toggle();
-            //         $(this).toggleClass("glyphicon-zoom-out", "glyphicon-zoom-in");
-            //     });
-            // });
         },
 
         loadJSONData : function(data) {
-            this.originData = {};
-            this.originData['children'] = data.data;
+            this.originData = data;
             this.data = this.originData;
-            // this.data.header = this.header;
-            // this.data.headerGroups = this.headerGroups;
         },
 
         loadJSONDataFromURL : function(filePath) {
@@ -183,15 +202,23 @@
         },
 
         initInitialState: function() {
-            $("#heatmap-filterByRowName-input").text("");
+            $(".heatmap-filterByRowName-input").text("");
         },
 
-        show : function() {
+        clear: function() {
             $(this.heatmapTable).empty();
+        },
+
+        resetHeatMap: function() {
+            this.clear();
+            this.showHeatmapSkeleton();
             this.initInitialState();
-            this.initHandlebars();
-            this.showHeatMapSkeleton();
-            this.showRows();
+            this.show(true);
+        },
+
+        show : function(isReset) {
+            this.showHeatmapBody();
+            this.showHeatmapRows(isReset);
             this.initClickEvent();
             this.initFilter();
         },
@@ -232,7 +259,7 @@
         },
 
         filterByRowsLabel: function(filterString) {
-            return {"children": this.filter(this.originData.children, filterString)};
+            return this.filter(this.originData, filterString);
         },
 
         filter: function(data, filterString) {
@@ -250,11 +277,23 @@
             }
             return newData;
         },
+
+        showloadingStatus: function() {
+            $(".heatmap-info").show();
+        },
+
+        hideloadingStatus: function() {
+            $(".heatmap-info").hide()
+        }
     }
 
     HeatMapTable.init = function(argv) {
-        this.originData = {};
-        this.data = {};
+        this.heatmapTreeTmpl = HBtemplates['templates/heatmap-tree.tmpl'];
+        this.heatmapRowsHTML = null;
+        this.dataIndexToHtml = {};
+
+        this.originData = [];
+        this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
         if (argv.options) {
             this.detailTemplate = argv.options.detailTemplate;
@@ -264,6 +303,10 @@
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
             this.valueTofiltersID = this.getValueTofiltersID(argv.options.valuesSetting);
         }
+
+        this.initHandlebars();
+        this.showHeatmapSkeleton();
+        this.initInitialState();
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;
