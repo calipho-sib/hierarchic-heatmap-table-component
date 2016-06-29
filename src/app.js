@@ -36,6 +36,7 @@ $(function () {
         tableID: heatMapTableName,
         options: heatmapTableOptions
     });
+    heatMapTable.showloadingStatus();
 
     nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
         var experimentalContext = {};
@@ -64,7 +65,7 @@ $(function () {
         console.log(heatmapData);
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
-
+        heatMapTable.hideloadingStatus();
         // var rowLabelsToId = {
         //     "Alimentary system": "alimentary-system",
         //     "Cardiovascular system": "cardiovascular-system",
