@@ -77,6 +77,8 @@
         },
 
         showHeatmapBody: function() {
+            $(this.heatmapTable).find(".heatmap-body").remove();
+
             if (this.heatmapBody) {
                 $(this.heatmapTable).append(this.heatmapBody);
             } else {
@@ -92,6 +94,8 @@
         },
 
         showHeatmapRows : function(isReset) {
+            this.showLoadingStatus();
+
             $(this.heatmapTable).find(".heatmap-rows").empty()
             if (isReset && this.heatmapRowsHTML) {
 
@@ -114,6 +118,8 @@
 
             $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
+
+            this.hideLoadingStatus();
         },
 
         createRow: function(data) {
@@ -175,16 +181,21 @@
             });
 
             $(self.heatmapTable).find(".heatmap-filterByRowName-search").click(function() {
+                
                 var filterString = $(self.heatmapTable).find(".heatmap-filterByRowName-input").val();
                 if (filterString === "") return ;
 
-                self.data = self.filterByRowsLabel(filterString);
-                console.log(self.data);
-                self.showHeatmapRows();
+                self.showLoadingStatus();
+                self.data = self.filterByRowsLabel(self.originData, filterString);
+                self.hideLoadingStatus();
+
+                self.show();
+                // self.showHeatmapRows();
                 self.expandByFilterString($(self.heatmapTable).find(".heatmap-rows"), filterString, true);
                 if (self.data.length === 0) {
                     $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
                 }
+
             });
 
         },
@@ -224,11 +235,49 @@
         },
 
         initFilter: function() {
-            for (var value in this.valueTofiltersID) {
-                $("#" + this.valueTofiltersID[value]).click(function() {
-                    console.log($(this).attr("checked"));
-                });
+            var self = this;
+            for (var value in self.valueTofiltersID) {
+                $("#" + self.valueTofiltersID[value]).click((function(value) {
+                    return function() {
+                            if ($(this).is(':checked')) {
+                            self.showLoadingStatus();
+                            console.log(value);
+                            self.data = self.filterByValue(self.data, value);
+                            console.log(self.data);
+                            self.hideLoadingStatus();
+
+                            self.show();
+                            // self.showHeatmapRows();
+                            if (self.data.length === 0) {
+                                $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
+                            }
+                        } else {
+                        }
+                    }
+                })(value));
             }
+        },
+
+
+        filterByValue: function(data, value) {
+            var newData = [];
+            console.log('1111');
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < data[i].values.length; j++) {
+                    // for (var value in this.valueTofiltersID) {
+                        if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
+                            newData.push(data[i]);
+                        // } else if (data[i].children && data[i].children.length !== 0) {
+                        //     var newChildren = this.filterByValue(data[i].children, value);
+                        //     if (newChildren.length !== 0) {
+                        //         data[i].children = newChildren;
+                        //         newData.push(data[i]);
+                        //     }
+                        }
+                    // }
+                }
+            }
+            return newData;
         },
 
         getValueToStyle: function(valuesSetting) {
@@ -258,17 +307,13 @@
             return valueTofiltersID;
         },
 
-        filterByRowsLabel: function(filterString) {
-            return this.filter(this.originData, filterString);
-        },
-
-        filter: function(data, filterString) {
+        filterByRowsLabel: function(data, filterString) {
             var newData = [];
             for (var i = 0; i < data.length; i++) {
                 if (data[i].rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
                     newData.push(data[i]);
                 } else if (data[i].children && data[i].children.length !== 0) {
-                    var newChildren = this.filter(data[i].children, filterString);
+                    var newChildren = this.filterByRowsLabel(data[i].children, filterString);
                     if (newChildren.length !== 0) {
                         data[i].children = newChildren;
                         newData.push(data[i]);
@@ -278,11 +323,11 @@
             return newData;
         },
 
-        showloadingStatus: function() {
+        showLoadingStatus: function() {
             $(".heatmap-info").show();
         },
 
-        hideloadingStatus: function() {
+        hideLoadingStatus: function() {
             $(".heatmap-info").hide()
         }
     }

@@ -12,11 +12,11 @@ $(function () {
     var heatmapTableOptions = {
         valuesSetting: [
             // { value: 'Positive', color: '#FFA10A'},
-            { value: 'Positive', color: '#FFA10A', filterID: "positiveFilter"},
-            { value: 'NotDetected', color: "lightgray", filterID: "notDetectedFilter"},
-            { value: 'Low', color: '#FFE6BD'},
-            { value: 'Medium', color: '#FFC870'},
-            { value: 'High', color: '#FFC870'}
+            { value: 'Positive', color: '#FFA10A', filterID: ["positiveFilter", "highFilter", "mediumFilter", "lowFilter"]},
+            { value: 'NotDetected', color: "lightgray", filterID: ["notDetectedFilter"]},
+            { value: 'Low', color: '#FFE6BD', filterID:["lowFilter"]},
+            { value: 'Medium', color: '#FFC870', filterID:["mediumFilter"]},
+            { value: 'High', color: '#FFC870', filterID:["highFilter"]}
         ],
         columnWidth: "50px",
         detailTemplate: "detailTemplate",
@@ -36,7 +36,7 @@ $(function () {
         tableID: heatMapTableName,
         options: heatmapTableOptions
     });
-    heatMapTable.showloadingStatus();
+    heatMapTable.showLoadingStatus();
 
     nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
         var experimentalContext = {};
@@ -65,7 +65,7 @@ $(function () {
         console.log(heatmapData);
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
-        heatMapTable.hideloadingStatus();
+        heatMapTable.hideLoadingStatus();
         // var rowLabelsToId = {
         //     "Alimentary system": "alimentary-system",
         //     "Cardiovascular system": "cardiovascular-system",
