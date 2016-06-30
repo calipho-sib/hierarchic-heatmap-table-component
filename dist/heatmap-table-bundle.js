@@ -4874,20 +4874,32 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 
         filterByValue: function(data, value) {
             var newData = [];
-            console.log('1111');
             for (var i = 0; i < data.length; i++) {
-                for (var j = 0; j < data[i].values.length; j++) {
+                if (data[i].children && data[i].children.length !== 0) {
+                    var newChildren = this.filterByValue(data[i].children, value);
+                    if (newChildren.length !== 0) {
+                        data[i].children = newChildren;
+                    } else {
+                        data[i].children = [];
+                    }
+                }
+                if (data[i].children && data[i].children.length !== 0) {
+                    newData.push(data[i]);
+                } else {
+                    for (var j = 0; j < data[i].values.length; j++) {
                     // for (var value in this.valueTofiltersID) {
                         if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
                             newData.push(data[i]);
-                        // } else if (data[i].children && data[i].children.length !== 0) {
-                        //     var newChildren = this.filterByValue(data[i].children, value);
-                        //     if (newChildren.length !== 0) {
-                        //         data[i].children = newChildren;
-                        //         newData.push(data[i]);
-                        //     }
+                            break;
                         }
-                    // }
+                    // else if (data[i].children && data[i].children.length !== 0) {
+            //         //     var newChildren = this.filterByValue(data[i].children, value);
+            //         //     if (newChildren.length !== 0) {
+            //         //         data[i].children = newChildren;
+            //         //         newData.push(data[i]);
+            //         //     }
+            //         }
+                    }
                 }
             }
             return newData;
