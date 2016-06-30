@@ -4844,33 +4844,74 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             this.showHeatmapBody();
             this.showHeatmapRows(isReset);
             this.initClickEvent();
-            this.initFilter();
         },
 
         initFilter: function() {
             var self = this;
-            for (var value in self.valueTofiltersID) {
-                $("#" + self.valueTofiltersID[value]).click((function(value) {
+            for (var value in self.valueTofiltersListID) {
+                $("#" + self.valueTofiltersListID[value]).click((function(value) {
                     return function() {
-                            if ($(this).is(':checked')) {
                             self.showLoadingStatus();
-                            console.log(value);
-                            self.data = self.filterByValue(self.data, value);
-                            console.log(self.data);
-                            self.hideLoadingStatus();
+
+                            var valueDict = {};
+                            for (var key in self.valueTofiltersListID) {
+                                for (var i = 0; i < self.valueTofiltersListID[key].length; i++) {
+                                    if ($("#" + self.valueTofiltersListID[key][i]).is(':checked')) {
+                                        valueDict[key] = true;
+                                    }
+                                }
+                            }
+
+                            self.data = self.filterByValueList(self.originData, valueDict);
 
                             self.show();
-                            // self.showHeatmapRows();
+
                             if (self.data.length === 0) {
                                 $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
                             }
-                        } else {
-                        }
+
+                            self.hideLoadingStatus();
+
                     }
                 })(value));
             }
         },
 
+        filterByValueList: function(data, valueDict) {
+            var newDataList = [];
+
+            for (var i = 0; i < data.length; i++) {
+                var curNewData = {};
+                for (var key in data[i]) {
+                    curNewData[key] = data[i][key];
+                }
+
+                if (data[i].children && data[i].children.length !== 0) {
+                    var newChildren = this.filterByValueList(data[i].children, valueDict);
+                    if (newChildren.length !== 0) {
+                        curNewData.children = newChildren;
+                    } else {
+                        curNewData.children = [];
+                    }
+                }
+                if (curNewData.children && curNewData.children.length !== 0) {
+                    newDataList.push(curNewData);
+                } else {
+                    for (var j = 0; j < data[i].values.length; j++) {
+                        var found = 0;
+                        for (var value in valueDict) {
+                            if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
+                                newDataList.push(curNewData);
+                                found = 1;
+                                break;
+                            }
+                        }
+                        if (found === 1) break;
+                    }
+                }
+            }
+            return newDataList;
+        },
 
         filterByValue: function(data, value) {
             var newData = [];
@@ -4887,18 +4928,10 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
                     newData.push(data[i]);
                 } else {
                     for (var j = 0; j < data[i].values.length; j++) {
-                    // for (var value in this.valueTofiltersID) {
                         if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
                             newData.push(data[i]);
                             break;
                         }
-                    // else if (data[i].children && data[i].children.length !== 0) {
-            //         //     var newChildren = this.filterByValue(data[i].children, value);
-            //         //     if (newChildren.length !== 0) {
-            //         //         data[i].children = newChildren;
-            //         //         newData.push(data[i]);
-            //         //     }
-            //         }
                     }
                 }
             }
@@ -4922,14 +4955,14 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             return valueToStyle
         },
 
-        getValueTofiltersID: function(valuesSetting) {
-            var valueTofiltersID = {}
+        getvalueTofiltersListID: function(valuesSetting) {
+            var valueTofiltersListID = {}
             for (var i = 0; i < valuesSetting.length; i++) {
                 if (valuesSetting[i].filterID) {
-                    valueTofiltersID[valuesSetting[i].value] = valuesSetting[i].filterID;
+                    valueTofiltersListID[valuesSetting[i].value] = valuesSetting[i].filterID;
                 }
             }
-            return valueTofiltersID;
+            return valueTofiltersListID;
         },
 
         filterByRowsLabel: function(data, filterString) {
@@ -4971,12 +5004,13 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
-            this.valueTofiltersID = this.getValueTofiltersID(argv.options.valuesSetting);
+            this.valueTofiltersListID = this.getvalueTofiltersListID(argv.options.valuesSetting);
         }
 
         this.initHandlebars();
         this.showHeatmapSkeleton();
         this.initInitialState();
+        this.initFilter();
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;
