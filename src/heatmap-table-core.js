@@ -34,13 +34,11 @@
             Handlebars.registerHelper('showValue', function(value, block) {
                 var accum = '';
 
-                var valueHtml = '<div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">{{{valueStyle}}}</div>';
-                var circleHtml = '<i class="heatmap-circle {{circleColorClass}}" style="background-color: {{circleColorStyle}}"></i>';
-                var valueTemplate = Handlebars.compile(valueHtml);
-                var circleTemplate = Handlebars.compile(circleHtml);
+                var valueTemplate = HBtemplates['templates/heatmap-value.tmpl'];
+                var circleTemplate = HBtemplates['templates/heatmap-circle.tmpl'];
 
                 var result = {};
-                // result.columnClass = self.header[i].toLowerCase();
+
                 result.columnWidth = self.columnWidth;
                 if (self.valueToStyle[value]) {
                     if (self.valueToStyle[value].cssClass) {
@@ -135,6 +133,7 @@
             }
             data.html = this.heatmapTreeTmpl(data);
             return data.html;
+
         },
 
         expandByFilterString: function(root, filterString, isRoot) {
