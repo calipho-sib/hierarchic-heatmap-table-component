@@ -87,15 +87,17 @@
             $(this.heatmapTable).append(template());
         },
 
-        showHeatmapRows : function(isReset) {
+        showHeatmapRows : function() {
+            var self = this;
+
             this.showLoadingStatus();
 
             $(this.heatmapTable).find(".heatmap-rows").empty()
-            if (isReset && this.heatmapRowsHTML) {
+            // if (isReset && this.heatmapRowsHTML) {
 
-                $(this.heatmapTable).find(".heatmap-body").append(this.heatmapRowsHTML.clone());
+            //     $(this.heatmapTable).find(".heatmap-body").append(this.heatmapRowsHTML.clone());
 
-            } else {
+            // } else {
            
                 var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
                 for (var i = 0; i < this.data.length; i++) {
@@ -103,15 +105,20 @@
                     heatmapRowsHTML.append(row);
                 }
 
-                $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML.clone());
+                // $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML.clone());
+                $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
 
-                if (this.heatmapRowsHTML === null) {
-                    this.heatmapRowsHTML = heatmapRowsHTML.clone();
-                }
-            }
+                // if (this.heatmapRowsHTML === null) {
+                    // this.heatmapRowsHTML = heatmapRowsHTML.clone();
+                // }
+            // }
 
             $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
+            $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
+                $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
+                $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
+            });
 
             this.hideLoadingStatus();
         },
@@ -150,11 +157,6 @@
         initClickEvent : function() {
             var self = this;
 
-            $(self.heatmapTable).find('.heatmap-rowLabel').click(function () {
-                $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
-                $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
-            });
-
             //Add the click event of collapseAll button
             $(self.heatmapTable).find(".heatmap-collapseAll-btn").click(function() {
                 $(self.heatmapTable).find(".heatmap-opened").each(function() {
@@ -164,7 +166,7 @@
                 });
             });
 
-            // //Add the click event of expandAll button
+            //Add the click event of expandAll button
             $(self.heatmapTable).find(".heatmap-expandAll-btn").click(function() {
                 $(self.heatmapTable).find(".heatmap-closed").each(function() {
                     $(this).show()
@@ -187,8 +189,11 @@
                 self.data = self.filterByRowsLabel(self.originData, filterString);
                 self.hideLoadingStatus();
 
-                self.show();
+                // self.show();
                 // self.showHeatmapRows();
+                self.showHeatmapBody();
+                self.showHeatmapRows();
+
                 self.expandByFilterString($(self.heatmapTable).find(".heatmap-rows"), filterString, true);
                 if (self.data.length === 0) {
                     $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
@@ -222,12 +227,16 @@
             this.clear();
             this.showHeatmapSkeleton();
             this.initInitialState();
-            this.show(true);
+            // this.show(true);
+            console.log('111');
+            this.showHeatmapBody();
+            this.showHeatmapRows();
+            this.initClickEvent();
         },
 
-        show : function(isReset) {
+        show : function() {
             this.showHeatmapBody();
-            this.showHeatmapRows(isReset);
+            this.showHeatmapRows();
             this.initClickEvent();
         },
 
@@ -253,8 +262,10 @@
 
                                 self.data = self.filterByValueList(self.originData, valueDict);
 
-                                self.show();
-
+                                // self.show();
+                                self.showHeatmapBody();
+                                self.showHeatmapRows();
+                                
                                 if (self.data.length === 0) {
                                     $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
                                 }
