@@ -256,7 +256,6 @@
                                     }
                                 }
 
-                                console.log(valueDict);
                                 self.data = self.filterByValueList(self.originData, valueDict);
 
                                 self.show();
@@ -286,8 +285,12 @@
                     var newChildren = this.filterByValueList(data[i].children, valueDict);
                     if (newChildren.length !== 0) {
                         curNewData.children = newChildren;
+                        if (data[i].children.length !== newChildren.length) {
+                            curNewData.html = null;
+                        }
                     } else {
                         curNewData.children = [];
+                        curNewData.childrenHTML = null;
                     }
                 }
                 if (curNewData.children && curNewData.children.length !== 0) {
