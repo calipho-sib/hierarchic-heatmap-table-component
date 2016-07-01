@@ -63,7 +63,7 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
     + container.escapeExpression((helpers.createRow || (depth0 && depth0.createRow) || helpers.helperMissing).call(alias1,depth0,{"name":"createRow","hash":{},"data":data}))
     + "\r\n        <div class=\"pull-right\">\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed\">\r\n"
+    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.childrenHTML : depth0),{"name":"each","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </ul>\r\n</li>\r\n";

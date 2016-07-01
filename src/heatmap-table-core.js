@@ -113,7 +113,7 @@
                 // }
             // }
 
-            $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+            // $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
             $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
@@ -217,6 +217,8 @@
 
         initInitialState: function() {
             $(".heatmap-filterByRowName-input").text("");
+
+            
         },
 
         clear: function() {
