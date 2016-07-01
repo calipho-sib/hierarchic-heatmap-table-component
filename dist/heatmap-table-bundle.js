@@ -4718,7 +4718,9 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
            
                 var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
                 for (var i = 0; i < this.data.length; i++) {
+                    console.log(this.data[i]);
                     var row = this.createRow(this.data[i]);
+                    console.log(row);
                     heatmapRowsHTML.append(row);
                 }
 
@@ -4736,6 +4738,9 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
         },
 
         createRow: function(data) {
+
+            if (data.html) return data.html;
+
             data.childrenHTML = [];
             if (data.children && data.children.length > 0) {
                 for (var i = 0; i < data.children.length; i++) {
@@ -4743,8 +4748,8 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
                     data.childrenHTML.push(childreRowsHTML);
                 }
             }
-            var rows = this.heatmapTreeTmpl(data);
-            return rows;
+            data.html = this.heatmapTreeTmpl(data);
+            return data.html;
         },
 
         expandByFilterString: function(root, filterString, isRoot) {
