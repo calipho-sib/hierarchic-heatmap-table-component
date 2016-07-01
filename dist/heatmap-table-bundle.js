@@ -4675,15 +4675,11 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             });
 
             Handlebars.registerHelper('addDetail', function(detailData) {
-                var source   = $('#'+self.detailTemplate).html();
-                var template = Handlebars.compile(source);
-                return new Handlebars.SafeString(template(detailData));
+                return new Handlebars.SafeString(self.detailTemplate(detailData));
             });
 
            Handlebars.registerHelper('heatmapCreateHeader', function() {
-                var source   = $('#'+self.headerTemplate).html();
-                var template = Handlebars.compile(source);
-                return new Handlebars.SafeString(template(self.headerTemplateData));
+                return new Handlebars.SafeString(self.headerTemplate(self.headerTemplateData));
             });
         },
 
@@ -5010,8 +5006,8 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
         this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
         if (argv.options) {
-            this.detailTemplate = argv.options.detailTemplate;
-            this.headerTemplate = argv.options.headerTemplate;
+            this.detailTemplateID = argv.options.detailTemplate;
+            this.headerTemplateID = argv.options.headerTemplate;
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
@@ -5022,6 +5018,12 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
         this.showHeatmapSkeleton();
         this.initInitialState();
         this.initFilter();
+
+        var source   = $('#'+this.detailTemplateID).html();
+        this.detailTemplate = Handlebars.compile(source);
+
+        var source   = $('#'+this.headerTemplateID).html();
+        this.headerTemplate = Handlebars.compile(source);
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;
