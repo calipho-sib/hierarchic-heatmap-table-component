@@ -4718,9 +4718,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
            
                 var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
                 for (var i = 0; i < this.data.length; i++) {
-                    console.log(this.data[i]);
                     var row = this.createRow(this.data[i]);
-                    console.log(row);
                     heatmapRowsHTML.append(row);
                 }
 
@@ -4853,32 +4851,38 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 
         initFilter: function() {
             var self = this;
+            self.isAddClickEvent = {};
             for (var value in self.valueTofiltersListID) {
-                $("#" + self.valueTofiltersListID[value]).click((function(value) {
-                    return function() {
-                            self.showLoadingStatus();
+                for (var i = 0; i < self.valueTofiltersListID[value].length; i++) {
+                    if (self.isAddClickEvent[self.valueTofiltersListID[value][i]]) continue;
+                    self.isAddClickEvent[self.valueTofiltersListID[value][i]] = true;
+                    $("#" + self.valueTofiltersListID[value][i]).click((function(value) {
+                        return function() {
+                                self.showLoadingStatus();
 
-                            var valueDict = {};
-                            for (var key in self.valueTofiltersListID) {
-                                for (var i = 0; i < self.valueTofiltersListID[key].length; i++) {
-                                    if ($("#" + self.valueTofiltersListID[key][i]).is(':checked')) {
-                                        valueDict[key] = true;
+                                var valueDict = {};
+                                for (var key in self.valueTofiltersListID) {
+                                    for (var j = 0; j < self.valueTofiltersListID[key].length; j++) {
+                                        if ($("#" + self.valueTofiltersListID[key][j]).is(':checked')) {
+                                            valueDict[key] = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            self.data = self.filterByValueList(self.originData, valueDict);
+                                console.log(valueDict);
+                                self.data = self.filterByValueList(self.originData, valueDict);
 
-                            self.show();
+                                self.show();
 
-                            if (self.data.length === 0) {
-                                $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
-                            }
+                                if (self.data.length === 0) {
+                                    $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
+                                }
 
-                            self.hideLoadingStatus();
+                                self.hideLoadingStatus();
 
-                    }
-                })(value));
+                        }
+                    })(value));
+                }
             }
         },
 
