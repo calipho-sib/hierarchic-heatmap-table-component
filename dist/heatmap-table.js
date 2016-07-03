@@ -218,7 +218,7 @@
         initInitialState: function() {
             $(".heatmap-filterByRowName-input").text("");
 
-            
+            //reset filter status
         },
 
         clear: function() {
@@ -253,16 +253,21 @@
                                 self.showLoadingStatus();
 
                                 var valueDict = {};
+                                var isFilter = false;
                                 for (var key in self.valueTofiltersListID) {
                                     for (var j = 0; j < self.valueTofiltersListID[key].length; j++) {
                                         if ($("#" + self.valueTofiltersListID[key][j]).is(':checked')) {
                                             valueDict[key] = true;
+                                            isFilter = true;
                                         }
                                     }
                                 }
 
-                                self.data = self.filterByValueList(self.originData, valueDict);
-
+                                if (isFilter) {
+                                    self.data = self.filterByValueList(self.originData, valueDict);
+                                } else {
+                                    self.data = self.originData;
+                                }
                                 // self.show();
                                 self.showHeatmapBody();
                                 self.showHeatmapRows();
@@ -303,16 +308,22 @@
                 if (curNewData.children && curNewData.children.length !== 0) {
                     newDataList.push(curNewData);
                 } else {
-                    for (var j = 0; j < data[i].values.length; j++) {
-                        var found = 0;
-                        for (var value in valueDict) {
+                    for (var value in valueDict) {
+                        for (var j = 0; j < data[i].values.length; j++) {
+                            var found = 0;
                             if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
                                 newDataList.push(curNewData);
                                 found = 1;
                                 break;
                             }
                         }
-                        if (found === 1) break;
+                        if (found === 1) {
+                            // newDataList.push(curNewData);
+                            // found = 1;
+                            break;
+                        // } else {
+                            // continue
+                        }
                     }
                 }
             }
