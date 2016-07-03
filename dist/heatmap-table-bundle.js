@@ -4647,13 +4647,11 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             Handlebars.registerHelper('showValue', function(value, block) {
                 var accum = '';
 
-                var valueHtml = '<div class="heatmap-column {{columnClass}}", style="width:{{columnWidth}}">{{{valueStyle}}}</div>';
-                var circleHtml = '<i class="heatmap-circle {{circleColorClass}}" style="background-color: {{circleColorStyle}}"></i>';
-                var valueTemplate = Handlebars.compile(valueHtml);
-                var circleTemplate = Handlebars.compile(circleHtml);
+                var valueTemplate = HBtemplates['templates/heatmap-value.tmpl'];
+                var circleTemplate = HBtemplates['templates/heatmap-circle.tmpl'];
 
                 var result = {};
-                // result.columnClass = self.header[i].toLowerCase();
+
                 result.columnWidth = self.columnWidth;
                 if (self.valueToStyle[value]) {
                     if (self.valueToStyle[value].cssClass) {
@@ -4677,15 +4675,11 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             });
 
             Handlebars.registerHelper('addDetail', function(detailData) {
-                var source   = $('#'+self.detailTemplate).html();
-                var template = Handlebars.compile(source);
-                return new Handlebars.SafeString(template(detailData));
+                return new Handlebars.SafeString(self.detailTemplate(detailData));
             });
 
            Handlebars.registerHelper('heatmapCreateHeader', function() {
-                var source   = $('#'+self.headerTemplate).html();
-                var template = Handlebars.compile(source);
-                return new Handlebars.SafeString(template(self.headerTemplateData));
+                return new Handlebars.SafeString(self.headerTemplate(self.headerTemplateData));
             });
         },
 
@@ -4706,15 +4700,17 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             $(this.heatmapTable).append(template());
         },
 
-        showHeatmapRows : function(isReset) {
+        showHeatmapRows : function() {
+            var self = this;
+
             this.showLoadingStatus();
 
             $(this.heatmapTable).find(".heatmap-rows").empty()
-            if (isReset && this.heatmapRowsHTML) {
+            // if (isReset && this.heatmapRowsHTML) {
 
-                $(this.heatmapTable).find(".heatmap-body").append(this.heatmapRowsHTML.clone());
+            //     $(this.heatmapTable).find(".heatmap-body").append(this.heatmapRowsHTML.clone());
 
-            } else {
+            // } else {
            
                 var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
                 for (var i = 0; i < this.data.length; i++) {
@@ -4722,20 +4718,28 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                     heatmapRowsHTML.append(row);
                 }
 
-                $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML.clone());
+                // $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML.clone());
+                $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
 
-                if (this.heatmapRowsHTML === null) {
-                    this.heatmapRowsHTML = heatmapRowsHTML.clone();
-                }
-            }
+                // if (this.heatmapRowsHTML === null) {
+                    // this.heatmapRowsHTML = heatmapRowsHTML.clone();
+                // }
+            // }
 
-            $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+            // $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
 
+            $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
+                $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
+                $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
+            });
 
             this.hideLoadingStatus();
         },
 
         createRow: function(data) {
+
+            if (data.html) return data.html;
+
             data.childrenHTML = [];
             if (data.children && data.children.length > 0) {
                 for (var i = 0; i < data.children.length; i++) {
@@ -4743,8 +4747,9 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                     data.childrenHTML.push(childreRowsHTML);
                 }
             }
-            var rows = this.heatmapTreeTmpl(data);
-            return rows;
+            data.html = this.heatmapTreeTmpl(data);
+            return data.html;
+
         },
 
         expandByFilterString: function(root, filterString, isRoot) {
@@ -4765,11 +4770,6 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         initClickEvent : function() {
             var self = this;
 
-            $(self.heatmapTable).find('.heatmap-rowLabel').click(function () {
-                $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
-                $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
-            });
-
             //Add the click event of collapseAll button
             $(self.heatmapTable).find(".heatmap-collapseAll-btn").click(function() {
                 $(self.heatmapTable).find(".heatmap-opened").each(function() {
@@ -4779,7 +4779,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 });
             });
 
-            // //Add the click event of expandAll button
+            //Add the click event of expandAll button
             $(self.heatmapTable).find(".heatmap-expandAll-btn").click(function() {
                 $(self.heatmapTable).find(".heatmap-closed").each(function() {
                     $(this).show()
@@ -4802,8 +4802,11 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 self.data = self.filterByRowsLabel(self.originData, filterString);
                 self.hideLoadingStatus();
 
-                self.show();
+                // self.show();
                 // self.showHeatmapRows();
+                self.showHeatmapBody();
+                self.showHeatmapRows();
+
                 self.expandByFilterString($(self.heatmapTable).find(".heatmap-rows"), filterString, true);
                 if (self.data.length === 0) {
                     $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
@@ -4827,6 +4830,8 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
 
         initInitialState: function() {
             $(".heatmap-filterByRowName-input").text("");
+
+            
         },
 
         clear: function() {
@@ -4837,43 +4842,53 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             this.clear();
             this.showHeatmapSkeleton();
             this.initInitialState();
-            this.show(true);
+            // this.show(true);
+            this.showHeatmapBody();
+            this.showHeatmapRows();
+            this.initClickEvent();
         },
 
-        show : function(isReset) {
+        show : function() {
             this.showHeatmapBody();
-            this.showHeatmapRows(isReset);
+            this.showHeatmapRows();
             this.initClickEvent();
         },
 
         initFilter: function() {
             var self = this;
+            self.isAddClickEvent = {};
             for (var value in self.valueTofiltersListID) {
-                $("#" + self.valueTofiltersListID[value]).click((function(value) {
-                    return function() {
-                            self.showLoadingStatus();
+                for (var i = 0; i < self.valueTofiltersListID[value].length; i++) {
+                    if (self.isAddClickEvent[self.valueTofiltersListID[value][i]]) continue;
+                    self.isAddClickEvent[self.valueTofiltersListID[value][i]] = true;
+                    $("#" + self.valueTofiltersListID[value][i]).click((function(value) {
+                        return function() {
+                                self.showLoadingStatus();
 
-                            var valueDict = {};
-                            for (var key in self.valueTofiltersListID) {
-                                for (var i = 0; i < self.valueTofiltersListID[key].length; i++) {
-                                    if ($("#" + self.valueTofiltersListID[key][i]).is(':checked')) {
-                                        valueDict[key] = true;
+                                var valueDict = {};
+                                for (var key in self.valueTofiltersListID) {
+                                    for (var j = 0; j < self.valueTofiltersListID[key].length; j++) {
+                                        if ($("#" + self.valueTofiltersListID[key][j]).is(':checked')) {
+                                            valueDict[key] = true;
+                                        }
                                     }
                                 }
-                            }
 
-                            self.data = self.filterByValueList(self.originData, valueDict);
+                                self.data = self.filterByValueList(self.originData, valueDict);
 
-                            self.show();
+                                // self.show();
+                                self.showHeatmapBody();
+                                self.showHeatmapRows();
+                                
+                                if (self.data.length === 0) {
+                                    $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
+                                }
 
-                            if (self.data.length === 0) {
-                                $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
-                            }
+                                self.hideLoadingStatus();
 
-                            self.hideLoadingStatus();
-
-                    }
-                })(value));
+                        }
+                    })(value));
+                }
             }
         },
 
@@ -4890,8 +4905,12 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                     var newChildren = this.filterByValueList(data[i].children, valueDict);
                     if (newChildren.length !== 0) {
                         curNewData.children = newChildren;
+                        if (data[i].children.length !== newChildren.length) {
+                            curNewData.html = null;
+                        }
                     } else {
                         curNewData.children = [];
+                        curNewData.childrenHTML = null;
                     }
                 }
                 if (curNewData.children && curNewData.children.length !== 0) {
@@ -4999,8 +5018,8 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
         if (argv.options) {
-            this.detailTemplate = argv.options.detailTemplate;
-            this.headerTemplate = argv.options.headerTemplate;
+            this.detailTemplateID = argv.options.detailTemplate;
+            this.headerTemplateID = argv.options.headerTemplate;
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
@@ -5011,6 +5030,12 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         this.showHeatmapSkeleton();
         this.initInitialState();
         this.initFilter();
+
+        var source   = $('#'+this.detailTemplateID).html();
+        this.detailTemplate = Handlebars.compile(source);
+
+        var source   = $('#'+this.headerTemplateID).html();
+        this.headerTemplate = Handlebars.compile(source);
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;
@@ -5026,6 +5051,16 @@ this["HBtemplates"]["templates/heatmap-body.tmpl"] = Handlebars.template({"compi
   return "<div class=\"heatmap-body\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n                "
     + container.escapeExpression(((helper = (helper = helpers.heatmapCreateHeader || (depth0 != null ? depth0.heatmapCreateHeader : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"heatmapCreateHeader","hash":{},"data":data}) : helper)))
     + "\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>";
+},"useData":true});
+
+this["HBtemplates"]["templates/heatmap-circle.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<i class=\"heatmap-circle "
+    + alias4(((helper = (helper = helpers.circleColorClass || (depth0 != null ? depth0.circleColorClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorClass","hash":{},"data":data}) : helper)))
+    + "\" style=\"background-color: "
+    + alias4(((helper = (helper = helpers.circleColorStyle || (depth0 != null ? depth0.circleColorStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorStyle","hash":{},"data":data}) : helper)))
+    + "\"></i>";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-row.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -5073,8 +5108,20 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
     + container.escapeExpression((helpers.createRow || (depth0 && depth0.createRow) || helpers.helperMissing).call(alias1,depth0,{"name":"createRow","hash":{},"data":data}))
     + "\r\n        <div class=\"pull-right\">\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed\">\r\n"
+    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.childrenHTML : depth0),{"name":"each","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </ul>\r\n</li>\r\n";
+},"useData":true});
+
+this["HBtemplates"]["templates/heatmap-value.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div class=\"heatmap-column "
+    + alias4(((helper = (helper = helpers.columnClass || (depth0 != null ? depth0.columnClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnClass","hash":{},"data":data}) : helper)))
+    + "\", style=\"width:"
+    + alias4(((helper = (helper = helpers.columnWidth || (depth0 != null ? depth0.columnWidth : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnWidth","hash":{},"data":data}) : helper)))
+    + "\">"
+    + ((stack1 = ((helper = (helper = helpers.valueStyle || (depth0 != null ? depth0.valueStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"valueStyle","hash":{},"data":data}) : helper))) != null ? stack1 : "")
+    + "</div>";
 },"useData":true});
