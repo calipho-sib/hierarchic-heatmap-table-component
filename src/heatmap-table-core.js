@@ -218,7 +218,7 @@
         initInitialState: function() {
             $(".heatmap-filterByRowName-input").text("");
 
-            
+            //reset filter status
         },
 
         clear: function() {
