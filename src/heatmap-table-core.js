@@ -411,7 +411,7 @@
         this.heatmapTreeTmpl = HBtemplates['templates/heatmap-tree.tmpl'];
         this.heatmapRowsHTML = null;
         this.dataIndexToHtml = {};
-
+ 
         this.originData = [];
         this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
@@ -429,11 +429,14 @@
         this.initInitialState();
         this.initFilter();
 
-        var source   = $('#'+this.detailTemplateID).html();
-        this.detailTemplate = Handlebars.compile(source);
-
-        var source   = $('#'+this.headerTemplateID).html();
-        this.headerTemplate = Handlebars.compile(source);
+        if (this.detailTemplateID) {
+            var source   = $('#'+this.detailTemplateID).html();
+            this.detailTemplate = Handlebars.compile(source);
+        }
+        if (this.headerTemplateID) {
+            var source   = $('#'+this.headerTemplateID).html();
+            this.headerTemplate = Handlebars.compile(source);
+        }
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;

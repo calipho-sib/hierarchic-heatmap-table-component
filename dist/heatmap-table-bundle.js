@@ -5024,7 +5024,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         this.heatmapTreeTmpl = HBtemplates['templates/heatmap-tree.tmpl'];
         this.heatmapRowsHTML = null;
         this.dataIndexToHtml = {};
-
+ 
         this.originData = [];
         this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
@@ -5042,11 +5042,14 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
         this.initInitialState();
         this.initFilter();
 
-        var source   = $('#'+this.detailTemplateID).html();
-        this.detailTemplate = Handlebars.compile(source);
-
-        var source   = $('#'+this.headerTemplateID).html();
-        this.headerTemplate = Handlebars.compile(source);
+        if (this.detailTemplateID) {
+            var source   = $('#'+this.detailTemplateID).html();
+            this.detailTemplate = Handlebars.compile(source);
+        }
+        if (this.headerTemplateID) {
+            var source   = $('#'+this.headerTemplateID).html();
+            this.headerTemplate = Handlebars.compile(source);
+        }
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;
