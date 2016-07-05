@@ -297,9 +297,7 @@
                     var newChildren = this.filterByValueList(data[i].children, valueDict);
                     if (newChildren.length !== 0) {
                         curNewData.children = newChildren;
-                        if (data[i].children.length !== newChildren.length) {
-                            curNewData.html = null;
-                        }
+                        curNewData.html = null;
                     } else {
                         curNewData.children = [];
                         curNewData.childrenHTML = null;
@@ -313,6 +311,7 @@
                             var found = 0;
                             if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
                                 curNewData.html = null;
+                                curNewData.childrenHTML = null;
                                 newDataList.push(curNewData);
                                 found = 1;
                                 break;

@@ -297,9 +297,7 @@
                     var newChildren = this.filterByValueList(data[i].children, valueDict);
                     if (newChildren.length !== 0) {
                         curNewData.children = newChildren;
-                        if (data[i].children.length !== newChildren.length) {
-                            curNewData.html = null;
-                        }
+                        curNewData.html = null;
                     } else {
                         curNewData.children = [];
                         curNewData.childrenHTML = null;
