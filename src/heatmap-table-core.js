@@ -313,6 +313,7 @@
                             var found = 0;
                             if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
                                 curNewData.html = null;
+                                curNewData.childrenHTML = null;
                                 newDataList.push(curNewData);
                                 found = 1;
                                 break;
