@@ -43,10 +43,6 @@ function filterByEvidences(data, evidencesDict) {
         	for (var value in evidencesDict) {
         		if (data[i].detailData[j].evidenceCodeName.toLowerCase() === value.toLowerCase()) {
         			curNewData.detailData.push(data[i].detailData[j]);
-           			if (data[i].id == "TS-0741") {
-        				console.log(data[i].detailData[j]);
-	        			console.log(curNewData);    			
-        			}
         		}
         	}
         }
@@ -63,32 +59,8 @@ function filterByEvidences(data, evidencesDict) {
         if (curNewData.children && curNewData.children.length !== 0) {
             newDataList.push(curNewData);
         } else if (curNewData.detailData.length !== 0) {
-			if (data[i].id == "TS-0741") {
-				console.log('11111');
-				console.log(data[i]);
-    			console.log(curNewData);    			
-			}
         	newDataList.push(curNewData);
         }
-
-        // } else {
-
-            // for (var value in evidencesDict) {
-            //     for (var j = 0; j < data[i].detailData.length; j++) {
-            //         var found = 0;
-            //         if (data[i].detailData[j].evidenceCodeName.toLowerCase() === value.toLowerCase()) {
-            //             curNewData.html = null;
-            //             curNewData.childrenHTML = null;
-            //             newDataList.push(curNewData);
-            //             found = 1;
-            //             break;
-            //         }
-            //     }
-            //     if (found === 1) {
-            //         break;
-            //     }
-            // }
-        // }
     }
     return newDataList;
 }
