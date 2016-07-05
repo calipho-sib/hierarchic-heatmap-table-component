@@ -37,11 +37,16 @@ function filterByEvidences(data, evidencesDict) {
         }
 
         curNewData.detailData = [];
+        curNewData.childrenHTML = null;
+        curNewData.html = null;
         for (var j = 0; j < data[i].detailData.length; j++) {
         	for (var value in evidencesDict) {
         		if (data[i].detailData[j].evidenceCodeName.toLowerCase() === value.toLowerCase()) {
         			curNewData.detailData.push(data[i].detailData[j]);
-        			break;
+           			if (data[i].id == "TS-0741") {
+        				console.log(data[i].detailData[j]);
+	        			console.log(curNewData);    			
+        			}
         		}
         	}
         }
@@ -50,17 +55,19 @@ function filterByEvidences(data, evidencesDict) {
             var newChildren = filterByEvidences(data[i].children, evidencesDict);
             if (newChildren.length !== 0) {
                 curNewData.children = newChildren;
-                curNewData.html = null;
             } else {
                 curNewData.children = [];
-                curNewData.html = null;
-                curNewData.childrenHTML = null;
             }
         }
 
         if (curNewData.children && curNewData.children.length !== 0) {
             newDataList.push(curNewData);
         } else if (curNewData.detailData.length !== 0) {
+			if (data[i].id == "TS-0741") {
+				console.log('11111');
+				console.log(data[i]);
+    			console.log(curNewData);    			
+			}
         	newDataList.push(curNewData);
         }
 
