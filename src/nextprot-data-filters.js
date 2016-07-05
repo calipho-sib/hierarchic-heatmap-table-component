@@ -1,3 +1,3 @@
-function filterGoldOnly() {
+function filterEvidences(data, values) {
 	
 }
