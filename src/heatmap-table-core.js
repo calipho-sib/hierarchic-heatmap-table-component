@@ -239,6 +239,10 @@
             this.showHeatmapBody();
             this.showHeatmapRows();
             this.initClickEvent();
+            if (this.data.length === 0) {
+                this.showNoFoundInfo();
+                return;
+            }
         },
 
         initFilter: function() {
@@ -273,7 +277,7 @@
                                 self.showHeatmapRows();
                                 
                                 if (self.data.length === 0) {
-                                    $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
+                                    self.showNoFoundInfo();   
                                 }
 
                                 self.hideLoadingStatus();
@@ -282,6 +286,10 @@
                     })(value));
                 }
             }
+        },
+
+        showNoFoundInfo: function() {
+            $(this.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
         },
 
         filterByValueList: function(data, valueDict) {

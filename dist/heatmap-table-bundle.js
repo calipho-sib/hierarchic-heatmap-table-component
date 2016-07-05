@@ -4852,6 +4852,10 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             this.showHeatmapBody();
             this.showHeatmapRows();
             this.initClickEvent();
+            if (this.data.length === 0) {
+                this.showNoFoundInfo();
+                return;
+            }
         },
 
         initFilter: function() {
@@ -4886,7 +4890,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                                 self.showHeatmapRows();
                                 
                                 if (self.data.length === 0) {
-                                    $(self.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
+                                    self.showNoFoundInfo();   
                                 }
 
                                 self.hideLoadingStatus();
@@ -4895,6 +4899,10 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                     })(value));
                 }
             }
+        },
+
+        showNoFoundInfo: function() {
+            $(this.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
         },
 
         filterByValueList: function(data, valueDict) {
