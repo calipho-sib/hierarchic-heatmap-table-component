@@ -25,11 +25,12 @@
 
       <p>This heatmap table shows ... </p>
   </div>
+
   <div class="panel panel-default col-lg-12 col-md-12">
     <div class="row panel-heading">
         <h4 class="text-center">Simple</h4>
     </div>
-    <div id="heatmap-table" style="width:800px;margin: 20px auto 50px auto; height:auto;">
+    <div id="heatmap-table-1" style="width:800px;margin: 20px auto 50px auto; height:auto;">
     </div>
     <div class="panel-body pull-left" style="width:50%;">
         <p>This is the classic display of a heatmap.<br>
@@ -73,7 +74,7 @@ var heatmapTableOptions = {
 }
 
 var heatMapTable = new HeatMapTable({
-                tableID: "heatmap-table",
+                tableID: "heatmap-table-1",
                 options: heatmapTableOptions
             });
             
@@ -110,22 +111,27 @@ heatMapTable.show();
   
       </textarea>
       <button type="button" class="btn btn-default center-block" style="margin-bottom:20px;"
-              onclick=executeCode("#protein-sequence-viewer2",simpleHeatMap)>Execute
+              onclick=executeCode("#heatmap-table-1",simpleHeatMap)>Execute
       </button>
     </form>
   </div>
+
+
   <a href="https://github.com/calipho-sib/protein-expression"  target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;"
                                                                                 src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
                                                                                 alt="Fork me on GitHub"
                                                                                 data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+
   <script defer>
       var simpleHeatMap;
       var executeCode = function (outputDiv, mirrorCode) {
-          $("#heatmap-table").empty();
+          $(outputDiv).empty();
           var code = mirrorCode.getValue();
           eval(code);
           $(outputDiv).animate({opacity: "100"}, 2000);
       };
+
       window.onload = function () {
           simpleHeatMap = CodeMirror.fromTextArea(code1, {
               mode: "javascript",
@@ -133,10 +139,14 @@ heatMapTable.show();
               lineWrapping: true
           });
           $(function () {
-            executeCode("#heatmap-table", simpleHeatMap);
+            executeCode("#heatmap-table-1", simpleHeatMap);
+            executeCode("#heatmap-table-2", simpleHeatMap);
+            // executeCode("#heatmap-table-3", simpleHeatMap);
           });
       };
   </script>
+
+
   <script type="text/javascript">
       Handlebars.registerHelper('createHeader', function(columnName, block) {
           var result = {};
