@@ -63,7 +63,7 @@ $(function () {
         var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
         console.log(heatmapData);
-        initFilter(heatmapData, heatMapTable);
+        activateFilters(heatmapData, heatMapTable);
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
         heatMapTable.hideLoadingStatus();
@@ -105,16 +105,20 @@ function addSelectAll() {
 
 $( document ).ready(function() {
     addSelectAll();
-    activateFilters();
+    
 });
 
 
 function getFilters() {
-    var filters = [];
+    var filters = {};
+    filters['Microarray'] = []
+    filters['IHC'] = []
+    filters['EST'] = []
     $(".filters .subtypes a").each(function () {
         if ($(this).hasClass("active")) {
-            var uniqueFilter = $(this).find(".phenAnnot").text();
-            filters.push(uniqueFilter);
+            var type = $(this).find(".phenAnnot").attr('type');
+            var value = $(this).find(".phenAnnot").attr('value');
+            filters[type].push(value);
         }
     });
     return filters;
@@ -133,16 +137,66 @@ function autoCheckAll(elem) {
     }
 }
 
-function activateFilters(data, annots, listingPhenotypes) {
+function activateFilters(heatmapData, heatMapTable) {
     $(".filters a:not(.collapse-title)").click(function () {
         var filters = getFilters();
-        console.log("Something was checked" + filters);
-        $("#count-phenotype-selected").text("(" + filters.length + " selected)");
-
+        console.log(filters);
         autoCheckAll($(this));
 
-        //TODO REFILL THE HEATMAP TABLE
+        var data = filterByEvidences(heatmapData, filters)
+
+        heatMapTable.showLoadingStatus();
+        heatMapTable.loadJSONData(data);
+        heatMapTable.show();
+        heatMapTable.hideLoadingStatus();
     })
 }
 
+function filterByEvidences(data, filters) {
+    var newDataList = [];
 
+    for (var i = 0; i < data.length; i++) {
+        var curNewData = {};
+        for (var key in data[i]) {
+            curNewData[key] = data[i][key];
+        }
+
+        curNewData.detailData = [];
+        curNewData.childrenHTML = null;
+        curNewData.html = null;
+
+        for (var j = 0; j < data[i].detailData.length; j++) {
+            evidencesCodeName = data[i].detailData[j].evidenceCodeName;
+            value = data[i].detailData[j].value;
+            isFilterThisType = false;
+            for (var k = 0; k < filters[evidencesCodeName].length; k++) {
+                if (filters[evidencesCodeName][k] === 'true') isFilterThisType = true
+            }
+            if (isFilterThisType) {
+                console.log()
+                for (var k = 0; k < filters[evidencesCodeName].length; k++) {
+                    if (filters[evidencesCodeName][k] === value) {
+                        curNewData.detailData.push(data[i].detailData[j]);
+                        break
+                    }
+                }
+            }
+        }
+
+        if (data[i].children && data[i].children.length !== 0) {
+            var newChildren = filterByEvidences(data[i].children, filters);
+            if (newChildren.length !== 0) {
+                curNewData.children = newChildren;
+            } else {
+                curNewData.children = [];
+            }
+        }
+
+        if (curNewData.children && curNewData.children.length !== 0) {
+            newDataList.push(curNewData);
+        } else if (curNewData.detailData.length !== 0) {
+            newDataList.push(curNewData);
+        }
+    }
+    return newDataList;
+}
