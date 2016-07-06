@@ -71,3 +71,78 @@ $(function () {
 
 
 });
+
+
+function addSelectAll() {
+        $(".subtypes a").click(function () {
+            $(this).toggleClass("active");
+            $("i", this).toggleClass("fa-circle-thin fa-check");
+        })
+
+        $(".select-all").click(function () {
+            $("i", this).toggleClass("fa-circle-thin fa-check");
+            var matchingList = $(this).attr("referTo");
+            if ($("i", this).hasClass("fa-check")) {
+                $(matchingList + " a").each(function () {
+                    if (!$(this).hasClass("active")) {
+                        $(this).addClass("active");
+                        $("i", this).toggleClass("fa-circle-thin fa-check");
+                    }
+
+                })
+            } else {
+                $(matchingList + " a").each(function () {
+                    if ($(this).hasClass("active")) {
+                        $(this).removeClass("active");
+                        $("i", this).toggleClass("fa-circle-thin fa-check");
+                    }
+
+                })
+            }
+        })
+}
+
+
+$( document ).ready(function() {
+    addSelectAll();
+    activateFilters();
+});
+
+
+function getFilters() {
+    var filters = [];
+    $(".filters .subtypes a").each(function () {
+        if ($(this).hasClass("active")) {
+            var uniqueFilter = $(this).find(".phenAnnot").text();
+            filters.push(uniqueFilter);
+        }
+    });
+    return filters;
+}
+
+function autoCheckAll(elem) {
+    var panel = $(elem).closest(".panel-group");
+    var all = panel.find(".select-all i");
+    var activeFilters = panel.find(".subtypes a.active");
+    if (!activeFilters.length && all.hasClass("fa-check")) {
+        all.toggleClass("fa-circle-thin fa-check");
+    } else if (activeFilters.length === panel.find(".subtypes a").length) {
+        if (all.hasClass("fa-circle-thin")) {
+            all.toggleClass("fa-circle-thin fa-check");
+        }
+    }
+}
+
+function activateFilters(data, annots, listingPhenotypes) {
+    $(".filters a:not(.collapse-title)").click(function () {
+        var filters = getFilters();
+        console.log("Something was checked" + filters);
+        $("#count-phenotype-selected").text("(" + filters.length + " selected)");
+
+        autoCheckAll($(this));
+
+        //TODO REFILL THE HEATMAP TABLE
+    })
+}
+
+

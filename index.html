@@ -4,11 +4,15 @@
 <head>
     <meta charset="utf-8">
     <title>Generic protein expression view for Human Body</title>
+    <script type="text/javascript" src="https://use.fontawesome.com/aeec643a8b.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="dist/heatmap-table.css">
     <!-- you should include styles inside styles folder -->
     <link rel="stylesheet" href="styles/nx-protein-expression.css">
+    <link rel="stylesheet" href="styles/common-style.css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -90,13 +94,77 @@
 
     <div class="row">
         <div class="col-md-3 col-md-offset-4">
-            <img src="vendor/humanbody.png">
+            <!--<img src="vendor/humanbody.png">-->
         </div>
     </div>
 
     <div class="container">
 
         <div class="raw">
+
+
+<div class="col-md-12">
+                    <div class="filters">
+
+    <div>
+        <h3>Methodologies</h3>
+        <div id="panel-techniques" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a class="select-all pull-left" referto="#collapse0">All <i class="fa fa-check" aria-hidden="true"></i></a>
+                    <a class="collapse-title collapsed" data-toggle="collapse" href="#collapse0">
+                        <div class="panel-title">
+                            <span class="chevron pull-right"><i class="fa" aria-hidden="true"></i></span>
+                            <span class="typeName">All methods</span>
+                            <span class="badge phenoCount pull-right"></span>
+                        </div>
+                    </a>
+                </div>
+                <div id="collapse0" class="panel-collapse collapse">
+                    <ul class="list-group subtypes">
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">MicroArray</span></a></li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">EST</span></a></li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">IHC</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h3>Possible values</h3>
+        <div id="panel-values" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a class="select-all pull-left" referto="#collapse2">All <i class="fa fa-check" aria-hidden="true"></i></a>
+                    <a class="collapse-title collapsed" data-toggle="collapse" href="#collapse2">
+
+                        <div class="panel-title">
+                            <span class="chevron pull-right"><i class="fa" aria-hidden="true"></i></span>
+                            <span class="typeName">All values</span>
+                            <span class="badge phenoCount pull-right"></span>
+                        </div>
+                    </a>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                    <ul class="list-group subtypes">
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">MicroArray Not Detected</span></a>                        </li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">MicroArray Positive</span></a>                        </li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">EST Positive</span></a></li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">IHC Expression Level Not Detected</span></a></li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">IHC Expression Level Low</span></a></li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">IHC Expression Level Medium</span></a></li>
+                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot">IHC Expression Level High</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+          
+           
+    </div>
+
+</div>
+                </div>
+
+<!--
             <div>
                 <div class="filterBox">
                     <span class="filters pull-left">Quality:</span>
@@ -153,6 +221,7 @@
                     </div>
                 </div>
             </div>
+            -->
             <div id="heatmap-table">
             </div>
         </div>
@@ -190,5 +259,8 @@
         {{/createHeader}}
     {{/each}}
 </script>
+
+
+
 
 </html>
