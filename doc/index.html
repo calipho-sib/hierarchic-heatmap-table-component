@@ -12,7 +12,11 @@
     <script type="text/javascript" src="../dist/heatmap-table-vendor.js"></script>
     <script type="text/javascript" src="../dist/heatmap-table.js"></script>
 </head>
-
+<style type="text/css">
+.red {
+  background-color: red;
+}
+</style>
 <body>
   <div class="container col-md-11 col-xs-12" style="margin-left:5%">
   <div class="jumbotron">
@@ -33,16 +37,15 @@
     <div id="heatmap-table-1" style="width:800px;margin: 20px auto 50px auto; height:auto;">
     </div>
     <div class="panel-body pull-left" style="width:50%;">
-        <p>This is the classic display of a heatmap.<br>
-            ... options :</p>
+        <p>This is the classic display of a heatmap.<br></p>
         <ul>
-            <li><strong>header</strong> <em>(array)</em> : Show the columns header</li>
             <li><strong>tableID</strong> <em>(string)</em> : The id of the HTML element</li>
             <li><strong>options</strong> <em>(object)</em> : The option of the heatMap table
               <ul>
-                <li><strong>headerGroups</strong> <em>(array)</em> : Grouping the headers</li>
-                <li><strong>valuesColorMapping</strong> <em>(array)</em> : Set the color of values</li>
                 <li><strong>columnWidth</strong> <em>(string)</em> : Set the width of columns, "70px" by default</li>
+                <li><strong>headerTemplate</strong> <em>(string)</em> : </li>
+                <li><strong>headerTemplateData</strong> <em>(string)</em> : </li>
+                <li><strong>valuesSetting</strong> <em>(string)</em> : </li>
               </ul>
             </li>
         </ul>
@@ -52,25 +55,18 @@
 var heatmapTableOptions = {
     valuesSetting: [
         { value: 'Positive', html: '<div>\
-                                      <img style="width:15px" src="http://www.downtowntomsriver.com/chili/images/chili_icon.gif">\
-                                      <img style="width:15px" src="http://www.downtowntomsriver.com/chili/images/chili_icon.gif">\
-                                      <img style="width:15px" src="http://www.downtowntomsriver.com/chili/images/chili_icon.gif">\
-                                  </div>'},
+            <img style="width:15px" src="img/chili.gif">\
+            <img style="width:15px" src="img/chili.gif">\
+          </div>'
+        },
+        { value: 'High', cssClass: 'red'},
         { value: 'NotDetected', color: 'lightgray'},
-        { value: 'Weak', color: '#FFE6BD'},
-        { value: 'Low', color: '#FFE6BD'},
-        { value: 'Strong', color: 'greenBG'},
-        { value: 'Moderate', color: '#FFC870'},
-        { value: 'Medium', color: '#FFC870'}
-
     ],
     columnWidth: "120px",
     headerTemplate: "headerTemplate",
     headerTemplateData: {header:['MANotDetected',
-                                  'MAPositive',
-                                  'ESTPositive'
-                                  ]
-                              }
+                        'MAPositive',
+                        'ESTPositive']}
 }
 
 var heatMapTable = new HeatMapTable({
@@ -78,26 +74,24 @@ var heatMapTable = new HeatMapTable({
                 options: heatmapTableOptions
             });
             
-
 var data = [
     {
       "rowLabel": "Human anatomical entity",
       "linkLabel": "[TS-2178]",
       "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
-      "values": ["NotDetected", "Positive", "Positive"],
+      "values": ["NotDetected", "High", "Positive"],
       "children": [
         {
           "rowLabel": "Fluid and secretion",
           "linkLabel": "[TS-2101]",
           "linkURL": "http://www.nextprot.org/db/term/TS-2101",
-// the last one will be ignore, because there are only three columns
-          "values": ["NotDetected", "Positive", "Positive"],
+          "values": ["NotDetected", "High", "Positive"],
           "children": [ 
             {
               "linkLabel": "[TS-0079]", 
               "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
               "rowLabel": "Blood", 
-              "values": ["", "Positive", "Positive"],
+              "values": ["", "High", "Positive"],
               "children": []
             }
           ]
@@ -117,10 +111,8 @@ heatMapTable.show();
   </div>
 
 
-  <a href="https://github.com/calipho-sib/protein-expression"  target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;"
-                                                                                src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
-                                                                                alt="Fork me on GitHub"
-                                                                                data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  <a href="https://github.com/calipho-sib/protein-expression"  target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+  alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
 
 
   <script defer>
@@ -166,6 +158,4 @@ heatMapTable.show();
       {{/each}}
   </script>
 </body>
-
-
 </html>
