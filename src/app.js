@@ -63,6 +63,7 @@ $(function () {
         var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
         console.log(heatmapData);
+        heatmapData = filterByEvidences(heatmapData, getFilters());
         activateFilters(heatmapData, heatMapTable);
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
@@ -105,7 +106,6 @@ function addSelectAll() {
 
 $( document ).ready(function() {
     addSelectAll();
-    
 });
 
 
