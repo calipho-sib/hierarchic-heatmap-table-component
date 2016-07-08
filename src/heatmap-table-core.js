@@ -411,7 +411,6 @@
                     }
                 }
 
-                console.log(curNewData);
                 if (curNewData.children && curNewData.children.length !== 0) {
                     newDataList.push(curNewData);
                 } else if (curNewData.rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
