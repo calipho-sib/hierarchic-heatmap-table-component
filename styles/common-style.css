@@ -273,7 +273,7 @@ th[data-sort]{
     }
 
     .tree li{
-        border-bottom:1px solid #ddd;
+        /*border-bottom:1px solid #ddd;*/
     /*    padding-bottom:5px;*/
     }
     .tree li:last-child{
@@ -281,8 +281,8 @@ th[data-sort]{
     /*    padding-bottom:5px;*/
     }
     .heatmap-row{
-        border-bottom: none;
-
+        /*border-bottom: none;*/
+        border-bottom: solid 1px #d4d4d4;
     } 
     
     .tree .glyphicon-plus:before {

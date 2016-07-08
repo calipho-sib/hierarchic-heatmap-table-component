@@ -4794,12 +4794,12 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             });
 
             $(self.heatmapTable).find(".heatmap-filterByRowName-search").click(function() {
-                
                 var filterString = $(self.heatmapTable).find(".heatmap-filterByRowName-input").val();
                 if (filterString === "") return ;
 
                 self.showLoadingStatus();
-                self.data = self.filterByRowsLabel(self.originData, filterString);
+                // self.data = self.filterByRowsLabel(self.originData, filterString);
+                self.data = self.filterBySearch(self.originData, filterString);
                 self.hideLoadingStatus();
 
                 // self.show();
@@ -5003,21 +5003,52 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             return valueTofiltersListID;
         },
 
-        filterByRowsLabel: function(data, filterString) {
-            var newData = [];
+        filterBySearch: function(data, filterString) {
+            var newDataList = [];
+
             for (var i = 0; i < data.length; i++) {
-                if (data[i].rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
-                    newData.push(data[i]);
-                } else if (data[i].children && data[i].children.length !== 0) {
-                    var newChildren = this.filterByRowsLabel(data[i].children, filterString);
+                var curNewData = {};
+                for (var key in data[i]) {
+                    curNewData[key] = data[i][key];
+                }
+
+                curNewData.childrenHTML = null;
+                curNewData.html = null;
+
+                if (data[i].children && data[i].children.length !== 0) {
+                    var newChildren = this.filterBySearch(data[i].children, filterString);
                     if (newChildren.length !== 0) {
-                        data[i].children = newChildren;
-                        newData.push(data[i]);
+                        curNewData.children = newChildren;
+                    } else {
+                        curNewData.children = [];
                     }
                 }
+
+                console.log(curNewData);
+                if (curNewData.children && curNewData.children.length !== 0) {
+                    newDataList.push(curNewData);
+                } else if (curNewData.rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
+                    newDataList.push(curNewData);
+                }
             }
-            return newData;
+            return newDataList;
         },
+
+        // filterByRowsLabel: function(data, filterString) {
+        //     var newData = [];
+        //     for (var i = 0; i < data.length; i++) {
+        //         if (data[i].rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
+        //             newData.push(data[i]);
+        //         } else if (data[i].children && data[i].children.length !== 0) {
+        //             var newChildren = this.filterByRowsLabel(data[i].children, filterString);
+        //             if (newChildren.length !== 0) {
+        //                 data[i].children = newChildren;
+        //                 newData.push(data[i]);
+        //             }
+        //         }
+        //     }
+        //     return newData;
+        // },
 
         showLoadingStatus: function() {
             $(".heatmap-info").show();
