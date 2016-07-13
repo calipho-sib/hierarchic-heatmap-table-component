@@ -173,7 +173,6 @@ function filterByEvidences(data, filters) {
                 if (filters[evidencesCodeName][k] === 'true') isFilterThisType = true
             }
             if (isFilterThisType) {
-                console.log()
                 for (var k = 0; k < filters[evidencesCodeName].length; k++) {
                     if (filters[evidencesCodeName][k] === value) {
                         curNewData.detailData.push(data[i].detailData[j]);
