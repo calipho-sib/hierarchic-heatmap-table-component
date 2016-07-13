@@ -124,7 +124,6 @@
         },
 
         createRow: function(data) {
-
             if (data.html) return data.html;
 
             data.childrenHTML = [];
@@ -137,6 +136,36 @@
             data.html = this.heatmapTreeTmpl(data);
             return data.html;
 
+        },
+
+        initSearchBoxSource: function (data) {
+            this.initSearchBoxSourceList(data);
+            console.log(this.rowLabelList);
+            $.typeahead({
+                input: '.heatmap-filterByRowName-input',
+                source: {
+                    data: this.rowLabelList
+                },
+            });
+            // $('.heatmap-filterByRowName-input').typeahead({
+            //         hint: true,
+            //         highlight: true,
+            //         minLength: 1
+            //     },
+            //     {
+            //         name: 'states',
+            //         source: this.rowLabelList
+            //     });
+
+        },
+
+        initSearchBoxSourceList: function(data) {
+            for (var i = 0; i < data.length; i++) {
+                this.rowLabelList.push(data[i].rowLabel);
+                if (data[i].children && data[i].children.length > 0) {
+                    this.initSearchBoxSourceList(data[i].children);
+                }
+            }
         },
 
         expandByFilterString: function(root, filterString, isRoot) {
@@ -212,6 +241,7 @@
         loadJSONData : function(data) {
             this.originData = data;
             this.data = this.originData;
+            this.initSearchBoxSource(this.data);
         },
 
         loadJSONDataFromURL : function(filePath) {
@@ -219,6 +249,7 @@
             $.getJSON(filePath, function(data) {
                 self.loadJSONData(data);
             });
+            this.initSearchBoxSource(this.data);
         },
 
         initInitialState: function() {
@@ -455,6 +486,7 @@
         this.heatmapTreeTmpl = HBtemplates['templates/heatmap-tree.tmpl'];
         this.heatmapRowsHTML = null;
         this.dataIndexToHtml = {};
+        this.rowLabelList = [];
  
         this.originData = [];
         this.data = [];

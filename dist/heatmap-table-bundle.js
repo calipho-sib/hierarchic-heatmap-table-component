@@ -4737,7 +4737,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
         },
 
         createRow: function(data) {
-
             if (data.html) return data.html;
 
             data.childrenHTML = [];
@@ -4750,6 +4749,36 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             data.html = this.heatmapTreeTmpl(data);
             return data.html;
 
+        },
+
+        initSearchBoxSource: function (data) {
+            this.initSearchBoxSourceList(data);
+            console.log(this.rowLabelList);
+            $.typeahead({
+                input: '.heatmap-filterByRowName-input',
+                source: {
+                    data: this.rowLabelList
+                },
+            });
+            // $('.heatmap-filterByRowName-input').typeahead({
+            //         hint: true,
+            //         highlight: true,
+            //         minLength: 1
+            //     },
+            //     {
+            //         name: 'states',
+            //         source: this.rowLabelList
+            //     });
+
+        },
+
+        initSearchBoxSourceList: function(data) {
+            for (var i = 0; i < data.length; i++) {
+                this.rowLabelList.push(data[i].rowLabel);
+                if (data[i].children && data[i].children.length > 0) {
+                    this.initSearchBoxSourceList(data[i].children);
+                }
+            }
         },
 
         expandByFilterString: function(root, filterString, isRoot) {
@@ -4825,6 +4854,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
         loadJSONData : function(data) {
             this.originData = data;
             this.data = this.originData;
+            this.initSearchBoxSource(this.data);
         },
 
         loadJSONDataFromURL : function(filePath) {
@@ -4832,6 +4862,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
             $.getJSON(filePath, function(data) {
                 self.loadJSONData(data);
             });
+            this.initSearchBoxSource(this.data);
         },
 
         initInitialState: function() {
@@ -5030,7 +5061,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
                     }
                 }
 
-                console.log(curNewData);
                 if (curNewData.children && curNewData.children.length !== 0) {
                     newDataList.push(curNewData);
                 } else if (curNewData.rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
@@ -5069,6 +5099,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
         this.heatmapTreeTmpl = HBtemplates['templates/heatmap-tree.tmpl'];
         this.heatmapRowsHTML = null;
         this.dataIndexToHtml = {};
+        this.rowLabelList = [];
  
         this.originData = [];
         this.data = [];
@@ -5139,7 +5170,7 @@ this["HBtemplates"]["templates/heatmap-row.tmpl"] = Handlebars.template({"compil
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-skeleton.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"col-md-5\">\n    <div class=\"input-group\">\n        <input type=\"text\" class=\"form-control heatmap-filterByRowName-input\" placeholder=\"Search for...\">\n        <span class=\"input-group-btn\">\n            <button class=\"btn btn-default heatmap-filterByRowName-search\" type=\"button\">Search</button>\n        </span>\n    </div>\n</div>\n<button class=\"btn btn-default heatmap-reset-btn\">Reset</button>\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
+    return "<div class=\"col-md-5\">\n	<div class=\"typeahead__container\">\n		<div class=\"typeahead__field\">\n			<span class=\"typeahead__query\">\n				<input class=\"heatmap-filterByRowName-input\" name=\"country_v1[query]\" type=\"search\" placeholder=\"Search\" autocomplete=\"off\">\n			</span>\n			<span class=\"typeahead__button\">\n				<button class=\"heatmap-filterByRowName-search\">\n					<i class=\"typeahead__search-icon\"></i>\n				</button>\n			</span>\n		</div>\n	</div>\n</div>\n<button class=\"btn btn-default heatmap-reset-btn\">Reset</button>\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {

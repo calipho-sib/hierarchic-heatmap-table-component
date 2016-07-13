@@ -1,10 +1,16 @@
 <div class="col-md-5">
-    <div class="input-group">
-        <input type="text" class="form-control heatmap-filterByRowName-input" placeholder="Search for...">
-        <span class="input-group-btn">
-            <button class="btn btn-default heatmap-filterByRowName-search" type="button">Search</button>
-        </span>
-    </div>
+	<div class="typeahead__container">
+		<div class="typeahead__field">
+			<span class="typeahead__query">
+				<input class="heatmap-filterByRowName-input" name="country_v1[query]" type="search" placeholder="Search" autocomplete="off">
+			</span>
+			<span class="typeahead__button">
+				<button class="heatmap-filterByRowName-search">
+					<i class="typeahead__search-icon"></i>
+				</button>
+			</span>
+		</div>
+	</div>
 </div>
 <button class="btn btn-default heatmap-reset-btn">Reset</button>
 <button class="btn btn-default heatmap-collapseAll-btn">CollapseAll</button>
