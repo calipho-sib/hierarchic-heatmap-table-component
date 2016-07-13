@@ -180,6 +180,12 @@
                 self.resetHeatMap();
             });
 
+            $(self.heatmapTable).find(".heatmap-filterByRowName-input").keydown(function(e) {
+                if(e.keyCode==13){
+                    $(self.heatmapTable).find(".heatmap-filterByRowName-search").click();
+                }
+            });
+
             $(self.heatmapTable).find(".heatmap-filterByRowName-search").click(function() {
                 
                 var filterString = $(self.heatmapTable).find(".heatmap-filterByRowName-input").val();
@@ -457,9 +463,9 @@ this["HBtemplates"] = this["HBtemplates"] || {};
 this["HBtemplates"]["templates/heatmap-body.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "<div class=\"heatmap-body\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n                "
+  return "<div class=\"heatmap-body\">\n    <div style=\"overflow:hidden\">\n        <div style=\"overflow:hidden\">\n            <div class=\"pull-right\">\n                "
     + container.escapeExpression(((helper = (helper = helpers.heatmapCreateHeader || (depth0 != null ? depth0.heatmapCreateHeader : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"heatmapCreateHeader","hash":{},"data":data}) : helper)))
-    + "\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>";
+    + "\n            </div>\n        </div>\n    </div>\n\n</div>";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-circle.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -477,50 +483,50 @@ this["HBtemplates"]["templates/heatmap-row.tmpl"] = Handlebars.template({"compil
 
   return "<p class=\""
     + alias4(((helper = (helper = helpers["class"] || (depth0 != null ? depth0["class"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"class","hash":{},"data":data}) : helper)))
-    + " heatmap-rowLabel tree-toggler\">\r\n    "
+    + " heatmap-rowLabel tree-toggler\">\n    "
     + ((stack1 = ((helper = (helper = helpers.iconHtml || (depth0 != null ? depth0.iconHtml : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"iconHtml","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + "\r\n    <span class=\"rowLabel\">"
+    + "\n    <span class=\"rowLabel\">"
     + ((stack1 = ((helper = (helper = helpers.rowLabel || (depth0 != null ? depth0.rowLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"rowLabel","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + "</span>\r\n    <span><a href=\""
+    + "</span>\n    <span><a href=\""
     + alias4(((helper = (helper = helpers.linkURL || (depth0 != null ? depth0.linkURL : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkURL","hash":{},"data":data}) : helper)))
     + "\" target=\"_blank\">"
     + alias4(((helper = (helper = helpers.linkLabel || (depth0 != null ? depth0.linkLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkLabel","hash":{},"data":data}) : helper)))
-    + "</a></span>\r\n</p>";
+    + "</a></span>\n</p>";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-skeleton.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"col-md-5\">\r\n    <div class=\"input-group\">\r\n        <input type=\"text\" class=\"form-control heatmap-filterByRowName-input\" placeholder=\"Search for...\">\r\n        <span class=\"input-group-btn\">\r\n            <button class=\"btn btn-default heatmap-filterByRowName-search\" type=\"button\">Search</button>\r\n        </span>\r\n    </div>\r\n</div>\r\n<button class=\"btn btn-default heatmap-reset-btn\">Reset</button>\r\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\r\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
+    return "<div class=\"col-md-5\">\n    <div class=\"input-group\">\n        <input type=\"text\" class=\"form-control heatmap-filterByRowName-input\" placeholder=\"Search for...\">\n        <span class=\"input-group-btn\">\n            <button class=\"btn btn-default heatmap-filterByRowName-search\" type=\"button\">Search</button>\n        </span>\n    </div>\n</div>\n<button class=\"btn btn-default heatmap-reset-btn\">Reset</button>\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return "                "
     + container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}))
-    + "\r\n";
+    + "\n";
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "            <div class=\"heatmap-detail\">\r\n"
+  return "            <div class=\"heatmap-detail\">\n"
     + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.detailData : depth0),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "            </div>\r\n";
+    + "            </div>\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    return "                    <div>\r\n                    "
+    return "                    <div>\n                    "
     + container.escapeExpression((helpers.addDetail || (depth0 && depth0.addDetail) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"addDetail","hash":{},"data":data}))
-    + "\r\n                    </div>\r\n";
+    + "\n                    </div>\n";
 },"6":function(container,depth0,helpers,partials,data) {
     return "            "
     + container.escapeExpression(container.lambda(depth0, depth0))
-    + "\r\n";
+    + "\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {};
 
-  return "\r\n<li>\r\n    <div class=\"heatmap-row\">\r\n        "
+  return "\n<li>\n    <div class=\"heatmap-row\">\n        "
     + container.escapeExpression((helpers.createRow || (depth0 && depth0.createRow) || helpers.helperMissing).call(alias1,depth0,{"name":"createRow","hash":{},"data":data}))
-    + "\r\n        <div class=\"pull-right\">\r\n"
+    + "\n        <div class=\"pull-right\">\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
+    + "        </div>\n    </div>\n    <ul class=\"tree heatmap-closed heatmap-tree\">\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.childrenHTML : depth0),{"name":"each","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "    </ul>\r\n</li>\r\n";
+    + "    </ul>\n</li>\n";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-value.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

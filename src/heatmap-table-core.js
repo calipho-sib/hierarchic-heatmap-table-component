@@ -180,6 +180,12 @@
                 self.resetHeatMap();
             });
 
+            $(self.heatmapTable).find(".heatmap-filterByRowName-input").keydown(function(e) {
+                if(e.keyCode==13){
+                    $(self.heatmapTable).find(".heatmap-filterByRowName-search").click();
+                }
+            });
+
             $(self.heatmapTable).find(".heatmap-filterByRowName-search").click(function() {
                 
                 var filterString = $(self.heatmapTable).find(".heatmap-filterByRowName-input").val();
