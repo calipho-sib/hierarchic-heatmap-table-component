@@ -140,12 +140,17 @@
 
         initSearchBoxSource: function (data) {
             this.initSearchBoxSourceList(data);
-            console.log(this.rowLabelList);
+            var self = this;
             $.typeahead({
                 input: '.heatmap-filterByRowName-input',
                 source: {
                     data: this.rowLabelList
                 },
+                callback: {
+                    onClick: function() {
+                        $(self.heatmapTable).find(".heatmap-filterByRowName-search").click();
+                    }
+                }
             });
             // $('.heatmap-filterByRowName-input').typeahead({
             //         hint: true,
@@ -161,7 +166,7 @@
 
         initSearchBoxSourceList: function(data) {
             for (var i = 0; i < data.length; i++) {
-                this.rowLabelList.push(data[i].rowLabel);
+                this.rowLabelList.push(data[i].rowLabel.toLowerCase());
                 if (data[i].children && data[i].children.length > 0) {
                     this.initSearchBoxSourceList(data[i].children);
                 }
@@ -188,20 +193,28 @@
 
             //Add the click event of collapseAll button
             $(self.heatmapTable).find(".heatmap-collapseAll-btn").click(function() {
+                self.showLoadingStatus();
+                $(self.heatmapTable).find(".heatmap-body").hide();
                 $(self.heatmapTable).find(".heatmap-opened").each(function() {
                     $(this).hide()
                            .toggleClass("heatmap-opened heatmap-closed")
                            .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-minus glyphicon-plus");
                 });
+                self.hideLoadingStatus();
+                $(self.heatmapTable).find(".heatmap-body").show();
             });
 
             //Add the click event of expandAll button
             $(self.heatmapTable).find(".heatmap-expandAll-btn").click(function() {
+                self.showLoadingStatus();
+                $(self.heatmapTable).find(".heatmap-body").hide();
                 $(self.heatmapTable).find(".heatmap-closed").each(function() {
                     $(this).show()
                            .toggleClass("heatmap-closed heatmap-opened")
                            .parent().children(".heatmap-row").find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus");
                 });
+                self.hideLoadingStatus();
+                $(self.heatmapTable).find(".heatmap-body").show();
             })
 
             $(self.heatmapTable).find(".heatmap-reset-btn").click(function() {
@@ -270,6 +283,7 @@
             this.showHeatmapBody();
             this.showHeatmapRows();
             this.initClickEvent();
+            this.initSearchBoxSource(this.data);
         },
 
         show : function() {
@@ -478,7 +492,7 @@
         },
 
         hideLoadingStatus: function() {
-            $(".heatmap-info").hide()
+            $(".heatmap-info").hide();
         }
     }
 
