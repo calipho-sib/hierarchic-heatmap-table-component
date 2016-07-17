@@ -66,7 +66,9 @@
             });
 
            Handlebars.registerHelper('heatmapCreateHeader', function() {
-                return new Handlebars.SafeString(self.headerTemplate(self.headerTemplateData));
+                if (self.headerTemplate) {
+                    return new Handlebars.SafeString(self.headerTemplate(self.headerTemplateData));
+                }
             });
         },
 
@@ -503,7 +505,7 @@
         this.heatmapTable = $("#" + argv.tableID)[0];
         if (argv.options) {
             this.detailTemplateID = argv.options.detailTemplate;
-            this.headerTemplateID = argv.options.headerTemplate;
+            this.headerTemplateID = argv.options.headerTemplate || null;
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
@@ -535,7 +537,7 @@ this["HBtemplates"] = this["HBtemplates"] || {};
 this["HBtemplates"]["templates/heatmap-body.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
 
-  return "<div class=\"heatmap-body\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n                "
+  return "<div class=\"heatmap-body\" style=\"margin-top:20px\">\r\n    <div style=\"overflow:hidden\">\r\n        <div style=\"overflow:hidden\">\r\n            <div class=\"pull-right\">\r\n                "
     + container.escapeExpression(((helper = (helper = helpers.heatmapCreateHeader || (depth0 != null ? depth0.heatmapCreateHeader : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"heatmapCreateHeader","hash":{},"data":data}) : helper)))
     + "\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>";
 },"useData":true});

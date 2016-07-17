@@ -66,7 +66,9 @@
             });
 
            Handlebars.registerHelper('heatmapCreateHeader', function() {
-                return new Handlebars.SafeString(self.headerTemplate(self.headerTemplateData));
+                if (self.headerTemplate) {
+                    return new Handlebars.SafeString(self.headerTemplate(self.headerTemplateData));
+                }
             });
         },
 
@@ -503,7 +505,7 @@
         this.heatmapTable = $("#" + argv.tableID)[0];
         if (argv.options) {
             this.detailTemplateID = argv.options.detailTemplate;
-            this.headerTemplateID = argv.options.headerTemplate;
+            this.headerTemplateID = argv.options.headerTemplate || null;
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);

@@ -1,5 +1,9 @@
 extends ./head
 block content
+  style.
+    .red {
+      background-color: red;
+    }
   div.panel.panel-default.col-lg-12.col-md-12(style="float: left; height:auto")
     div.row.panel-heading
       h4.text-center Simple
@@ -17,7 +21,6 @@ block content
             * **{value: "", html: ""}**: html is a string of raw html
             * **{value: "", cssClass: ""}**: cssClass is a name of css class
             * **{value: "", color: ""}**: color is a name of css color
-            form.pull-right(style="width:50%")
     div.pull-right(style="width:50%;overflow:auto;")
       div
         ul.nav.nav-tabs(role="tablist")
@@ -25,7 +28,9 @@ block content
             a(href="#javascript", aria-controls="javascript", role="tab", data-toggle="tab") Javascript
           li(role="presentation")
             a(href="#html", aria-controls="html", role="tab", data-toggle="tab") HTML
-      
+          li(role="presentation")
+            a(href="#css", aria-controls="css", role="tab", data-toggle="tab") CSS
+
       div.tab-content
         div#javascript.tab-pane.active(role="tabpanel")
           textarea#code1(name="code1",style="max-height:200px;overflow:auto;font-size:11px").
@@ -96,6 +101,11 @@ block content
                 {{/createHeader}}
               {{/each}}
             </script>
+        div#css.tab-pane.active(role="tabpanel")
+          textarea#cssText(name="cssText",style="max-height:300px;height:100%;overflow:auto;font-size:11px;").
+            .red {
+              background-color: red;
+            }
       //- button.btn.btn-default.center-block(style="margin-bottom:20px;",onclick='executeCode("#heatmap-table-1", simpleHeatMap)') Execute
   script.
     var simpleHeatMap;
@@ -122,13 +132,23 @@ block content
             lineWrapping: true,
             readOnly: true
         });
+        headTemplate = CodeMirror.fromTextArea($("#cssText")[0], {
+            mode: "text/css",
+            lineNumbers: true,
+            lineWrapping: true,
+            readOnly: true
+        });
         $(function () {
           executeCode("#heatmap-table-1", simpleHeatMap);
 
           //can't remove this code, because codeMirror can't render a element which is invisiable
-         $('#html').each( function () {
-              $(this).removeClass('active')
+          $('#html').each( function () {
+            $(this).removeClass('active')
           });
+          $('#css').each( function () {
+            $(this).removeClass('active')
+          });
+
         });
     };
   script.

@@ -11,13 +11,18 @@ block content
 
         * **options**(_Object_): The option of the heatMap table
           * **columnWidth**(_String_): Set the width of columns, "70px" by default
-          * **headerTemplate**(_Handlebars templete id_)
-          * **headerTemplateData**(_Object_)
           * **valuesSetting**(_Array_):
-            * **{value: "", html: ""}**: html is a string of raw html
-            * **{value: "", cssClass: ""}**: cssClass is a name of css class
-            * **{value: "", color: ""}**: color is a name of css color
-            form.pull-right(style="width:50%")
+            * **{value: "", color: ""}**: color is a value of css color
+
+        * **Data structure**:
+
+            ```
+            [{
+              "rowLabel": String,
+              "values": Array,
+              "children": Array, 
+            }];
+            ```
     div.pull-right(style="width:50%;overflow:auto;")
       div
         ul.nav.nav-tabs(role="tablist")
@@ -25,25 +30,19 @@ block content
             a(href="#javascript", aria-controls="javascript", role="tab", data-toggle="tab") Javascript
           li(role="presentation")
             a(href="#html", aria-controls="html", role="tab", data-toggle="tab") HTML
+          li(role="presentation")
+            a(href="#css", aria-controls="css", role="tab", data-toggle="tab") CSS
       
       div.tab-content
         div#javascript.tab-pane.active(role="tabpanel")
-          textarea#code1(name="code1",style="max-height:200px;overflow:auto;font-size:11px").
+          textarea#javascriptCode(name="javascriptCode",style="max-height:200px;overflow:auto;font-size:11px").
             var heatmapTableOptions = {
               valuesSetting: [
-                { value: 'Positive', html: '<div>\
-                  <img style="width:15px" src="img/chili.gif">\
-                  <img style="width:15px" src="img/chili.gif">\
-                  </div>'
-                },
-                { value: 'High', cssClass: 'red'},
-                { value: 'NotDetected', color: 'lightgray'}
+                { value: 'NotDetected', color: 'lightgray'},
+                { value: 'Positive', color: 'FFA10A'},
+                { value: 'High', color: 'red'}
                 ],
-                columnWidth: "120px",
-                headerTemplate: "headerTemplate",
-                headerTemplateData: {header:['MANotDetected',
-                                    'MAPositive',
-                                    'ESTPositive']}
+                columnWidth: "120px"
             }
             var heatMapTable = new HeatMapTable({
                             tableID: "heatmap-table-1",
@@ -52,24 +51,12 @@ block content
             var data = [
                 {
                   "rowLabel": "Human anatomical entity",
-                  "linkLabel": "[TS-2178]",
-                  "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
                   "values": ["NotDetected", "High", "Positive"],
                   "children": [
                     {
                       "rowLabel": "Fluid and secretion",
-                      "linkLabel": "[TS-2101]",
-                      "linkURL": "http://www.nextprot.org/db/term/TS-2101",
                       "values": ["NotDetected", "High", "Positive"],
-                      "children": [ 
-                        {
-                          "linkLabel": "[TS-0079]", 
-                          "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
-                          "rowLabel": "Blood", 
-                          "values": ["", "High", "Positive"],
-                          "children": []
-                        }
-                      ]
+                      "children": []
                     }
                   ], 
                 }
@@ -78,7 +65,9 @@ block content
             heatMapTable.loadJSONData(data);
             heatMapTable.show();
         div#html.tab-pane.active(role="tabpanel")
-          textarea#hTemplate(name="hTemplate",style="max-height:300px;height:100%;overflow:auto;font-size:11px;").
+          textarea#htmlCode(name="htmlCode",style="max-height:300px;height:100%;overflow:auto;font-size:11px;").
+            <div id="heatmap-table-1"></div>
+
             <script type="text/javascript">
               Handlebars.registerHelper('createHeader', function(columnName, block) {
                 var result = {};
@@ -87,6 +76,7 @@ block content
                 return block.fn(result);
               });
             </script>
+
             <script type="text/x-handlebars-template">
               {{#each header}}
                 {{#createHeader this}}
@@ -96,6 +86,9 @@ block content
                 {{/createHeader}}
               {{/each}}
             </script>
+        div#css.tab-pane.active(role="tabpanel")
+          textarea#cssCode(name="cssCode",style="max-height:300px;height:100%;overflow:auto;font-size:11px;").
+
       //- button.btn.btn-default.center-block(style="margin-bottom:20px;",onclick='executeCode("#heatmap-table-1", simpleHeatMap)') Execute
   script.
     var simpleHeatMap;
@@ -107,7 +100,7 @@ block content
     };
 
     window.onload = function () {
-        simpleHeatMap = CodeMirror.fromTextArea($("#code1")[0], {
+        javascriptCode = CodeMirror.fromTextArea($("#javascriptCode")[0], {
             mode: "javascript",
             lineNumbers: true,
             lineWrapping: true,
@@ -115,20 +108,30 @@ block content
             matchBrackets: true,
             readOnly: true
         });
-        headTemplate = CodeMirror.fromTextArea($("#hTemplate")[0], {
+        htmlCode = CodeMirror.fromTextArea($("#htmlCode")[0], {
             mode: "text/html",
             htmlMode: true,
             lineNumbers: true,
             lineWrapping: true,
             readOnly: true
         });
+        cssCode = CodeMirror.fromTextArea($("#cssCode")[0], {
+            mode: "text/css",
+            lineNumbers: true,
+            lineWrapping: true,
+            readOnly: true
+        });
         $(function () {
-          executeCode("#heatmap-table-1", simpleHeatMap);
+          executeCode("#heatmap-table-1", javascriptCode);
 
           //can't remove this code, because codeMirror can't render a element which is invisiable
-         $('#html').each( function () {
-              $(this).removeClass('active')
+          $('#html').each( function () {
+            $(this).removeClass('active')
           });
+          $('#css').each( function () {
+            $(this).removeClass('active')
+          });
+
         });
     };
   script.
