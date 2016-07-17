@@ -1,0 +1,101 @@
+extends ./head
+block content
+  div.panel.panel-default.col-lg-12.col-md-12
+    div.row.panel-heading
+      h4.text-center Simple
+    div#heatmap-table-1(style="width:800px;margin:20px auto 50px auto; height:auto")
+    div.panel-body.pull-left(style="width:50%")
+      p This is the classic display of a heatmap.
+      ul
+        li tableID(String): The id of the HTML element
+        li options(Object): The option of the heatMap table
+          ul
+            li columnWidth(String): Set the width of columns, "70px" by default
+            li headerTemplate(String):
+            li headerTemplateData(String): 
+            li valuesSetting(String):
+    form.pull-right(style="width:50%")
+      textarea#code1(name="code1",style="max-height:200px;overflow:auto;font-size:11px").
+        var heatmapTableOptions = {
+          valuesSetting: [
+            { value: 'Positive', html: '<div>\
+              <img style="width:15px" src="img/chili.gif">\
+              <img style="width:15px" src="img/chili.gif">\
+              </div>'
+            },
+            { value: 'High', cssClass: 'red'},
+            { value: 'NotDetected', color: 'lightgray'}
+            ],
+            columnWidth: "120px",
+            headerTemplate: "headerTemplate",
+            headerTemplateData: {header:['MANotDetected',
+                                'MAPositive',
+                                'ESTPositive']}
+        }
+        var heatMapTable = new HeatMapTable({
+                        tableID: "heatmap-table-1",
+                        options: heatmapTableOptions
+                    });
+        var data = [
+            {
+              "rowLabel": "Human anatomical entity",
+              "linkLabel": "[TS-2178]",
+              "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
+              "values": ["NotDetected", "High", "Positive"],
+              "children": [
+                {
+                  "rowLabel": "Fluid and secretion",
+                  "linkLabel": "[TS-2101]",
+                  "linkURL": "http://www.nextprot.org/db/term/TS-2101",
+                  "values": ["NotDetected", "High", "Positive"],
+                  "children": [ 
+                    {
+                      "linkLabel": "[TS-0079]", 
+                      "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
+                      "rowLabel": "Blood", 
+                      "values": ["", "High", "Positive"],
+                      "children": []
+                    }
+                  ]
+                }
+              ], 
+            }
+          ];
+                
+        heatMapTable.loadJSONData(data);
+        heatMapTable.show();
+      button.btn.btn-default.center-block(style="margin-bottom:20px;",onclick='executeCode("#heatmap-table-1", simpleHeatMap)') Execute
+  script.
+    var simpleHeatMap;
+    var executeCode = function (outputDiv, mirrorCode) {
+        $(outputDiv).empty();
+        var code = mirrorCode.getValue();
+        eval(code);
+        $(outputDiv).animate({opacity: "100"}, 2000);
+    };
+
+    window.onload = function () {
+        simpleHeatMap = CodeMirror.fromTextArea(code1, {
+            mode: "javascript",
+            lineNumbers: true,
+            lineWrapping: true
+        });
+        $(function () {
+          executeCode("#heatmap-table-1", simpleHeatMap);
+        });
+    };
+  script.
+    Handlebars.registerHelper('createHeader', function(columnName, block) {
+          var result = {};
+          result.columnWidth = "120px";
+          result.columnName = columnName;
+          return block.fn(result);
+      });
+  script#headerTemplate(type="text/x-handlebars-template").
+    {{#each header}}
+      {{#createHeader this}}
+          <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+              {{columnName}}
+          </div>
+      {{/createHeader}}
+    {{/each}}

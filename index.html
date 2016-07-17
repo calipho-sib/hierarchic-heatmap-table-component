@@ -16,17 +16,13 @@
     <link rel="stylesheet" href="styles/common-style.css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <!-- // <script type="text/javascript" src="bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script> -->
-    
+
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    
-    <!-- // <script type="text/javascript" src="bower_components/d3/d3.min.js"></script> -->
-    <!-- <script type="text/javascript" src="bower_components/handlebars/handlebars.js"></script> -->
+
 
     <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
     <script type="text/javascript" src="vendor/jquery.typeahead.min.js"></script>
     <script type="text/javascript" src="dist/heatmap-table.js"></script>
-    <!-- <script type="text/javascript" src="vendor/nextprot.bundle.js"></script> -->
     <script type="text/javascript" src="vendor/nextprot.js"></script>
     <script type="text/javascript" src="src/nextprot-data-filters.js"></script>
     <script type="text/javascript" src="src/convert-nextprot-to-heatmap.js"></script>
@@ -104,135 +100,67 @@
     </div>
 
     <div class="container">
-
         <div class="raw">
-
-
-<div class="col-md-12">
-                    <div class="filters">
-
-    <div>
-        <h3>Methodologies</h3>
-        <div id="panel-techniques" class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <a class="select-all pull-left" referto="#collapse0">All <i class="fa fa-check" aria-hidden="true"></i></a>
-                    <a class="collapse-title collapsed" data-toggle="collapse" href="#collapse0">
-                        <div class="panel-title">
-                            <span class="chevron pull-right"><i class="fa" aria-hidden="true"></i></span>
-                            <span class="typeName">All methods</span>
-                            <span class="badge phenoCount pull-right"></span>
+            <div class="col-md-12">
+                <div class="filters">
+                    <div>
+                        <h3>Methodologies</h3>
+                        <div id="panel-techniques" class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="select-all pull-left" referto="#collapse0">All <i class="fa fa-check" aria-hidden="true"></i></a>
+                                    <a class="collapse-title collapsed" data-toggle="collapse" href="#collapse0">
+                                        <div class="panel-title">
+                                            <span class="chevron pull-right"><i class="fa" aria-hidden="true"></i></span>
+                                            <span class="typeName">All methods</span>
+                                            <span class="badge phenoCount pull-right"></span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="collapse0" class="panel-collapse collapse">
+                                    <ul class="list-group subtypes">
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="Microarray" value="true">MicroArray</span></a></li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="EST" value="true">EST</span></a></li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="true">IHC</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div id="collapse0" class="panel-collapse collapse">
-                    <ul class="list-group subtypes">
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="Microarray" value="true">MicroArray</span></a></li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="EST" value="true">EST</span></a></li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="true">IHC</span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
-        <h3>Possible values</h3>
-        <div id="panel-values" class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <a class="select-all pull-left" referto="#collapse2">All <i class="fa fa-check" aria-hidden="true"></i></a>
-                    <a class="collapse-title collapsed" data-toggle="collapse" href="#collapse2">
+                        <h3>Possible values</h3>
+                        <div id="panel-values" class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="select-all pull-left" referto="#collapse2">All <i class="fa fa-check" aria-hidden="true"></i></a>
+                                    <a class="collapse-title collapsed" data-toggle="collapse" href="#collapse2">
 
-                        <div class="panel-title">
-                            <span class="chevron pull-right"><i class="fa" aria-hidden="true"></i></span>
-                            <span class="typeName">All values</span>
-                            <span class="badge phenoCount pull-right"></span>
+                                        <div class="panel-title">
+                                            <span class="chevron pull-right"><i class="fa" aria-hidden="true"></i></span>
+                                            <span class="typeName">All values</span>
+                                            <span class="badge phenoCount pull-right"></span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse">
+                                    <ul class="list-group subtypes">
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="Microarray" value="NotDetected">MicroArray Not Detected</span></a>                        </li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="Microarray" value="Positive">MicroArray Positive</span></a>                        </li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="EST" value="Positive">EST Positive</span></a></li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="NotDetected">IHC Expression Level Not Detected</span></a></li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="Low">IHC Expression Level Low</span></a></li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="Medium">IHC Expression Level Medium</span></a></li>
+                                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="High">IHC Expression Level High</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div id="collapse2" class="panel-collapse collapse">
-                    <ul class="list-group subtypes">
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="Microarray" value="NotDetected">MicroArray Not Detected</span></a>                        </li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="Microarray" value="Positive">MicroArray Positive</span></a>                        </li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="EST" value="Positive">EST Positive</span></a></li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="NotDetected">IHC Expression Level Not Detected</span></a></li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="Low">IHC Expression Level Low</span></a></li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="Medium">IHC Expression Level Medium</span></a></li>
-                        <li class="list-group-item"><a class="active"><i class="fa fa-check" aria-hidden="true"></i><span class="phenAnnot" type="IHC" value="High">IHC Expression Level High</span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-          
-           
-    </div>
-
-</div>
-                </div>
-
-<!--
-            <div>
-                <div class="filterBox">
-                    <span class="filters pull-left">Quality:</span>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="radio"  name="goldOrSilver" value="goldAndSilver" checked/> Gold and silver
-                        </label>
-                        <label>
-                          <input type="radio"  name="goldOrSilver" value="goldOnly"/> Gold only
-                        </label>
                     </div>
                 </div>
-                <div class="filterBox">
-                    <span class="filters pull-left">Filter:</span>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="IHCFilter"/> IHC
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="ESTFilter"/> EST
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="MicroArrayFilter"/> MicroArray
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="positiveFilter"/> Positive
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="notDetectedFilter"/> NotDetected
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="highFilter"/> High
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="mediumFilter"/> Medium
-                        </label>
-                    </div>
-                    <div class="filters checkbox pull-left">
-                        <label>
-                          <input type="checkbox" id="lowFilter"/> Low
-                        </label>
-                    </div>
-                </div>
-            </div>
-            -->
+            </div>  
             <div id="heatmap-table">
             </div>
         </div>
-
     </div>
-
 </body>
 
 <script id="detailTemplate" type="text/x-handlebars-template">
@@ -264,8 +192,5 @@
         {{/createHeader}}
     {{/each}}
 </script>
-
-
-
 
 </html>

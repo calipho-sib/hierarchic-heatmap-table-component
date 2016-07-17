@@ -42,12 +42,16 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 },
-                files: ['src/*.js', 'templates/*.tmpl', 'vendor/css/*.css'],
-                tasks: ['handlebars:compile', 'concat']
+                files: ['src/*.js', 'templates/*.tmpl', 'vendor/css/*.css', 'doc/*.pug'],
+                tasks: ['handlebars:compile', 'concat', "pug:compile"]
             },
             handlebars: {
                 files: 'templates/*.tmpl',
                 tasks: ['handlebars:compile']
+            },
+            pug: {
+                files: "doc/pug/*.pug",
+                tasks: ['pug:compile']
             }
         },
         handlebars: {
@@ -58,6 +62,20 @@ module.exports = function(grunt) {
                     namespace: "HBtemplates"
                 }
             }
+        },
+        pug: {
+            compile: {
+                options: {
+                    data: {}
+                },
+                files: [{
+                    src: "**/*.pug",
+                    dest: "doc",
+                    ext: ".html",
+                    cwd: "doc",
+                    expand: true
+                }]
+            }
         }
     });
 
@@ -65,6 +83,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-pug');
 
-    grunt.registerTask('default', ['connect:server', 'concat', 'watch:all']);
+    grunt.registerTask('default', ['connect:server', 'pug', 'concat', 'watch:all']);
 };
