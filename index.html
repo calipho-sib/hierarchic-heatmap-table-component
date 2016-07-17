@@ -32,6 +32,13 @@
 </head>
 
 <style type="text/css">
+    .header {
+        background-color: #1634b9;
+        color: white;
+        margin: 0 0;
+/*        padding-left: 5px;
+        padding-right: 5px;*/
+    }
 
     .detection-method {
         background-color: #7cba0f;
@@ -177,7 +184,7 @@
 <script type="text/javascript">
     Handlebars.registerHelper('createHeader', function(columnName, block) {
         var result = {};
-        result.columnWidth = "50px";
+        result.columnWidth = "60px";
         result.columnName = columnName;
         return block.fn(result);
     });
@@ -186,7 +193,7 @@
 <script id="headerTemplate" type="text/x-handlebars-template">
     {{#each header}}
         {{#createHeader this}}
-            <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+            <div class="heatmap-column header {{columnClass}}" style="width: {{columnWidth}}">
                 {{columnName}}
             </div>
         {{/createHeader}}

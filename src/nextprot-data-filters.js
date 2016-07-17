@@ -1,88 +1,76 @@
-function initFilter(originData, heatMapTable) {
-	var valueTofiltersListID = {"Microarray": "MicroArrayFilter", "EST": "ESTFilter", "IHC": "IHCFilter"}
-    for (var value in valueTofiltersListID) {
-        $("#" + valueTofiltersListID[value]).click((function(value) {
-            return function() {
-                var valueDict = {};
-                var isFilter = false;
-                for (var key in valueTofiltersListID) {
-                    if ($("#" + valueTofiltersListID[key]).is(':checked')) {
-                        valueDict[key] = true;
-                        isFilter = true;
-                    }
-                }
+function activateFilters(heatmapData, heatMapTable) {
+    $(".filters a:not(.collapse-title)").click(function () {
+        var filters = getFilters();
+        console.log(filters);
+        autoCheckAll($(this));
 
-                if (isFilter) {
-                    var data = filterByEvidences(originData, valueDict);
-                } else {
-                    var data = originData;
-                }
-
-                heatMapTable.showLoadingStatus();
-                heatMapTable.loadJSONData(data);
-				heatMapTable.show();
-				heatMapTable.hideLoadingStatus();
-            }
-        })(value));
-    }
-
-    $(":radio").click(function(){
-    	var value = $(this)[0].value;
-    	var data;
-    	if (value === "goldOnly") {
-    		data = filterOutSliver(originData);
-    		console.log(data);
-    	} else if (value === "goldAndSilver") {
-    		data = originData;
-    	}
+        var data = filterByEvidences(heatmapData, filters)
 
         heatMapTable.showLoadingStatus();
         heatMapTable.loadJSONData(data);
-		heatMapTable.show();
-		heatMapTable.hideLoadingStatus();
-	});
-}	
+        heatMapTable.show();
+        heatMapTable.hideLoadingStatus();
+    })
+}
 
-// function filterByEvidences(data, evidencesDict) {
-//     var newDataList = [];
+function addSelectAll() {
+        $(".subtypes a").click(function () {
+            $(this).toggleClass("active");
+            $("i", this).toggleClass("fa-circle-thin fa-check");
+        })
 
-//     for (var i = 0; i < data.length; i++) {
-//         var curNewData = {};
-//         for (var key in data[i]) {
-//             curNewData[key] = data[i][key];
-//         }
+        $(".select-all").click(function () {
+            $("i", this).toggleClass("fa-circle-thin fa-check");
+            var matchingList = $(this).attr("referTo");
+            if ($("i", this).hasClass("fa-check")) {
+                $(matchingList + " a").each(function () {
+                    if (!$(this).hasClass("active")) {
+                        $(this).addClass("active");
+                        $("i", this).toggleClass("fa-circle-thin fa-check");
+                    }
 
-//         curNewData.detailData = [];
-//         curNewData.childrenHTML = null;
-//         curNewData.html = null;
+                })
+            } else {
+                $(matchingList + " a").each(function () {
+                    if ($(this).hasClass("active")) {
+                        $(this).removeClass("active");
+                        $("i", this).toggleClass("fa-circle-thin fa-check");
+                    }
 
-//         for (var j = 0; j < data[i].detailData.length; j++) {
-//         	for (var value in evidencesDict) {
-//         		if (data[i].detailData[j].evidenceCodeName.toLowerCase() === value.toLowerCase()) {
-//         			curNewData.detailData.push(data[i].detailData[j]);
-//         		}
-//         	}
-//         }
+                })
+            }
+        })
+}
 
-//         if (data[i].children && data[i].children.length !== 0) {
-//             var newChildren = filterByEvidences(data[i].children, evidencesDict);
-//             if (newChildren.length !== 0) {
-//                 curNewData.children = newChildren;
-//             } else {
-//                 curNewData.children = [];
-//             }
-//         }
+function getFilters() {
+    var filters = {};
+    filters['Microarray'] = []
+    filters['IHC'] = []
+    filters['EST'] = []
+    $(".filters .subtypes a").each(function () {
+        if ($(this).hasClass("active")) {
+            var type = $(this).find(".phenAnnot").attr('type');
+            var value = $(this).find(".phenAnnot").attr('value');
+            filters[type].push(value);
+        }
+    });
+    return filters;
+}
 
-//         if (curNewData.children && curNewData.children.length !== 0) {
-//             newDataList.push(curNewData);
-//         } else if (curNewData.detailData.length !== 0) {
-//         	newDataList.push(curNewData);
-//         }
-//     }
-//     return newDataList;
-// }
+function autoCheckAll(elem) {
+    var panel = $(elem).closest(".panel-group");
+    var all = panel.find(".select-all i");
+    var activeFilters = panel.find(".subtypes a.active");
+    if (!activeFilters.length && all.hasClass("fa-check")) {
+        all.toggleClass("fa-circle-thin fa-check");
+    } else if (activeFilters.length === panel.find(".subtypes a").length) {
+        if (all.hasClass("fa-circle-thin")) {
+            all.toggleClass("fa-circle-thin fa-check");
+        }
+    }
+}
 
-function filterOutSliver(data) {
+function filterByEvidences(data, filters) {
     var newDataList = [];
 
     for (var i = 0; i < data.length; i++) {
@@ -96,12 +84,24 @@ function filterOutSliver(data) {
         curNewData.html = null;
 
         for (var j = 0; j < data[i].detailData.length; j++) {
-    		if (data[i].detailData[j].qualityQualifier === 'SILVER') continue;
-    		curNewData.detailData.push(data[i].detailData[j]);
+            evidencesCodeName = data[i].detailData[j].evidenceCodeName;
+            value = data[i].detailData[j].value;
+            isFilterThisType = false;
+            for (var k = 0; k < filters[evidencesCodeName].length; k++) {
+                if (filters[evidencesCodeName][k] === 'true') isFilterThisType = true
+            }
+            if (isFilterThisType) {
+                for (var k = 0; k < filters[evidencesCodeName].length; k++) {
+                    if (filters[evidencesCodeName][k] === value) {
+                        curNewData.detailData.push(data[i].detailData[j]);
+                        break
+                    }
+                }
+            }
         }
 
         if (data[i].children && data[i].children.length !== 0) {
-            var newChildren = filterOutSliver(data[i].children);
+            var newChildren = filterByEvidences(data[i].children, filters);
             if (newChildren.length !== 0) {
                 curNewData.children = newChildren;
             } else {
@@ -112,7 +112,7 @@ function filterOutSliver(data) {
         if (curNewData.children && curNewData.children.length !== 0) {
             newDataList.push(curNewData);
         } else if (curNewData.detailData.length !== 0) {
-        	newDataList.push(curNewData);
+            newDataList.push(curNewData);
         }
     }
     return newDataList;
