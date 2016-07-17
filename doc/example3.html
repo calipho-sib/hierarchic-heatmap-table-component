@@ -1,4 +1,4 @@
-<html><head><title>Heatmap table</title><link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/><link type="text/css" rel="stylesheet" href="./static/css/codemirror.css"/><link type="text/css" rel="stylesheet" href="../vendor/jquery.typeahead.min.css"/><link type="text/css" rel="stylesheet" href="../dist/heatmap-table.css"/><script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script><script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script><script type="text/javascript" src="./static/js/codemirror.js"></script><script type="text/javascript" src="./static/js/xml.js"></script><script type="text/javascript" src="./static/js/css.js">   </script><script type="text/javascript" src="./static/js/javascript.js"></script><script type="text/javascript" src="../dist/heatmap-table-vendor.js"></script><script type="text/javascript" src="../vendor/jquery.typeahead.min.js"></script><script type="text/javascript" src="../dist/heatmap-table.js"></script></head><body><div class="panel panel-default col-lg-12 col-md-12" style="float: left; height:auto"><div class="row panel-heading"><h4 class="text-center">Add a header</h4></div><div id="heatmap-table-1" style="width:800px;margin:20px auto 50px auto; height:auto"></div><div class="panel-body pull-left" style="width:50%"><p>This is the classic display of a heatmap.</p><ul>
+<html><head><title>Heatmap table</title><link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/><link type="text/css" rel="stylesheet" href="./static/css/codemirror.css"/><link type="text/css" rel="stylesheet" href="../vendor/jquery.typeahead.min.css"/><link type="text/css" rel="stylesheet" href="../dist/heatmap-table.css"/><script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script><script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script><script type="text/javascript" src="./static/js/codemirror.js"></script><script type="text/javascript" src="./static/js/xml.js"></script><script type="text/javascript" src="./static/js/css.js">   </script><script type="text/javascript" src="./static/js/javascript.js"></script><script type="text/javascript" src="../dist/heatmap-table-vendor.js"></script><script type="text/javascript" src="../vendor/jquery.typeahead.min.js"></script><script type="text/javascript" src="../dist/heatmap-table.js"></script></head><body><div class="panel panel-default col-lg-12 col-md-12" style="float: left; height:auto"><div class="row panel-heading"><h4 class="text-center">Value setting</h4></div><div id="heatmap-table-1" style="width:800px;margin:20px auto 50px auto; height:auto"></div><div class="panel-body pull-left" style="width:50%"><p>This is the classic display of a heatmap.</p><ul>
 <li><p><strong>tableID</strong>(<em>String</em>): The id of the HTML element</p>
 </li>
 <li><p><strong>options</strong>(<em>Object</em>): The option of the heatMap table</p>
@@ -6,6 +6,8 @@
 <li><strong>columnWidth</strong>(<em>String</em>): Set the width of columns, &quot;70px&quot; by default</li>
 <li><strong>valuesSetting</strong>(<em>Array</em>):<ul>
 <li><strong>{value: &quot;&quot;, color: &quot;&quot;}</strong>: color is a value of css color</li>
+<li><strong>{value: &quot;&quot;, cssClass: &quot;&quot;}</strong>: cssClass is a css class</li>
+<li><strong>{value: &quot;&quot;, html: &quot;&quot;}</strong>: </li>
 </ul>
 </li>
 <li><strong>headerTemplate</strong>(String): The name of handlebars template</li>
@@ -22,9 +24,13 @@
 </ul>
 </div><div class="pull-right" style="width:50%;overflow:auto"><div><ul class="nav nav-tabs" role="tablist"><li class="active" role="presentation"><a href="#javascript" aria-controls="javascript" role="tab" data-toggle="tab">Javascript</a></li><li role="presentation"><a href="#html" aria-controls="html" role="tab" data-toggle="tab">HTML</a></li><li role="presentation"><a href="#css" aria-controls="css" role="tab" data-toggle="tab">CSS</a></li></ul></div><div class="tab-content"><div class="tab-pane active" id="javascript" role="tabpanel"><textarea id="javascriptCode" name="javascriptCode" style="max-height:200px;overflow:auto;font-size:11px">var heatmapTableOptions = {
   valuesSetting: [
-    { value: 'NotDetected', color: 'lightgray'},
-    { value: 'Positive', color: 'FFA10A'},
-    { value: 'High', color: 'red'}
+    { value: 'Positive', html: '<div>\
+      <img style="width:15px" src="./static/img/chili.gif">\
+      <img style="width:15px" src="./static/img/chili.gif">\
+      </div>'
+    },
+    { value: 'High', cssClass: 'red'},
+    { value: 'NotDetected', color: 'lightgray'}
     ],
     columnWidth: "120px",
     headerTemplate: "headerTemplate",
@@ -76,7 +82,9 @@ heatMapTable.show();</textarea></div><div class="tab-pane active" id="html" role
       </div>
     {{/createHeader}}
   {{/each}}
-</script></textarea></div><div class="tab-pane active" id="css" role="tabpanel"><textarea id="cssCode" name="cssCode" style="max-height:300px;height:100%;overflow:auto;font-size:11px"></textarea></div></div></div></div><script>var simpleHeatMap;
+</script></textarea></div><div class="tab-pane active" id="css" role="tabpanel"><textarea id="cssCode" name="cssCode" style="max-height:300px;height:100%;overflow:auto;font-size:11px">.red {
+  background-color: red;
+}</textarea></div></div></div></div><script>var simpleHeatMap;
 var executeCode = function (outputDiv, mirrorCode) {
     $(outputDiv).empty();
     var code = mirrorCode.getValue();
@@ -101,7 +109,7 @@ window.onload = function () {
         readOnly: true
     });
     cssCode = CodeMirror.fromTextArea($("#cssCode")[0], {
-        mode: "text/css",
+        mode: "css",
         lineNumbers: true,
         lineWrapping: true,
         readOnly: true
@@ -129,4 +137,6 @@ window.onload = function () {
           {{columnName}}
       </div>
   {{/createHeader}}
-{{/each}}</script></body></html>
+{{/each}}</script><style>.red {
+  background-color: red;
+}</style></body></html>

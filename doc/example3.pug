@@ -2,7 +2,7 @@ extends ./head
 block content
   div.panel.panel-default.col-lg-12.col-md-12(style="float: left; height:auto")
     div.row.panel-heading
-      h4.text-center Add a header
+      h4.text-center Value setting
     div#heatmap-table-1(style="width:800px;margin:20px auto 50px auto; height:auto")
     div.panel-body.pull-left(style="width:50%")
       p This is the classic display of a heatmap.
@@ -13,6 +13,8 @@ block content
           * **columnWidth**(_String_): Set the width of columns, "70px" by default
           * **valuesSetting**(_Array_):
             * **{value: "", color: ""}**: color is a value of css color
+            * **{value: "", cssClass: ""}**: cssClass is a css class
+            * **{value: "", html: ""}**: 
           * **headerTemplate**(String): The name of handlebars template
           * **headerTemplateData**(Object): {header: ["..", ".."]}
 
@@ -40,9 +42,13 @@ block content
           textarea#javascriptCode(name="javascriptCode",style="max-height:200px;overflow:auto;font-size:11px").
             var heatmapTableOptions = {
               valuesSetting: [
-                { value: 'NotDetected', color: 'lightgray'},
-                { value: 'Positive', color: 'FFA10A'},
-                { value: 'High', color: 'red'}
+                { value: 'Positive', html: '<div>\
+                  <img style="width:15px" src="./static/img/chili.gif">\
+                  <img style="width:15px" src="./static/img/chili.gif">\
+                  </div>'
+                },
+                { value: 'High', cssClass: 'red'},
+                { value: 'NotDetected', color: 'lightgray'}
                 ],
                 columnWidth: "120px",
                 headerTemplate: "headerTemplate",
@@ -100,7 +106,9 @@ block content
             </script>
         div#css.tab-pane.active(role="tabpanel")
           textarea#cssCode(name="cssCode",style="max-height:300px;height:100%;overflow:auto;font-size:11px;").
-
+            .red {
+              background-color: red;
+            }
       //- button.btn.btn-default.center-block(style="margin-bottom:20px;",onclick='executeCode("#heatmap-table-1", simpleHeatMap)') Execute
   script.
     var simpleHeatMap;
@@ -128,7 +136,7 @@ block content
             readOnly: true
         });
         cssCode = CodeMirror.fromTextArea($("#cssCode")[0], {
-            mode: "text/css",
+            mode: "css",
             lineNumbers: true,
             lineWrapping: true,
             readOnly: true
@@ -161,3 +169,7 @@ block content
           </div>
       {{/createHeader}}
     {{/each}}
+  style.
+    .red {
+      background-color: red;
+    }
