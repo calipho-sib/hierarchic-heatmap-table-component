@@ -1,4 +1,22 @@
-<html><head><title>Heatmap table</title><link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/><link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/codemirror.min.css"/><link type="text/css" rel="stylesheet" href="../dist/heatmap-table.css"/><link type="text/css" rel="stylesheet" href="../vendor/jquery.typeahead.min.css"/><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/codemirror.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/mode/javascript/javascript.min.js"></script><script type="text/javascript" src="../dist/heatmap-table-vendor.js"></script><script type="text/javascript" src="../vendor/jquery.typeahead.min.js"></script><script type="text/javascript" src="../dist/heatmap-table.js"></script></head><body><div class="panel panel-default col-lg-12 col-md-12"><div class="row panel-heading"><h4 class="text-center">Simple</h4></div><div id="heatmap-table-1" style="width:800px;margin:20px auto 50px auto; height:auto"></div><div class="panel-body pull-left" style="width:50%"><p>This is the classic display of a heatmap.</p><ul><li>tableID(String): The id of the HTML element</li><li>options(Object): The option of the heatMap table<ul><li>columnWidth(String): Set the width of columns, "70px" by default</li><li>headerTemplate(String):</li><li>headerTemplateData(String): </li><li>valuesSetting(String):</li></ul></li></ul></div><form class="pull-right" style="width:50%"><textarea id="code1" name="code1" style="max-height:200px;overflow:auto;font-size:11px">var heatmapTableOptions = {
+<html><head><title>Heatmap table</title><link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/><link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/codemirror.min.css"/><link type="text/css" rel="stylesheet" href="../vendor/jquery.typeahead.min.css"/><link type="text/css" rel="stylesheet" href="../dist/heatmap-table.css"/><link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/theme/monokai.css"/><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script><script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/codemirror.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/mode/javascript/javascript.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/mode/xml/xml.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.4.0/addon/runmode/runmode.js"></script><script type="text/javascript" src="../dist/heatmap-table-vendor.js"></script><script type="text/javascript" src="../vendor/jquery.typeahead.min.js"></script><script type="text/javascript" src="../dist/heatmap-table.js"></script></head><body><div class="panel panel-default col-lg-12 col-md-12" style="float: left; height:auto"><div class="row panel-heading"><h4 class="text-center">Simple</h4></div><div id="heatmap-table-1" style="width:800px;margin:20px auto 50px auto; height:auto"></div><div class="panel-body pull-left" style="width:50%"><p>This is the classic display of a heatmap.</p><ul>
+<li><p><strong>tableID</strong>(<em>String</em>): The id of the HTML element</p>
+</li>
+<li><p><strong>options</strong>(<em>Object</em>): The option of the heatMap table</p>
+<ul>
+<li><strong>columnWidth</strong>(<em>String</em>): Set the width of columns, &quot;70px&quot; by default</li>
+<li><strong>headerTemplate</strong>(<em>Handlebars templete id</em>)</li>
+<li><strong>headerTemplateData</strong>(<em>Object</em>)</li>
+<li><strong>valuesSetting</strong>(<em>Array</em>):<ul>
+<li><strong>{value: &quot;&quot;, html: &quot;&quot;}</strong>: html is a string of raw html</li>
+<li><strong>{value: &quot;&quot;, cssClass: &quot;&quot;}</strong>: cssClass is a name of css class</li>
+<li><strong>{value: &quot;&quot;, color: &quot;&quot;}</strong>: color is a name of css color
+form.pull-right(style=&quot;width:50%&quot;)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="pull-right" style="width:50%;overflow:auto"><div><ul class="nav nav-tabs" role="tablist"><li class="active" role="presentation"><a href="#javascript" aria-controls="javascript" role="tab" data-toggle="tab">Javascript</a></li><li role="presentation"><a href="#html" aria-controls="html" role="tab" data-toggle="tab">HTML</a></li></ul></div><div class="tab-content"><div class="tab-pane active" id="javascript" role="tabpanel"><textarea id="code1" name="code1" style="max-height:200px;overflow:auto;font-size:11px">var heatmapTableOptions = {
   valuesSetting: [
     { value: 'Positive', html: '<div>\
       <img style="width:15px" src="img/chili.gif">\
@@ -45,7 +63,23 @@ var data = [
   ];
         
 heatMapTable.loadJSONData(data);
-heatMapTable.show();</textarea><button class="btn btn-default center-block" style="margin-bottom:20px" onclick="executeCode(&quot;#heatmap-table-1&quot;, simpleHeatMap)">Execute</button></form></div><script>var simpleHeatMap;
+heatMapTable.show();</textarea></div><div class="tab-pane active" id="html" role="tabpanel"><textarea id="hTemplate" name="hTemplate" style="max-height:300px;height:100%;overflow:auto;font-size:11px"><script type="text/javascript">
+  Handlebars.registerHelper('createHeader', function(columnName, block) {
+    var result = {};
+    result.columnWidth = "120px";
+    result.columnName = columnName;
+    return block.fn(result);
+  });
+</script>
+<script type="text/x-handlebars-template">
+  {{#each header}}
+    {{#createHeader this}}
+      <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+          {{columnName}}
+      </div>
+    {{/createHeader}}
+  {{/each}}
+</script></textarea></div></div></div></div><script>var simpleHeatMap;
 var executeCode = function (outputDiv, mirrorCode) {
     $(outputDiv).empty();
     var code = mirrorCode.getValue();
@@ -54,13 +88,28 @@ var executeCode = function (outputDiv, mirrorCode) {
 };
 
 window.onload = function () {
-    simpleHeatMap = CodeMirror.fromTextArea(code1, {
+    simpleHeatMap = CodeMirror.fromTextArea($("#code1")[0], {
         mode: "javascript",
         lineNumbers: true,
-        lineWrapping: true
+        lineWrapping: true,
+        styleActiveLine: true,
+        matchBrackets: true,
+        readOnly: true
+    });
+    headTemplate = CodeMirror.fromTextArea($("#hTemplate")[0], {
+        mode: "text/html",
+        htmlMode: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        readOnly: true
     });
     $(function () {
       executeCode("#heatmap-table-1", simpleHeatMap);
+
+      //can't remove this code, because codeMirror can't render a element which is invisiable
+     $('#html').each( function () {
+          $(this).removeClass('active')
+      });
     });
 };</script><script>Handlebars.registerHelper('createHeader', function(columnName, block) {
       var result = {};

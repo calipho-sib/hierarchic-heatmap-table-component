@@ -1,70 +1,102 @@
 extends ./head
 block content
-  div.panel.panel-default.col-lg-12.col-md-12
+  div.panel.panel-default.col-lg-12.col-md-12(style="float: left; height:auto")
     div.row.panel-heading
       h4.text-center Simple
     div#heatmap-table-1(style="width:800px;margin:20px auto 50px auto; height:auto")
     div.panel-body.pull-left(style="width:50%")
       p This is the classic display of a heatmap.
-      ul
-        li tableID(String): The id of the HTML element
-        li options(Object): The option of the heatMap table
-          ul
-            li columnWidth(String): Set the width of columns, "70px" by default
-            li headerTemplate(String):
-            li headerTemplateData(String): 
-            li valuesSetting(String):
-    form.pull-right(style="width:50%")
-      textarea#code1(name="code1",style="max-height:200px;overflow:auto;font-size:11px").
-        var heatmapTableOptions = {
-          valuesSetting: [
-            { value: 'Positive', html: '<div>\
-              <img style="width:15px" src="img/chili.gif">\
-              <img style="width:15px" src="img/chili.gif">\
-              </div>'
-            },
-            { value: 'High', cssClass: 'red'},
-            { value: 'NotDetected', color: 'lightgray'}
-            ],
-            columnWidth: "120px",
-            headerTemplate: "headerTemplate",
-            headerTemplateData: {header:['MANotDetected',
-                                'MAPositive',
-                                'ESTPositive']}
-        }
-        var heatMapTable = new HeatMapTable({
-                        tableID: "heatmap-table-1",
-                        options: heatmapTableOptions
-                    });
-        var data = [
-            {
-              "rowLabel": "Human anatomical entity",
-              "linkLabel": "[TS-2178]",
-              "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
-              "values": ["NotDetected", "High", "Positive"],
-              "children": [
-                {
-                  "rowLabel": "Fluid and secretion",
-                  "linkLabel": "[TS-2101]",
-                  "linkURL": "http://www.nextprot.org/db/term/TS-2101",
-                  "values": ["NotDetected", "High", "Positive"],
-                  "children": [ 
-                    {
-                      "linkLabel": "[TS-0079]", 
-                      "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
-                      "rowLabel": "Blood", 
-                      "values": ["", "High", "Positive"],
-                      "children": []
-                    }
-                  ]
-                }
-              ], 
+      :marked
+        * **tableID**(_String_): The id of the HTML element
+
+        * **options**(_Object_): The option of the heatMap table
+          * **columnWidth**(_String_): Set the width of columns, "70px" by default
+          * **headerTemplate**(_Handlebars templete id_)
+          * **headerTemplateData**(_Object_)
+          * **valuesSetting**(_Array_):
+            * **{value: "", html: ""}**: html is a string of raw html
+            * **{value: "", cssClass: ""}**: cssClass is a name of css class
+            * **{value: "", color: ""}**: color is a name of css color
+            form.pull-right(style="width:50%")
+    div.pull-right(style="width:50%;overflow:auto;")
+      div
+        ul.nav.nav-tabs(role="tablist")
+          li.active(role="presentation")
+            a(href="#javascript", aria-controls="javascript", role="tab", data-toggle="tab") Javascript
+          li(role="presentation")
+            a(href="#html", aria-controls="html", role="tab", data-toggle="tab") HTML
+      
+      div.tab-content
+        div#javascript.tab-pane.active(role="tabpanel")
+          textarea#code1(name="code1",style="max-height:200px;overflow:auto;font-size:11px").
+            var heatmapTableOptions = {
+              valuesSetting: [
+                { value: 'Positive', html: '<div>\
+                  <img style="width:15px" src="img/chili.gif">\
+                  <img style="width:15px" src="img/chili.gif">\
+                  </div>'
+                },
+                { value: 'High', cssClass: 'red'},
+                { value: 'NotDetected', color: 'lightgray'}
+                ],
+                columnWidth: "120px",
+                headerTemplate: "headerTemplate",
+                headerTemplateData: {header:['MANotDetected',
+                                    'MAPositive',
+                                    'ESTPositive']}
             }
-          ];
-                
-        heatMapTable.loadJSONData(data);
-        heatMapTable.show();
-      button.btn.btn-default.center-block(style="margin-bottom:20px;",onclick='executeCode("#heatmap-table-1", simpleHeatMap)') Execute
+            var heatMapTable = new HeatMapTable({
+                            tableID: "heatmap-table-1",
+                            options: heatmapTableOptions
+                        });
+            var data = [
+                {
+                  "rowLabel": "Human anatomical entity",
+                  "linkLabel": "[TS-2178]",
+                  "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
+                  "values": ["NotDetected", "High", "Positive"],
+                  "children": [
+                    {
+                      "rowLabel": "Fluid and secretion",
+                      "linkLabel": "[TS-2101]",
+                      "linkURL": "http://www.nextprot.org/db/term/TS-2101",
+                      "values": ["NotDetected", "High", "Positive"],
+                      "children": [ 
+                        {
+                          "linkLabel": "[TS-0079]", 
+                          "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
+                          "rowLabel": "Blood", 
+                          "values": ["", "High", "Positive"],
+                          "children": []
+                        }
+                      ]
+                    }
+                  ], 
+                }
+              ];
+                    
+            heatMapTable.loadJSONData(data);
+            heatMapTable.show();
+        div#html.tab-pane.active(role="tabpanel")
+          textarea#hTemplate(name="hTemplate",style="max-height:300px;height:100%;overflow:auto;font-size:11px;").
+            <script type="text/javascript">
+              Handlebars.registerHelper('createHeader', function(columnName, block) {
+                var result = {};
+                result.columnWidth = "120px";
+                result.columnName = columnName;
+                return block.fn(result);
+              });
+            </script>
+            <script type="text/x-handlebars-template">
+              {{#each header}}
+                {{#createHeader this}}
+                  <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+                      {{columnName}}
+                  </div>
+                {{/createHeader}}
+              {{/each}}
+            </script>
+      //- button.btn.btn-default.center-block(style="margin-bottom:20px;",onclick='executeCode("#heatmap-table-1", simpleHeatMap)') Execute
   script.
     var simpleHeatMap;
     var executeCode = function (outputDiv, mirrorCode) {
@@ -75,13 +107,28 @@ block content
     };
 
     window.onload = function () {
-        simpleHeatMap = CodeMirror.fromTextArea(code1, {
+        simpleHeatMap = CodeMirror.fromTextArea($("#code1")[0], {
             mode: "javascript",
             lineNumbers: true,
-            lineWrapping: true
+            lineWrapping: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            readOnly: true
+        });
+        headTemplate = CodeMirror.fromTextArea($("#hTemplate")[0], {
+            mode: "text/html",
+            htmlMode: true,
+            lineNumbers: true,
+            lineWrapping: true,
+            readOnly: true
         });
         $(function () {
           executeCode("#heatmap-table-1", simpleHeatMap);
+
+          //can't remove this code, because codeMirror can't render a element which is invisiable
+         $('#html').each( function () {
+              $(this).removeClass('active')
+          });
         });
     };
   script.
