@@ -12,11 +12,11 @@ $(function () {
     var heatmapTableOptions = {
         valuesSetting: [
             // { value: 'Positive', color: '#FFA10A'},
-            { value: 'Positive', color: '#FFA10A', filterID: ["positiveFilter"]},
-            { value: 'NotDetected', color: "lightgray", filterID: ["notDetectedFilter"]},
-            { value: 'Low', color: '#FFE6BD', filterID:["positiveFilter", "lowFilter"]},
-            { value: 'Medium', color: '#FFC870', filterID:["positiveFilter", "mediumFilter"]},
-            { value: 'High', color: '#FFC870', filterID:["positiveFilter", "highFilter"]}
+            { value: 'Positive', color: '#FFA10A'},
+            { value: 'NotDetected', color: "lightgray"},
+            { value: 'Low', color: '#FFE6BD'},
+            { value: 'Medium', color: '#FFC870'},
+            { value: 'High', color: '#FFC870'}
         ],
         columnWidth: "50px",
         detailTemplate: "detailTemplate",

@@ -154,16 +154,6 @@
                     }
                 }
             });
-            // $('.heatmap-filterByRowName-input').typeahead({
-            //         hint: true,
-            //         highlight: true,
-            //         minLength: 1
-            //     },
-            //     {
-            //         name: 'states',
-            //         source: this.rowLabelList
-            //     });
-
         },
 
         initSearchBoxSourceList: function(data) {
@@ -265,8 +255,6 @@
 
         initInitialState: function() {
             $(".heatmap-filterByRowName-input").text("");
-
-            //reset filter status
         },
 
         clear: function() {
@@ -294,122 +282,8 @@
             }
         },
 
-        initFilter: function() {
-            var self = this;
-            self.isAddClickEvent = {};
-            for (var value in self.valueTofiltersListID) {
-                for (var i = 0; i < self.valueTofiltersListID[value].length; i++) {
-                    if (self.isAddClickEvent[self.valueTofiltersListID[value][i]]) continue;
-                    self.isAddClickEvent[self.valueTofiltersListID[value][i]] = true;
-                    $("#" + self.valueTofiltersListID[value][i]).click((function(value) {
-                        return function() {
-                                self.showLoadingStatus();
-
-                                var valueDict = {};
-                                var isFilter = false;
-                                for (var key in self.valueTofiltersListID) {
-                                    for (var j = 0; j < self.valueTofiltersListID[key].length; j++) {
-                                        if ($("#" + self.valueTofiltersListID[key][j]).is(':checked')) {
-                                            valueDict[key] = true;
-                                            isFilter = true;
-                                        }
-                                    }
-                                }
-
-                                if (isFilter) {
-                                    self.data = self.filterByValueList(self.originData, valueDict);
-                                } else {
-                                    self.data = self.originData;
-                                }
-                                // self.show();
-                                self.showHeatmapBody();
-                                self.showHeatmapRows();
-                                
-                                if (self.data.length === 0) {
-                                    self.showNoFoundInfo();   
-                                }
-
-                                self.hideLoadingStatus();
-
-                        }
-                    })(value));
-                }
-            }
-        },
-
         showNoFoundInfo: function() {
             $(this.heatmapTable).find(".heatmap-rows").append("<p>No result be found.</p>");
-        },
-
-        filterByValueList: function(data, valueDict) {
-            var newDataList = [];
-
-            for (var i = 0; i < data.length; i++) {
-                var curNewData = {};
-                for (var key in data[i]) {
-                    curNewData[key] = data[i][key];
-                }
-
-                if (data[i].children && data[i].children.length !== 0) {
-                    var newChildren = this.filterByValueList(data[i].children, valueDict);
-                    if (newChildren.length !== 0) {
-                        curNewData.children = newChildren;
-                        curNewData.html = null;
-                    } else {
-                        curNewData.children = [];
-                        curNewData.childrenHTML = null;
-                    }
-                }
-                if (curNewData.children && curNewData.children.length !== 0) {
-                    newDataList.push(curNewData);
-                } else {
-                    for (var value in valueDict) {
-                        for (var j = 0; j < data[i].values.length; j++) {
-                            var found = 0;
-                            if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
-                                curNewData.html = null;
-                                curNewData.childrenHTML = null;
-                                newDataList.push(curNewData);
-                                found = 1;
-                                break;
-                            }
-                        }
-                        if (found === 1) {
-                            // newDataList.push(curNewData);
-                            // found = 1;
-                            break;
-                        // } else {
-                            // continue
-                        }
-                    }
-                }
-            }
-            return newDataList;
-        },
-
-        filterByValue: function(data, value) {
-            var newData = [];
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].children && data[i].children.length !== 0) {
-                    var newChildren = this.filterByValue(data[i].children, value);
-                    if (newChildren.length !== 0) {
-                        data[i].children = newChildren;
-                    } else {
-                        data[i].children = [];
-                    }
-                }
-                if (data[i].children && data[i].children.length !== 0) {
-                    newData.push(data[i]);
-                } else {
-                    for (var j = 0; j < data[i].values.length; j++) {
-                        if (data[i].values[j].toLowerCase() === value.toLowerCase()) {
-                            newData.push(data[i]);
-                            break;
-                        }
-                    }
-                }
-            }
-            return newData;
         },
 
         getValueToStyle: function(valuesSetting) {
@@ -427,16 +301,6 @@
                 }
             }
             return valueToStyle
-        },
-
-        getvalueTofiltersListID: function(valuesSetting) {
-            var valueTofiltersListID = {}
-            for (var i = 0; i < valuesSetting.length; i++) {
-                if (valuesSetting[i].filterID) {
-                    valueTofiltersListID[valuesSetting[i].value] = valuesSetting[i].filterID;
-                }
-            }
-            return valueTofiltersListID;
         },
 
         filterBySearch: function(data, filterString) {
@@ -469,22 +333,6 @@
             return newDataList;
         },
 
-        // filterByRowsLabel: function(data, filterString) {
-        //     var newData = [];
-        //     for (var i = 0; i < data.length; i++) {
-        //         if (data[i].rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
-        //             newData.push(data[i]);
-        //         } else if (data[i].children && data[i].children.length !== 0) {
-        //             var newChildren = this.filterByRowsLabel(data[i].children, filterString);
-        //             if (newChildren.length !== 0) {
-        //                 data[i].children = newChildren;
-        //                 newData.push(data[i]);
-        //             }
-        //         }
-        //     }
-        //     return newData;
-        // },
-
         showLoadingStatus: function() {
             $(".heatmap-info").show();
         },
@@ -509,13 +357,11 @@
             this.headerTemplateData = argv.options.headerTemplateData;
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
-            this.valueTofiltersListID = this.getvalueTofiltersListID(argv.options.valuesSetting);
         }
 
         this.initHandlebars();
         this.showHeatmapSkeleton();
         this.initInitialState();
-        this.initFilter();
 
         if (this.detailTemplateID) {
             var source   = $('#'+this.detailTemplateID).html();
