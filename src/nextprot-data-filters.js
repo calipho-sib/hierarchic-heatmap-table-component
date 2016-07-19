@@ -1,5 +1,5 @@
 function activateFilters(heatmapData, heatMapTable) {
-    $(".filters a:not(.collapse-title)").click(function () {
+    $(".filters .subtypes a:not(.collapse-title)").click(function () {
         $(this).toggleClass("active");
         $("i", this).toggleClass("fa-circle-thin fa-check");
         if ($(this).find(".phenAnnot").attr('type') == "Microarray" ||
@@ -98,15 +98,14 @@ function addSelectAll() {
         var matchingList = $(this).attr("referTo");
         if ($("i", this).hasClass("fa-check")) {
             $(matchingList + " a").each(function () {
-                if (!$(this).hasClass("active")) {
+                if (!$(this).hasClass("active") && $(this).hasClass("clickable")) {
                     $(this).addClass("active");
                     $("i", this).toggleClass("fa-circle-thin fa-check");
                 }
-
             })
         } else {
             $(matchingList + " a").each(function () {
-                if ($(this).hasClass("active")) {
+                if ($(this).hasClass("active") && $(this).hasClass("clickable")) {
                     $(this).removeClass("active");
                     $("i", this).toggleClass("fa-circle-thin fa-check");
                 }
@@ -135,6 +134,7 @@ function getFilters() {
             }
         }
     });
+    console.log(filters);
     return filters;
 }
 
@@ -142,19 +142,6 @@ function autoCheckAll(elem) {
     var panel = $(elem).closest(".panel-group");
     var all = panel.find(".select-all i");
     var activeFilters = panel.find(".subtypes a.active");
-    if (!activeFilters.length && all.hasClass("fa-check")) {
-        all.toggleClass("fa-circle-thin fa-check");
-    } else if (activeFilters.length === panel.find(".subtypes a").length) {
-        if (all.hasClass("fa-circle-thin")) {
-            all.toggleClass("fa-circle-thin fa-check");
-        }
-    }
-}
-
-function autoUnCheckAll(elem) {
-    var panel = $(elem).closest(".panel-group");
-    var all = panel.find(".select-all i");
-    var activeFilters = panel.find(".subtypes-values a.active");
     if (!activeFilters.length && all.hasClass("fa-check")) {
         all.toggleClass("fa-circle-thin fa-check");
     } else if (activeFilters.length === panel.find(".subtypes a").length) {
