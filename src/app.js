@@ -1,12 +1,12 @@
 $(function () {
     
-    var headerTemplateData  = {header:['MA-P',
-                                  'MA-ND',
-                                  'EST-P', 
-                                  'IHC-H', 
-                                  'IHC-M',
-                                  'IHC-L',
-                                  'IHC-ND']
+    var headerTemplateData  = {header:['Positive',
+                                  'NotDetected',
+                                  'Positive', 
+                                  'High', 
+                                  'Medium',
+                                  'Low',
+                                  'NotDetected']
                               };
 
     var heatmapTableOptions = {
@@ -18,7 +18,7 @@ $(function () {
             { value: 'Medium', color: '#FFC870'},
             { value: 'High', color: '#FFC870'}
         ],
-        columnWidth: "50px",
+        columnWidth: "85px",
         detailTemplate: "detailTemplate",
         headerTemplate: "headerTemplate",
         headerTemplateData: headerTemplateData,
@@ -40,11 +40,11 @@ $(function () {
 
     nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
         var experimentalContext = {};
-
         $.ajax(
             {
                 type: "get",
                 url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
+                // url: "./data/experimental-context.json",
                 async: false,
                 success: function (data) {
                     data = data['entry']['experimentalContexts'];
@@ -59,11 +59,25 @@ $(function () {
                 }
             }
         );
+        // data = {};
+        // $.ajax(
+        //     {
+        //         type: "get",
+        //         url: "/data/expression-profile.json",
+        //         async: false,
+        //         success: function (result) {
+        //             data = _convertToTupleMap(result);
+        //         },
+        //         error: function (msg) {
+        //             console.log(msg);
+        //         }
+        //     }
+        // );
 
         var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
-        console.log(heatmapData);
         heatmapData = filterByEvidences(heatmapData, getFilters());
+        console.log(heatmapData);
         activateFilters(heatmapData, heatMapTable);
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
@@ -75,4 +89,25 @@ $(function () {
 
 $( document ).ready(function() {
     addSelectAll();
+    // activateFilters("", "");
 });
+
+
+function _convertToTupleMap(data) {
+    var publiMap = {};
+    var xrefMap = {};
+    if (data.entry.publications){
+        data.entry.publications.forEach(function (p) {
+            publiMap[p.md5] = p;
+        });
+    }
+    data.entry.xrefs.forEach(function (p) {
+        xrefMap[p.dbXrefId] = p;
+    });
+    //return data.entry.annotations;
+    return {
+        annot: data.entry.annotations,
+        publi: publiMap,
+        xrefs: xrefMap
+    };
+};
