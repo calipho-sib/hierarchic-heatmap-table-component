@@ -22,7 +22,7 @@ function clickEvent(heatmapData, heatMapTable) {
     heatMapTable.hideLoadingStatus();
 }
 
-function initFilterStatus(filterElem, heatmapData, heatMapTable) {
+function enableValueFilter(filterElem, heatmapData, heatMapTable) {
     $(filterElem).css("cursor", "pointer");
     if ($(filterElem).hasClass("unclickable")) {
         $(filterElem).toggleClass("clickable unclickable");
@@ -41,6 +41,20 @@ function initFilterStatus(filterElem, heatmapData, heatMapTable) {
     });
 }
 
+function disableValueFilter(filterElem) {
+    $(filterElem).unbind("click");
+    $(filterElem).css("cursor", "default");
+    if ($("i", filterElem).hasClass("fa-check")) {
+        $("i", filterElem).toggleClass("fa-circle-thin fa-check");
+    }
+    if ($(filterElem).hasClass("clickable")) {
+        $(filterElem).toggleClass("clickable unclickable");
+    }
+    if ($(filterElem).hasClass("active")) {
+        $(filterElem).removeClass("active");
+    }
+}
+
 function resetFilterStatus(heatmapData, heatMapTable) {
     var isfilters = {};
     isfilters['Microarray'] = false;
@@ -54,17 +68,7 @@ function resetFilterStatus(heatmapData, heatMapTable) {
     });
     // unable
     $(".filters .subtypes-values a").each(function() {
-        $(this).unbind("click");
-        $(this).css("cursor", "default");
-        if ($("i", this).hasClass("fa-check")) {
-            $("i", this).toggleClass("fa-circle-thin fa-check");
-        }
-        if ($(this).hasClass("clickable")) {
-            $(this).toggleClass("clickable unclickable");
-        }
-        if ($(this).hasClass("active")) {
-            $(this).removeClass("active");
-        }
+        disableValueFilter(this);
     });
     //enable
     var filters = {};
@@ -78,7 +82,7 @@ function resetFilterStatus(heatmapData, heatMapTable) {
                 var value = $(this).find(".phenAnnot").attr('value');
                 for (var i = 0; i < filters[methodology].length; i++) {
                     if (value === filters[methodology][i]) {
-                        initFilterStatus(this, heatmapData, heatMapTable);
+                        enableValueFilter(this, heatmapData, heatMapTable);
                         break;
                     }
                 }
