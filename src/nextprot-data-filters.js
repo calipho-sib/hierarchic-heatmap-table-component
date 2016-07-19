@@ -42,14 +42,14 @@ function initFilterStatus(filterElem, heatmapData, heatMapTable) {
 }
 
 function resetFilterStatus(heatmapData, heatMapTable) {
-    var filters = {};
-    filters['Microarray'] = false;
-    filters['IHC'] = false;
-    filters['EST'] = false;
+    var isfilters = {};
+    isfilters['Microarray'] = false;
+    isfilters['IHC'] = false;
+    isfilters['EST'] = false;
     $(".filters .methodology a").each(function () {
         if ($(this).hasClass("active")) {
             var type = $(this).find(".phenAnnot").attr('type');
-            filters[type] = true;
+            isfilters[type] = true;
         }
     });
     // unable
@@ -67,33 +67,23 @@ function resetFilterStatus(heatmapData, heatMapTable) {
         }
     });
     //enable
-    if (filters['Microarray']) {
-        $(".filters .subtypes-values a").each(function() {
-            if ($(this).find(".phenAnnot").attr('value') == "NotDetected" ||
-                $(this).find(".phenAnnot").attr('value') == "Positive") {
-                initFilterStatus(this, heatmapData, heatMapTable);
-            }
-        });
-    }
-
-    if (filters['EST']) {
-        $(".filters .subtypes-values a").each(function() {
-            if ($(this).find(".phenAnnot").attr('value') == "Positive") {
-                initFilterStatus(this, heatmapData, heatMapTable);
-            }
-        });
-    }
-
-    if (filters['IHC']) {
-        $(".filters .subtypes-values a").each(function() {
-            if ($(this).find(".phenAnnot").attr('value') == "Positive" ||
-                $(this).find(".phenAnnot").attr('value') == "NotDetected" ||
-                $(this).find(".phenAnnot").attr('value') == "High" ||
-                $(this).find(".phenAnnot").attr('value') == "Medium" ||
-                $(this).find(".phenAnnot").attr('value') == "Low") {
-                initFilterStatus(this, heatmapData, heatMapTable);
-            }
-        });
+    var filters = {};
+    //config
+    filters['Microarray'] = ["NotDetected", "Positive"];
+    filters['EST'] = ["Positive"];
+    filters['IHC'] = ["NotDetected", "Positive", "High", "Medium", "Low"];
+    for (var methodology in filters) {
+        if (isfilters[methodology]) {
+            $(".filters .subtypes-values a").each(function() {
+                var value = $(this).find(".phenAnnot").attr('value');
+                for (var i = 0; i < filters[methodology].length; i++) {
+                    if (value === filters[methodology][i]) {
+                        initFilterStatus(this, heatmapData, heatMapTable);
+                        break;
+                    }
+                }
+            });
+        }
     }
 }
 
