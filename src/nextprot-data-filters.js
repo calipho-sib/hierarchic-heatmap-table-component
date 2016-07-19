@@ -22,6 +22,25 @@ function clickEvent(heatmapData, heatMapTable) {
     heatMapTable.hideLoadingStatus();
 }
 
+function initFilterStatus(filterElem, heatmapData, heatMapTable) {
+    $(filterElem).css("cursor", "pointer");
+    if ($(filterElem).hasClass("unclickable")) {
+        $(filterElem).toggleClass("clickable unclickable");
+    }
+    if ($("i", filterElem).hasClass("fa-circle-thin")) {
+        $("i", filterElem).toggleClass("fa-circle-thin fa-check");
+    }
+    if (!$(filterElem).hasClass("active")) {
+        $(filterElem).addClass("active");
+    }
+    $(filterElem).unbind("click");
+    $(filterElem).click(function() {
+        $(filterElem).toggleClass("active");
+        $("i", filterElem).toggleClass("fa-circle-thin fa-check");
+        clickEvent(heatmapData, heatMapTable);
+    });
+}
+
 function resetFilterStatus(heatmapData, heatMapTable) {
     var filters = {};
     filters['Microarray'] = false;
@@ -52,22 +71,7 @@ function resetFilterStatus(heatmapData, heatMapTable) {
         $(".filters .subtypes-values a").each(function() {
             if ($(this).find(".phenAnnot").attr('value') == "NotDetected" ||
                 $(this).find(".phenAnnot").attr('value') == "Positive") {
-                $(this).css("cursor", "pointer");
-                if ($(this).hasClass("unclickable")) {
-                    $(this).toggleClass("clickable unclickable");
-                }
-                if ($("i", this).hasClass("fa-circle-thin")) {
-                    $("i", this).toggleClass("fa-circle-thin fa-check");
-                }
-                if (!$(this).hasClass("active")) {
-                    $(this).addClass("active");
-                }
-                $(this).unbind("click");
-                $(this).click(function() {
-                    $(this).toggleClass("active");
-                    $("i", this).toggleClass("fa-circle-thin fa-check");
-                    clickEvent(heatmapData, heatMapTable);
-                });
+                initFilterStatus(this, heatmapData, heatMapTable);
             }
         });
     }
@@ -75,22 +79,7 @@ function resetFilterStatus(heatmapData, heatMapTable) {
     if (filters['EST']) {
         $(".filters .subtypes-values a").each(function() {
             if ($(this).find(".phenAnnot").attr('value') == "Positive") {
-                $(this).css("cursor", "pointer");
-                if ($(this).hasClass("unclickable")) {
-                    $(this).toggleClass("clickable unclickable");
-                }
-                if ($("i", this).hasClass("fa-circle-thin")) {
-                    $("i", this).toggleClass("fa-circle-thin fa-check");
-                }
-                $(this).unbind("click");
-                if (!$(this).hasClass("active")) {
-                    $(this).addClass("active");
-                }
-                $(this).click(function() {
-                    $(this).toggleClass("active");
-                    $("i", this).toggleClass("fa-circle-thin fa-check");
-                    clickEvent(heatmapData, heatMapTable);
-                });
+                initFilterStatus(this, heatmapData, heatMapTable);
             }
         });
     }
@@ -102,32 +91,13 @@ function resetFilterStatus(heatmapData, heatMapTable) {
                 $(this).find(".phenAnnot").attr('value') == "High" ||
                 $(this).find(".phenAnnot").attr('value') == "Medium" ||
                 $(this).find(".phenAnnot").attr('value') == "Low") {
-                $(this).css("cursor", "pointer");
-                if ($(this).hasClass("unclickable")) {
-                    $(this).toggleClass("clickable unclickable");
-                }
-                if ($("i", this).hasClass("fa-circle-thin")) {
-                    $("i", this).toggleClass("fa-circle-thin fa-check");
-                }
-                $(this).unbind("click");
-                if (!$(this).hasClass("active")) {
-                    $(this).addClass("active");
-                }
-                $(this).click(function() {
-                    $(this).toggleClass("active");
-                    $("i", this).toggleClass("fa-circle-thin fa-check");
-                    clickEvent(heatmapData, heatMapTable);
-                });
+                initFilterStatus(this, heatmapData, heatMapTable);
             }
         });
     }
 }
 
 function addSelectAll() {
-    // $(".subtypes-values a").click(function () {
-    //     $(this).toggleClass("active");
-    //     $("i", this).toggleClass("fa-circle-thin fa-check");
-    // })
 
     $(".select-all").click(function () {
         $("i", this).toggleClass("fa-circle-thin fa-check");
