@@ -222,7 +222,12 @@ function filterByEvidences(data, filters) {
             }
             if (isFilterThisType) {
                 for (var k = 0; k < filters[evidencesCodeName].length; k++) {
-                    if (filters[evidencesCodeName][k] === value) {
+                    if (filters[evidencesCodeName][k] === value ||
+                            (
+                                filters[evidencesCodeName][k] === "Positive" && 
+                                (value === "High" || value === "Medium" || value === "Low")
+                            )
+                        ) {
                         curNewData.detailData.push(data[i].detailData[j]);
                         break
                     }

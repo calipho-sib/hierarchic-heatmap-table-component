@@ -93,21 +93,21 @@ $( document ).ready(function() {
 });
 
 
-function _convertToTupleMap(data) {
-    var publiMap = {};
-    var xrefMap = {};
-    if (data.entry.publications){
-        data.entry.publications.forEach(function (p) {
-            publiMap[p.md5] = p;
-        });
-    }
-    data.entry.xrefs.forEach(function (p) {
-        xrefMap[p.dbXrefId] = p;
-    });
-    //return data.entry.annotations;
-    return {
-        annot: data.entry.annotations,
-        publi: publiMap,
-        xrefs: xrefMap
-    };
-};
+// function _convertToTupleMap(data) {
+//     var publiMap = {};
+//     var xrefMap = {};
+//     if (data.entry.publications){
+//         data.entry.publications.forEach(function (p) {
+//             publiMap[p.md5] = p;
+//         });
+//     }
+//     data.entry.xrefs.forEach(function (p) {
+//         xrefMap[p.dbXrefId] = p;
+//     });
+//     //return data.entry.annotations;
+//     return {
+//         annot: data.entry.annotations,
+//         publi: publiMap,
+//         xrefs: xrefMap
+//     };
+// };
