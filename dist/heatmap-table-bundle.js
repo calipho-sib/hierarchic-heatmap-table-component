@@ -4755,6 +4755,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
 
         initSearchBoxSource: function (data) {
             this.initSearchBoxSourceList(data);
+            this.rowLabelList = [];
             for (var key in this.rowLabelDict) {
                 this.rowLabelList.push(key);
             }

@@ -142,6 +142,7 @@
 
         initSearchBoxSource: function (data) {
             this.initSearchBoxSourceList(data);
+            this.rowLabelList = [];
             for (var key in this.rowLabelDict) {
                 this.rowLabelList.push(key);
             }
