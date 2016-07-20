@@ -165,9 +165,9 @@ function filterByEvidences(data, filters) {
         curNewData.html = null;
 
         for (var j = 0; j < data[i].detailData.length; j++) {
-            evidencesCodeName = data[i].detailData[j].evidenceCodeName;
-            value = data[i].detailData[j].value;
-            isFilterThisType = false;
+            var evidencesCodeName = data[i].detailData[j].evidenceCodeName;
+            var value = data[i].detailData[j].value;
+            var isFilterThisType = false;
             for (var k = 0; k < filters[evidencesCodeName].length; k++) {
                 if (filters[evidencesCodeName][k] === true) isFilterThisType = true
             }

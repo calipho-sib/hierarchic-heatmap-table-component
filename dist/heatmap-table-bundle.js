@@ -4833,6 +4833,15 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 }
             });
 
+
+             $(self.heatmapTable).find(".heatmap-filterByRowName-input").keyup(function(e) {
+                if ($(self.heatmapTable).find(".heatmap-filterByRowName-input").val() === "") {
+                    self.data = self.originData;
+                    self.showHeatmapBody();
+                    self.showHeatmapRows();
+                }
+            });
+
             $(self.heatmapTable).find(".heatmap-filterByRowName-search").click(function() {
                 var filterString = $(self.heatmapTable).find(".heatmap-filterByRowName-input").val();
                 if (filterString === "") return ;
