@@ -31,7 +31,8 @@
     "grunt-contrib-jade": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
-    "marked": "^0.3.5"
+    "marked": "^0.3.5",
+    "qunitjs": "^2.0.0"
   },
   "dependencies": {
     "jade": "^1.11.0",
