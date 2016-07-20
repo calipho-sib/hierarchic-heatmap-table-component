@@ -142,6 +142,9 @@
 
         initSearchBoxSource: function (data) {
             this.initSearchBoxSourceList(data);
+            for (var key in this.rowLabelDict) {
+                this.rowLabelList.push(key);
+            }
             var self = this;
             $.typeahead({
                 input: '.heatmap-filterByRowName-input',
@@ -158,7 +161,7 @@
 
         initSearchBoxSourceList: function(data) {
             for (var i = 0; i < data.length; i++) {
-                this.rowLabelList.push(data[i].rowLabel.toLowerCase());
+                this.rowLabelDict[data[i].rowLabel.toLowerCase()] = true;
                 if (data[i].children && data[i].children.length > 0) {
                     this.initSearchBoxSourceList(data[i].children);
                 }
@@ -347,7 +350,8 @@
         this.heatmapRowsHTML = null;
         this.dataIndexToHtml = {};
         this.rowLabelList = [];
- 
+        this.rowLabelDict = {};
+
         this.originData = [];
         this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
