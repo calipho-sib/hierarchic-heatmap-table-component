@@ -75,7 +75,7 @@ function resetFilterStatus(heatmapData, heatMapTable) {
     //config
     filters['Microarray'] = ["NotDetected", "Positive"];
     filters['EST'] = ["Positive"];
-    filters['IHC'] = ["NotDetected", "Positive", "High", "Medium", "Low"];
+    filters['IHC'] = ["Positive", "High", "Medium", "Low"];
     for (var methodology in filters) {
         if (isfilters[methodology]) {
             $(".filters .subtypes-values a").each(function() {
