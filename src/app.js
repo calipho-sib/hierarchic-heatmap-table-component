@@ -16,7 +16,7 @@ $(function () {
             { value: 'NotDetected', color: "lightgray"},
             { value: 'Low', color: '#FFE6BD'},
             { value: 'Medium', color: '#FFC870'},
-            { value: 'High', color: '#FFC870'}
+            { value: 'High', color: '#FFA10A'}
         ],
         columnWidth: "85px",
         detailTemplate: "detailTemplate",
