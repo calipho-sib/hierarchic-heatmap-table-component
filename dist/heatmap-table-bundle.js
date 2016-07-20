@@ -4837,12 +4837,9 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 if (filterString === "") return ;
 
                 self.showLoadingStatus();
-                // self.data = self.filterByRowsLabel(self.originData, filterString);
                 self.data = self.filterBySearch(self.originData, filterString);
                 self.hideLoadingStatus();
 
-                // self.show();
-                // self.showHeatmapRows();
                 self.showHeatmapBody();
                 self.showHeatmapRows();
 
@@ -4896,6 +4893,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 this.showNoFoundInfo();
                 return;
             }
+            $(this.heatmapTable).find(".heatmap-filterByRowName-search").click();
         },
 
         showNoFoundInfo: function() {

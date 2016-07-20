@@ -224,12 +224,9 @@
                 if (filterString === "") return ;
 
                 self.showLoadingStatus();
-                // self.data = self.filterByRowsLabel(self.originData, filterString);
                 self.data = self.filterBySearch(self.originData, filterString);
                 self.hideLoadingStatus();
 
-                // self.show();
-                // self.showHeatmapRows();
                 self.showHeatmapBody();
                 self.showHeatmapRows();
 
@@ -283,6 +280,7 @@
                 this.showNoFoundInfo();
                 return;
             }
+            $(this.heatmapTable).find(".heatmap-filterByRowName-search").click();
         },
 
         showNoFoundInfo: function() {
