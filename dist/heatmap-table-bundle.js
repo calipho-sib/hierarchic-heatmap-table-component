@@ -4939,19 +4939,18 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 curNewData.childrenHTML = null;
                 curNewData.html = null;
 
-                if (data[i].children && data[i].children.length !== 0) {
+                if (curNewData.rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
+                    newDataList.push(curNewData);
+                } else if (data[i].children && data[i].children.length !== 0) {
                     var newChildren = this.filterBySearch(data[i].children, filterString);
                     if (newChildren.length !== 0) {
                         curNewData.children = newChildren;
                     } else {
                         curNewData.children = [];
                     }
-                }
-
-                if (curNewData.children && curNewData.children.length !== 0) {
-                    newDataList.push(curNewData);
-                } else if (curNewData.rowLabel.toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
-                    newDataList.push(curNewData);
+                    if (curNewData.children && curNewData.children.length !== 0) {
+                        newDataList.push(curNewData);
+                    }
                 }
             }
             return newDataList;
