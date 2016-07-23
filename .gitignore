@@ -1,3 +1,4 @@
 node_modules
 bower_components
 .bowerrc
+atlas/node_modules
