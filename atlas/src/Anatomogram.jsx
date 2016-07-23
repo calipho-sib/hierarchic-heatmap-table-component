@@ -120,13 +120,13 @@ var Anatomogram = React.createClass({
                  toggleSrcTemplate: this.props.atlasBaseURL + this.props.anatomogramData.toggleButtonFemaleImageTemplate}
             );
         }
-        if (this.props.anatomogramData.brainAnatomogramFile) {
-            availableAnatomograms.push(
-                {id: "brain",
-                 anatomogramFile: this.props.atlasBaseURL + "/resources/svg/" + this.props.anatomogramData.brainAnatomogramFile,
-                 toggleSrcTemplate: this.props.atlasBaseURL + this.props.anatomogramData.toggleButtonBrainImageTemplate}
-            );
-        }
+        // if (this.props.anatomogramData.brainAnatomogramFile) {
+        //     availableAnatomograms.push(
+        //         {id: "brain",
+        //          anatomogramFile: this.props.atlasBaseURL + "/resources/svg/" + this.props.anatomogramData.brainAnatomogramFile,
+        //          toggleSrcTemplate: this.props.atlasBaseURL + this.props.anatomogramData.toggleButtonBrainImageTemplate}
+        //     );
+        // }
 
 
         var allExpressedFactors = [],
