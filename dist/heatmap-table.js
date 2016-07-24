@@ -394,6 +394,14 @@
                 }
             }
             return csvData;
+        },
+
+        hoverEvent: function() {
+
+        },
+
+        activeHoverEvent: function() {
+
         }
     }
 

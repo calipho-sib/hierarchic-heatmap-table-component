@@ -5007,6 +5007,14 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 }
             }
             return csvData;
+        },
+
+        hoverEvent: function() {
+
+        },
+
+        activeHoverEvent: function() {
+
         }
     }
 
