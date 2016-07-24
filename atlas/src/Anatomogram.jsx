@@ -83,8 +83,8 @@ var Anatomogram = React.createClass({
 
     propTypes: {
         anatomogramData: React.PropTypes.object.isRequired,
-        expressedTissueColour: React.PropTypes.string.isRequired,
-        hoveredTissueColour: React.PropTypes.string.isRequired,
+        expressedTissueColor: React.PropTypes.string.isRequired,
+        hoveredTissueColor: React.PropTypes.string.isRequired,
         profileRows: React.PropTypes.arrayOf(
             React.PropTypes.shape({
                 id: React.PropTypes.string,
@@ -120,14 +120,6 @@ var Anatomogram = React.createClass({
                  toggleSrcTemplate: this.props.atlasBaseURL + this.props.anatomogramData.toggleButtonFemaleImageTemplate}
             );
         }
-        // if (this.props.anatomogramData.brainAnatomogramFile) {
-        //     availableAnatomograms.push(
-        //         {id: "brain",
-        //          anatomogramFile: this.props.atlasBaseURL + "/resources/svg/" + this.props.anatomogramData.brainAnatomogramFile,
-        //          toggleSrcTemplate: this.props.atlasBaseURL + this.props.anatomogramData.toggleButtonBrainImageTemplate}
-        //     );
-        // }
-
 
         var allExpressedFactors = [],
             expressedFactorsPerRow = {};
@@ -203,7 +195,6 @@ var Anatomogram = React.createClass({
 
     _highlightRow: function(rowId) {
         this.setState({hoveredRowId: rowId});
-
     },
 
     _getAnatomogramSVGFile: function(id) {
@@ -234,11 +225,6 @@ var Anatomogram = React.createClass({
                 displayAllOrganismPartsCallback(g);
                 registerHoverEventsCallback(g);
                 svgCanvas.append(g);
-                var img = fragment.select("#ccLogo");
-                var heightTranslate = $svgCanvas.height() - 15;
-                var widthTranslate = $svgCanvas.width() / 2 - 40;
-                img.transform("t"+widthTranslate+","+heightTranslate);
-                svgCanvas.append(img);
             }
         );
     },
@@ -260,31 +246,32 @@ var Anatomogram = React.createClass({
 
     _displayOrganismPartsWithDefaultProperties: function(svg, svgPathId) {
 
-        var colour = this.props.expressedTissueColour;
+        var color = this.props.expressedTissueColor;
+        //目前正在高亮的部位是这个svg或者heatmap高亮的地方也是这个svg的话, 颜色就显示为高亮的颜色
         if (this.state.hoveredPathId === svgPathId || this._hoveredRowContainsPathId(svgPathId))  {
-            colour = this.props.hoveredTissueColour;
+            color = this.props.hoveredTissueColor;
         }
 
         if (this.state.expressedFactors.indexOf(svgPathId) > -1) {
-            this._highlightOrganismParts(svg, svgPathId, colour, 0.7);
+            this._highlightOrganismParts(svg, svgPathId, color, 0.7);
         } else {
             this._highlightOrganismParts(svg, svgPathId, "gray", 0.5);
         }
     },
 
-    _highlightOrganismParts: function(svg, svgPathId, colour, opacity) {
-        Anatomogram._recursivelyChangeProperties(svg.select("#" + svgPathId), colour, opacity);
+    _highlightOrganismParts: function(svg, svgPathId, color, opacity) {
+        Anatomogram._recursivelyChangeProperties(svg.select("#" + svgPathId), color, opacity);
     },
 
     _registerHoverEvents: function(svg) {
         if (svg) {  // Sometimes svg is null... why?
 
             var eventEmitter = this.props.eventEmitter,
-                hoverColour = this.props.hoveredTissueColour,
+                hoverColor = this.props.hoveredTissueColor,
                 highlightOrganismPartsCallback = this._highlightOrganismParts,
                 displayOrganismPartsWithDefaultPropertiesCallback = this._displayOrganismPartsWithDefaultProperties;
             var mouseoverCallback = function(svgPathId) {
-                highlightOrganismPartsCallback(svg, svgPathId, hoverColour, 0.7);
+                highlightOrganismPartsCallback(svg, svgPathId, hoverColor, 0.7);
                 eventEmitter.emit('gxaAnatomogramTissueMouseEnter', svgPathId);
             };
             var mouseoutCallback = function(svgPathId) {
@@ -303,7 +290,7 @@ var Anatomogram = React.createClass({
     },
 
     statics: {
-        _recursivelyChangeProperties: function(svgElement, colour, opacity) {
+        _recursivelyChangeProperties: function(svgElement, color, opacity) {
 
             if (svgElement) {
                 var innerElements = svgElement.selectAll("*");
@@ -314,7 +301,7 @@ var Anatomogram = React.createClass({
                     });
                 }
 
-                svgElement.attr({"fill": colour, "fill-opacity": opacity});
+                svgElement.attr({"fill": color, "fill-opacity": opacity});
             }
         },
 
@@ -341,4 +328,3 @@ var Anatomogram = React.createClass({
 //*------------------------------------------------------------------*
 
 module.exports = Anatomogram;
-console.log(module);

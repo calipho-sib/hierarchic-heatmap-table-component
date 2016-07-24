@@ -13,12 +13,12 @@ var EventEmitter = require('events');
 
 //*------------------------------------------------------------------*
 
-module.exports = function(anatomogramData, expressedTissueColour, hoveredTissueColour, profileRows, mountNode) {
+module.exports = function(anatomogramData, expressedTissueColor, hoveredTissueColor, profileRows, mountNode) {
     ReactDOM.render(
         React.createElement(Anatomogram, {
             anatomogramData: anatomogramData,
-            expressedTissueColour: "red",
-            hoveredTissueColour: "indigo",
+            expressedTissueColor: expressedTissueColor,
+            hoveredTissueColor: hoveredTissueColor,
             profileRows: profileRows,
             eventEmitter: new EventEmitter(),
             atlasBaseURL: "https://www.ebi.ac.uk/gxa"
