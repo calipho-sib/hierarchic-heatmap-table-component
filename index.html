@@ -47,7 +47,6 @@
     }
 
     .methodology-header {
-        /*float: left;*/
         display: inline-block;
         text-align: center;
         color: white;
@@ -218,10 +217,15 @@
 
 <script id="headerTemplate" type="text/x-handlebars-template">
     <div style="overflow:hidden">
-        <div style="float:left; width:150px; text-align:center; color: white; background-color:#163eef">mRNA expression</div><div style="float:left; width:200px; text-align:center; color: white; background-color:#1537d2">Protein expression</div>
-    </div>
-    <div style="overflow:hidden">
-        <div class="methodology-header MicroArray-header">MicroArray</div><div class="methodology-header EST-header">EST</div><div class="methodology-header IHC-header">IHC</div>
+        <div class="pull-left" style="margin-top:15px; margin-left: 50px; font-size: 18px; font-weight: bold">Tissue/ Cell type</div>
+        <div class="pull-right">
+            <div style="overflow:hidden">
+                <div style="float:left; width:150px; text-align:center; color: white; background-color:#163eef">mRNA expression</div><div style="float:left; width:200px; text-align:center; color: white; background-color:#1537d2">Protein expression</div>
+            </div>
+            <div style="overflow:hidden">
+                <div class="methodology-header MicroArray-header">MicroArray</div><div class="methodology-header EST-header">EST</div><div class="methodology-header IHC-header">IHC</div>
+            </div>  
+        </div>
     </div>
 </script>
 
