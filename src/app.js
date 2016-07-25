@@ -82,6 +82,9 @@ $(function () {
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
         heatMapTable.hideLoadingStatus();
+
+        console.log($('[data-toggle="tooltip"]'));
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
 
@@ -111,3 +114,7 @@ $( document ).ready(function() {
 //         xrefs: xrefMap
 //     };
 // };
+
+$(function () { 
+    
+});
