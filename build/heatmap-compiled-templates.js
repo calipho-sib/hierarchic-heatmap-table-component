@@ -61,7 +61,7 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
 
   return "\r\n<li>\r\n    <div class=\"heatmap-row\">\r\n        "
     + container.escapeExpression((helpers.createRow || (depth0 && depth0.createRow) || helpers.helperMissing).call(alias1,depth0,{"name":"createRow","hash":{},"data":data}))
-    + "\r\n        <div class=\"pull-right\">\r\n"
+    + "\r\n        <div class=\"pull-right\" style=\"font-size: 0\">\r\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -76,7 +76,7 @@ this["HBtemplates"]["templates/heatmap-value.tmpl"] = Handlebars.template({"comp
     + alias4(((helper = (helper = helpers.columnClass || (depth0 != null ? depth0.columnClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnClass","hash":{},"data":data}) : helper)))
     + "\", style=\"width:"
     + alias4(((helper = (helper = helpers.columnWidth || (depth0 != null ? depth0.columnWidth : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"columnWidth","hash":{},"data":data}) : helper)))
-    + "\">"
+    + "; font-size: 14px;\">"
     + ((stack1 = ((helper = (helper = helpers.valueStyle || (depth0 != null ? depth0.valueStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"valueStyle","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "</div>";
 },"useData":true});
