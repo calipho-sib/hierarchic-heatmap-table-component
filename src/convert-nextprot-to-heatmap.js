@@ -204,8 +204,10 @@ function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
     findHeatMapData(heatMapTableRoot, 0);
 
     heatmapData.sort(function(a, b) {
-        if(a.rowLabel < b.rowLabel) return -1;
-        if(a.rowLabel > b.rowLabel) return 1;
+        if (a.rowLabel.indexOf("system") !== -1 && b.rowLabel.indexOf("system") === -1 ) return -1;
+        if (a.rowLabel.indexOf("system") === -1 && b.rowLabel.indexOf("system") !== -1 ) return 1;
+        if (a.rowLabel < b.rowLabel) return -1;
+        if (a.rowLabel > b.rowLabel) return 1;
         return 0;
     });
 
