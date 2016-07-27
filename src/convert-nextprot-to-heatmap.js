@@ -30,7 +30,13 @@ function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
             var node = {};
             node.ancestorIds = null;
             node.children = [];
-            node.values = ["",  "", "", "", "", "", ""];
+            node.values = [{value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""}];
             node.detailData = [];
             node.rowLabel = cvTermList[i].name;
             node.id = cvTermList[i].accession;
@@ -51,7 +57,13 @@ function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
                 var childNode = {};
                 childNode.ancestorIds = currNode;
                 childNode.children = [];
-                childNode.values = ["",  "", "", "", "", "", ""];
+                childNode.values = [{value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""},
+                            {value:"", cssClass:""}];
                 childNode.detailData = [];
                 childNode.id= childTerm.accession;
                 childNode.rowLabel = childTerm.name;
@@ -68,8 +80,11 @@ function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
 
     function updateAncestorValues(data, values) {
         for (var i = 0; i < data.values.length; i++) {
-            if (data.values[i] == "" || data.values[i] == undefined) {
-                data.values[i] = values[i];
+            if (data.values[i].cssClass === "bold") {
+                console.log('bold!');
+            }
+            if (data.values[i].value === "" || data.values[i].value === undefined) {
+                data.values[i].value = values[i].value;
             }
         }
         if (data.ancestorIds) {
@@ -128,27 +143,41 @@ function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
                 var detail = {};
 
                 if (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "positive") {
-                    data.values[0] = "Positive";
-                    detail = createDetailWithEvidence(evidence, data.values[0]);       
+                    data.values[0]['value'] = 'Positive';
+                    data.values[0]['cssClass'] = "bold";
+                    detail = createDetailWithEvidence(evidence, data.values[0].value);       
                 } else if ((evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "not detected") 
                             || (evidence.evidenceCodeName === "microarray RNA expression level evidence" && evidence.expressionLevel === "negative" && evidence.negativeEvidence === true)) {
-                    data.values[1] = "NotDetected";
-                    detail = createDetailWithEvidence(evidence, data.values[1]);
+                    data.values[1]['value'] = 'NotDetected';
+                    data.values[1]['cssClass'] = "bold";
+                    detail = createDetailWithEvidence(evidence, data.values[1].value);
                 } else if (evidence.evidenceCodeName === "transcript expression evidence" && evidence.expressionLevel === "positive") {
-                    data.values[2] = "Positive";
-                    detail = createDetailWithEvidence(evidence, data.values[2]);
+                    // data.values[2] = "Positive";
+                    data.values[2]['value'] = 'Positive';
+                    data.values[2]['cssClass'] = "bold";
+                    detail = createDetailWithEvidence(evidence, data.values[2].value);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "high") {
-                    data.values[3] = "High";
-                    detail = createDetailWithEvidence(evidence, data.values[3]);
+                    // data.values[3] = "High";
+                    // data.valuesCssClass[3] = "bold";
+                    data.values[3]['value'] = 'High';
+                    data.values[3]['cssClass'] = "bold";
+                    detail = createDetailWithEvidence(evidence, data.values[3].value);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "medium") {
-                    data.values[4] = "Medium";
-                    detail = createDetailWithEvidence(evidence, data.values[4]);
+                    // data.values[4] = "Medium";
+                    // data.valuesCssClass[4] = "bold";
+                    data.values[4]['value'] = 'Medium';
+                    data.values[4]['cssClass'] = "bold";
+                    detail = createDetailWithEvidence(evidence, data.values[4].value);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "low") {
-                    data.values[5] = "Low";
-                    detail = createDetailWithEvidence(evidence, data.values[5]);
+                    // data.values[5] = "Low";
+                    data.values[5]['value'] = 'Low';
+                    data.values[5]['cssClass'] = "bold";
+                    detail = createDetailWithEvidence(evidence, data.values[5].value);
                 } else if (evidence.evidenceCodeName === "immunolocalization evidence" && evidence.expressionLevel === "not detected") {
-                    data.values[6] = "NotDetected";
-                    detail = createDetailWithEvidence(evidence, data.values[6]);
+                    // data.values[6] = "NotDetected";
+                    data.values[6]['value'] = 'NotDetected';
+                    data.values[6]['cssClass'] = "bold";
+                    detail = createDetailWithEvidence(evidence, data.values[6].value);
                     detail['description'] = "Expression not detected";
                 }
 

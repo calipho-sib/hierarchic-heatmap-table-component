@@ -13,6 +13,8 @@ this["HBtemplates"]["templates/heatmap-circle.tmpl"] = Handlebars.template({"com
 
   return "<i class=\"heatmap-circle "
     + alias4(((helper = (helper = helpers.circleColorClass || (depth0 != null ? depth0.circleColorClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorClass","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.valueCssClass || (depth0 != null ? depth0.valueCssClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"valueCssClass","hash":{},"data":data}) : helper)))
     + "\" style=\"background-color: "
     + alias4(((helper = (helper = helpers.circleColorStyle || (depth0 != null ? depth0.circleColorStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorStyle","hash":{},"data":data}) : helper)))
     + "\"></i>";

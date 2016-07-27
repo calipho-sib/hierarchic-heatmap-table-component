@@ -4644,8 +4644,19 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 return new Handlebars.SafeString(rowTemplate(result));
             }); 
 
-            Handlebars.registerHelper('showValue', function(value, block) {
+            Handlebars.registerHelper('for', function(n, block) {
                 var accum = '';
+                for(var i = 0; i < n; ++i)
+                    accum += block.fn(i);
+                return accum;
+            });
+
+            Handlebars.registerHelper('showValue', function(value, block) {
+                var valueCssClass = "";
+                if (value.value) {
+                    valueCssClass = value['cssClass'];
+                    value = value.value;
+                }
 
                 var valueTemplate = HBtemplates['templates/heatmap-value.tmpl'];
                 var circleTemplate = HBtemplates['templates/heatmap-circle.tmpl'];
@@ -4653,6 +4664,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 var result = {};
 
                 result.columnWidth = self.columnWidth;
+                result.valueCssClass = valueCssClass;
                 if (self.valueToStyle[value]) {
                     if (self.valueToStyle[value].cssClass) {
                         result.circleColorClass = self.valueToStyle[value].cssClass;
@@ -4863,13 +4875,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
                 self.download();
             });
-            // $(".typeahead__cancel-button").unbind("mousedown");
-            // $(".typeahead__cancel-button").mousedown(function(t) {
-            //     t.stopImmediatePropagation(),
-            //     t.preventDefault(),
-            //     e.node.val(""),
-            //     e.node.trigger("input" + e.namespace)
-            // });
+
             $.fn.preBind = function (type, data, fn) {
                 this.each(function () {
                     var $this = $(this);
@@ -5096,6 +5102,8 @@ this["HBtemplates"]["templates/heatmap-circle.tmpl"] = Handlebars.template({"com
 
   return "<i class=\"heatmap-circle "
     + alias4(((helper = (helper = helpers.circleColorClass || (depth0 != null ? depth0.circleColorClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorClass","hash":{},"data":data}) : helper)))
+    + " "
+    + alias4(((helper = (helper = helpers.valueCssClass || (depth0 != null ? depth0.valueCssClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"valueCssClass","hash":{},"data":data}) : helper)))
     + "\" style=\"background-color: "
     + alias4(((helper = (helper = helpers.circleColorStyle || (depth0 != null ? depth0.circleColorStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorStyle","hash":{},"data":data}) : helper)))
     + "\"></i>";

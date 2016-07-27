@@ -38,7 +38,7 @@ $(function () {
     });
     heatMapTable.showLoadingStatus();
 
-    nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
+    // nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
         var experimentalContext = {};
         $.ajax(
             {
@@ -59,20 +59,20 @@ $(function () {
                 }
             }
         );
-        // data = {};
-        // $.ajax(
-        //     {
-        //         type: "get",
-        //         url: "/data/expression-profile.json",
-        //         async: false,
-        //         success: function (result) {
-        //             data = _convertToTupleMap(result);
-        //         },
-        //         error: function (msg) {
-        //             console.log(msg);
-        //         }
-        //     }
-        // );
+        data = {};
+        $.ajax(
+            {
+                type: "get",
+                url: "/data/expression-profile.json",
+                async: false,
+                success: function (result) {
+                    data = _convertToTupleMap(result);
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            }
+        );
 
         var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
@@ -84,7 +84,7 @@ $(function () {
         heatMapTable.hideLoadingStatus();
 
         $('[data-toggle="tooltip"]').tooltip();
-    });
+    // });
 
 // 
 });

@@ -31,8 +31,19 @@
                 return new Handlebars.SafeString(rowTemplate(result));
             }); 
 
-            Handlebars.registerHelper('showValue', function(value, block) {
+            Handlebars.registerHelper('for', function(n, block) {
                 var accum = '';
+                for(var i = 0; i < n; ++i)
+                    accum += block.fn(i);
+                return accum;
+            });
+
+            Handlebars.registerHelper('showValue', function(value, block) {
+                var valueCssClass = "";
+                if (value.value) {
+                    valueCssClass = value['cssClass'];
+                    value = value.value;
+                }
 
                 var valueTemplate = HBtemplates['templates/heatmap-value.tmpl'];
                 var circleTemplate = HBtemplates['templates/heatmap-circle.tmpl'];
@@ -40,6 +51,7 @@
                 var result = {};
 
                 result.columnWidth = self.columnWidth;
+                result.valueCssClass = valueCssClass;
                 if (self.valueToStyle[value]) {
                     if (self.valueToStyle[value].cssClass) {
                         result.circleColorClass = self.valueToStyle[value].cssClass;
@@ -250,13 +262,7 @@
             $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
                 self.download();
             });
-            // $(".typeahead__cancel-button").unbind("mousedown");
-            // $(".typeahead__cancel-button").mousedown(function(t) {
-            //     t.stopImmediatePropagation(),
-            //     t.preventDefault(),
-            //     e.node.val(""),
-            //     e.node.trigger("input" + e.namespace)
-            // });
+
             $.fn.preBind = function (type, data, fn) {
                 this.each(function () {
                     var $this = $(this);
