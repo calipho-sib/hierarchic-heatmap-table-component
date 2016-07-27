@@ -4863,6 +4863,32 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
                 self.download();
             });
+            // $(".typeahead__cancel-button").unbind("mousedown");
+            // $(".typeahead__cancel-button").mousedown(function(t) {
+            //     t.stopImmediatePropagation(),
+            //     t.preventDefault(),
+            //     e.node.val(""),
+            //     e.node.trigger("input" + e.namespace)
+            // });
+            $.fn.preBind = function (type, data, fn) {
+                this.each(function () {
+                    var $this = $(this);
+
+                    $this.bind(type, data, fn);
+
+                    var currentBindings = $._data(this, 'events')[type];
+                    if ($.isArray(currentBindings)) {
+                        currentBindings.unshift(currentBindings.pop());
+                    }
+                });
+                return this;
+            };
+
+            //reset heatmap
+            $(".typeahead__cancel-button").preBind("mousedown", function() {
+                self.data = self.originData;
+                self.resetHeatMap();
+            })
 
         },
 
@@ -4895,8 +4921,8 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             // this.show(true);
             this.showHeatmapBody();
             this.showHeatmapRows();
-            this.initClickEvent();
             this.initSearchBoxSource(this.data);
+            this.initClickEvent();
         },
 
         show : function() {
@@ -5092,7 +5118,7 @@ this["HBtemplates"]["templates/heatmap-row.tmpl"] = Handlebars.template({"compil
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-skeleton.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"col-md-5\">\r\n	<div class=\"typeahead__container\">\r\n		<div class=\"typeahead__field\">\r\n			<span class=\"typeahead__query\">\r\n				<input class=\"heatmap-filterByRowName-input\" name=\"country_v1[query]\" type=\"search\" placeholder=\"Search\" autocomplete=\"off\">\r\n			</span>\r\n			<span class=\"typeahead__button\">\r\n				<button class=\"heatmap-filterByRowName-search\">\r\n					<i class=\"typeahead__search-icon\"></i>\r\n				</button>\r\n			</span>\r\n		</div>\r\n	</div>\r\n</div>\r\n<button class=\"btn btn-default heatmap-reset-btn\">Reset</button>\r\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\r\n<button class=\"btn btn-default heatmap-export-btn\">export</button>\r\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
+    return "<div class=\"col-md-5\">\r\n	<div class=\"typeahead__container\">\r\n		<div class=\"typeahead__field\">\r\n			<span class=\"typeahead__query\">\r\n				<input class=\"heatmap-filterByRowName-input\" name=\"country_v1[query]\" type=\"search\" placeholder=\"Search\" autocomplete=\"off\">\r\n			</span>\r\n			<span class=\"typeahead__button\">\r\n				<button class=\"heatmap-filterByRowName-search\">\r\n					<i class=\"typeahead__search-icon\"></i>\r\n				</button>\r\n			</span>\r\n		</div>\r\n	</div>\r\n</div>\r\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\r\n<button class=\"btn btn-default heatmap-export-btn\">export</button>\r\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {

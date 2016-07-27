@@ -250,6 +250,32 @@
             $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
                 self.download();
             });
+            // $(".typeahead__cancel-button").unbind("mousedown");
+            // $(".typeahead__cancel-button").mousedown(function(t) {
+            //     t.stopImmediatePropagation(),
+            //     t.preventDefault(),
+            //     e.node.val(""),
+            //     e.node.trigger("input" + e.namespace)
+            // });
+            $.fn.preBind = function (type, data, fn) {
+                this.each(function () {
+                    var $this = $(this);
+
+                    $this.bind(type, data, fn);
+
+                    var currentBindings = $._data(this, 'events')[type];
+                    if ($.isArray(currentBindings)) {
+                        currentBindings.unshift(currentBindings.pop());
+                    }
+                });
+                return this;
+            };
+
+            //reset heatmap
+            $(".typeahead__cancel-button").preBind("mousedown", function() {
+                self.data = self.originData;
+                self.resetHeatMap();
+            })
 
         },
 
@@ -282,8 +308,8 @@
             // this.show(true);
             this.showHeatmapBody();
             this.showHeatmapRows();
-            this.initClickEvent();
             this.initSearchBoxSource(this.data);
+            this.initClickEvent();
         },
 
         show : function() {
