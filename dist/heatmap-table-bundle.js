@@ -4653,7 +4653,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
 
             Handlebars.registerHelper('showValue', function(value, block) {
                 var valueCssClass = "";
-                if (value.value) {
+                if (value.hasOwnProperty("value")) {
                     valueCssClass = value['cssClass'];
                     value = value.value;
                 }
@@ -4663,6 +4663,7 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
 
                 var result = {};
 
+                result.tip = value;
                 result.columnWidth = self.columnWidth;
                 result.valueCssClass = valueCssClass;
                 if (self.valueToStyle[value]) {
@@ -4748,6 +4749,8 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
             });
 
             this.hideLoadingStatus();
+
+            $('[data-toggle="tooltip"]').tooltip();
         },
 
         createRow: function(data) {
@@ -5104,6 +5107,8 @@ this["HBtemplates"]["templates/heatmap-circle.tmpl"] = Handlebars.template({"com
     + alias4(((helper = (helper = helpers.circleColorClass || (depth0 != null ? depth0.circleColorClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorClass","hash":{},"data":data}) : helper)))
     + " "
     + alias4(((helper = (helper = helpers.valueCssClass || (depth0 != null ? depth0.valueCssClass : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"valueCssClass","hash":{},"data":data}) : helper)))
+    + "\" data-toggle=\"tooltip\" title=\""
+    + alias4(((helper = (helper = helpers.tip || (depth0 != null ? depth0.tip : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"tip","hash":{},"data":data}) : helper)))
     + "\" style=\"background-color: "
     + alias4(((helper = (helper = helpers.circleColorStyle || (depth0 != null ? depth0.circleColorStyle : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"circleColorStyle","hash":{},"data":data}) : helper)))
     + "\"></i>";

@@ -40,7 +40,7 @@
 
             Handlebars.registerHelper('showValue', function(value, block) {
                 var valueCssClass = "";
-                if (value.value) {
+                if (value.hasOwnProperty("value")) {
                     valueCssClass = value['cssClass'];
                     value = value.value;
                 }
@@ -50,6 +50,7 @@
 
                 var result = {};
 
+                result.tip = value;
                 result.columnWidth = self.columnWidth;
                 result.valueCssClass = valueCssClass;
                 if (self.valueToStyle[value]) {
@@ -135,6 +136,8 @@
             });
 
             this.hideLoadingStatus();
+
+            $('[data-toggle="tooltip"]').tooltip();
         },
 
         createRow: function(data) {
