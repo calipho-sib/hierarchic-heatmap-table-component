@@ -80,9 +80,6 @@ function convertNextProtDataIntoHeatMapTableFormat (experimentalContext, data) {
 
     function updateAncestorValues(data, values) {
         for (var i = 0; i < data.values.length; i++) {
-            if (data.values[i].cssClass === "bold") {
-                console.log('bold!');
-            }
             if (data.values[i].value === "" || data.values[i].value === undefined) {
                 data.values[i].value = values[i].value;
             }
