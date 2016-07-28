@@ -38,13 +38,13 @@ $(function () {
     });
     heatMapTable.showLoadingStatus();
 
-    // nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
+    nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
         var experimentalContext = {};
         $.ajax(
             {
                 type: "get",
-                // url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
-                url: "./data/experimental-context.json",
+                url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
+                // url: "./data/experimental-context.json",
                 async: false,
                 success: function (data) {
                     data = data['entry']['experimentalContexts'];
@@ -59,20 +59,20 @@ $(function () {
                 }
             }
         );
-        data = {};
-        $.ajax(
-            {
-                type: "get",
-                url: "/data/expression-profile.json",
-                async: false,
-                success: function (result) {
-                    data = _convertToTupleMap(result);
-                },
-                error: function (msg) {
-                    console.log(msg);
-                }
-            }
-        );
+        // data = {};
+        // $.ajax(
+        //     {
+        //         type: "get",
+        //         url: "/data/expression-profile.json",
+        //         async: false,
+        //         success: function (result) {
+        //             data = _convertToTupleMap(result);
+        //         },
+        //         error: function (msg) {
+        //             console.log(msg);
+        //         }
+        //     }
+        // );
 
         var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
@@ -83,10 +83,8 @@ $(function () {
         heatMapTable.show();
         heatMapTable.hideLoadingStatus();
 
-        // $('[data-toggle="tooltip"]').tooltip();
-    // });
-
-// 
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 });
 
 $( document ).ready(function() {
