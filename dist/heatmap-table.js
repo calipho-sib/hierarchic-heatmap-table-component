@@ -99,7 +99,9 @@
 
         showHeatmapSkeleton: function() {
             var template = HBtemplates['templates/heatmap-skeleton.tmpl'];
-            $(this.heatmapTable).append(template());
+            var setting = {};
+            setting.isShowExportButton = this.isShowExportButton;
+            $(this.heatmapTable).append(template(setting));
         },
 
         showHeatmapRows : function() {
@@ -262,9 +264,11 @@
 
             });
 
-            $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
-                self.download();
-            });
+            if (self.isShowExportButton) {
+                $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
+                    self.download();
+                });
+            }
 
             $.fn.preBind = function (type, data, fn) {
                 this.each(function () {
@@ -456,6 +460,7 @@
             this.headerTemplateData = argv.options.headerTemplateData || {header: [""]};
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
+            this.isShowExportButton = argv.options.showExportButton || false;
         }
 
         this.initHandlebars();
@@ -517,8 +522,14 @@ this["HBtemplates"]["templates/heatmap-row.tmpl"] = Handlebars.template({"compil
     + "</a></span>\r\n</p>";
 },"useData":true});
 
-this["HBtemplates"]["templates/heatmap-skeleton.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"col-md-5\">\r\n	<div class=\"typeahead__container\">\r\n		<div class=\"typeahead__field\">\r\n			<span class=\"typeahead__query\">\r\n				<input class=\"heatmap-filterByRowName-input\" name=\"country_v1[query]\" type=\"search\" placeholder=\"Search\" autocomplete=\"off\">\r\n			</span>\r\n			<span class=\"typeahead__button\">\r\n				<button class=\"heatmap-filterByRowName-search\">\r\n					<i class=\"typeahead__search-icon\"></i>\r\n				</button>\r\n			</span>\r\n		</div>\r\n	</div>\r\n</div>\r\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\r\n<button class=\"btn btn-default heatmap-export-btn\">export</button>\r\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
+this["HBtemplates"]["templates/heatmap-skeleton.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    return "	<button class=\"btn btn-default heatmap-export-btn\">export</button>\r\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<div class=\"col-md-5\">\r\n	<div class=\"typeahead__container\">\r\n		<div class=\"typeahead__field\">\r\n			<span class=\"typeahead__query\">\r\n				<input class=\"heatmap-filterByRowName-input\" name=\"country_v1[query]\" type=\"search\" placeholder=\"Search\" autocomplete=\"off\">\r\n			</span>\r\n			<span class=\"typeahead__button\">\r\n				<button class=\"heatmap-filterByRowName-search\">\r\n					<i class=\"typeahead__search-icon\"></i>\r\n				</button>\r\n			</span>\r\n		</div>\r\n	</div>\r\n</div>\r\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\r\n"
+    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.isShowExportButton : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
 },"useData":true});
 
 this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {

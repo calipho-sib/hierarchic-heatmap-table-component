@@ -99,7 +99,9 @@
 
         showHeatmapSkeleton: function() {
             var template = HBtemplates['templates/heatmap-skeleton.tmpl'];
-            $(this.heatmapTable).append(template());
+            var setting = {};
+            setting.isShowExportButton = this.isShowExportButton;
+            $(this.heatmapTable).append(template(setting));
         },
 
         showHeatmapRows : function() {
@@ -262,9 +264,11 @@
 
             });
 
-            $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
-                self.download();
-            });
+            if (self.isShowExportButton) {
+                $(self.heatmapTable).find(".heatmap-export-btn").click(function() {
+                    self.download();
+                });
+            }
 
             $.fn.preBind = function (type, data, fn) {
                 this.each(function () {
@@ -456,6 +460,7 @@
             this.headerTemplateData = argv.options.headerTemplateData || {header: [""]};
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
+            this.isShowExportButton = argv.options.showExportButton || false;
         }
 
         this.initHandlebars();

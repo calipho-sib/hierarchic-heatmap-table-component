@@ -37,14 +37,13 @@ $(function () {
         options: heatmapTableOptions
     });
     heatMapTable.showLoadingStatus();
+    DEBUG = true;
 
-    nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
+    if (DEBUG == true) {
         var experimentalContext = {};
         $.ajax(
             {
                 type: "get",
-                url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
-                // url: "./data/experimental-context.json",
                 async: false,
                 success: function (data) {
                     data = data['entry']['experimentalContexts'];
@@ -59,20 +58,20 @@ $(function () {
                 }
             }
         );
-        // data = {};
-        // $.ajax(
-        //     {
-        //         type: "get",
-        //         url: "/data/expression-profile.json",
-        //         async: false,
-        //         success: function (result) {
-        //             data = _convertToTupleMap(result);
-        //         },
-        //         error: function (msg) {
-        //             console.log(msg);
-        //         }
-        //     }
-        // );
+        data = {};
+        $.ajax(
+            {
+                type: "get",
+                url: "/data/expression-profile.json",
+                async: false,
+                success: function (result) {
+                    data = _convertToTupleMap(result);
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            }
+        );
 
         var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
@@ -82,9 +81,39 @@ $(function () {
         heatMapTable.loadJSONData(heatmapData);
         heatMapTable.show();
         heatMapTable.hideLoadingStatus();
+    } else {
+        nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(function (data) {
+            var experimentalContext = {};
+            $.ajax(
+                {
+                    type: "get",
+                    url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
+                    async: false,
+                    success: function (data) {
+                        data = data['entry']['experimentalContexts'];
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].developmentalStage && data[i].developmentalStage.name != "unknown") {
+                                experimentalContext[data[i].contextId] = data[i].developmentalStage.name;
+                            }
+                        }
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                }
+            );
 
-        $('[data-toggle="tooltip"]').tooltip();
-    });
+            var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
+
+            heatmapData = filterByEvidences(heatmapData, getFilters());
+            console.log(heatmapData);
+            activateFilters(heatmapData, heatMapTable);
+            heatMapTable.loadJSONData(heatmapData);
+            heatMapTable.show();
+            heatMapTable.hideLoadingStatus();
+
+        });
+    }
 });
 
 $( document ).ready(function() {
