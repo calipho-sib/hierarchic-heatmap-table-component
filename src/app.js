@@ -37,7 +37,7 @@ $(function () {
         options: heatmapTableOptions
     });
     heatMapTable.showLoadingStatus();
-    DEBUG = true;
+    DEBUG = false;
 
     if (DEBUG == true) {
         var experimentalContext = {};
@@ -45,6 +45,7 @@ $(function () {
             {
                 type: "get",
                 async: false,
+                url: "./data/experimental-context.json",
                 success: function (data) {
                     data = data['entry']['experimentalContexts'];
                     for (var i = 0; i < data.length; i++) {
@@ -88,6 +89,7 @@ $(function () {
                 {
                     type: "get",
                     url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
+                    // url: "./data/experimental-context.json",
                     async: false,
                     success: function (data) {
                         data = data['entry']['experimentalContexts'];
