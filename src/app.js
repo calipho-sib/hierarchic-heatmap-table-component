@@ -37,7 +37,7 @@ $(function () {
         options: heatmapTableOptions
     });
     heatMapTable.showLoadingStatus();
-    DEBUG = false;
+    DEBUG = true;
 
     if (DEBUG == true) {
         var experimentalContext = {};
