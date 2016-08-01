@@ -53,6 +53,7 @@
                 result.tip = value;
                 result.columnWidth = self.columnWidth;
                 result.valueCssClass = valueCssClass;
+                console.log(result.tip);
                 if (self.valueToStyle[value]) {
                     if (self.valueToStyle[value].cssClass) {
                         result.circleColorClass = self.valueToStyle[value].cssClass;
@@ -110,27 +111,14 @@
             this.showLoadingStatus();
 
             $(this.heatmapTable).find(".heatmap-rows").empty()
-            // if (isReset && this.heatmapRowsHTML) {
-
-            //     $(this.heatmapTable).find(".heatmap-body").append(this.heatmapRowsHTML.clone());
-
-            // } else {
            
-                var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
-                for (var i = 0; i < this.data.length; i++) {
-                    var row = this.createRow(this.data[i]);
-                    heatmapRowsHTML.append(row);
-                }
+            var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
+            for (var i = 0; i < this.data.length; i++) {
+                var row = this.createRow(this.data[i]);
+                heatmapRowsHTML.append(row);
+            }
 
-                // $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML.clone());
-                $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
-
-                // if (this.heatmapRowsHTML === null) {
-                    // this.heatmapRowsHTML = heatmapRowsHTML.clone();
-                // }
-            // }
-
-            // $(this.heatmapTable).find('.heatmap-rowLabel').parent().parent().children('ul.tree').toggle();
+            $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
 
             $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
