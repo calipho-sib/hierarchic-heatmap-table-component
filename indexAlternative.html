@@ -103,6 +103,7 @@
                         for(var i = 0; i < childs.length; i++) {
                             if($(childs[i]).children(".heatmap-row").children(".heatmap-rowLabel").children(".rowLabel").text() === value) {
                                 $(childs[i]).children('ul.tree').toggle(300);
+                                $(".heatmap-filterByRowName-input").val(value);
                             }
                         }
                     }
