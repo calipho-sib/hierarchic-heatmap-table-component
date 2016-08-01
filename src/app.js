@@ -18,7 +18,7 @@ $(function () {
             { value: 'Medium', color: '#FFC870'},
             { value: 'High', color: '#FFA10A'}
         ],
-        columnWidth: "30px",
+        columnWidth: "20px",
         detailTemplate: "detailTemplate",
         headerTemplate: "headerTemplate",
         headerTemplateData: headerTemplateData,
@@ -37,7 +37,7 @@ $(function () {
         options: heatmapTableOptions
     });
     heatMapTable.showLoadingStatus();
-    DEBUG = true;
+    DEBUG = false;
 
     if (DEBUG == true) {
         var experimentalContext = {};
