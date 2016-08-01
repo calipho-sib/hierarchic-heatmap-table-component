@@ -18,7 +18,7 @@ $(function () {
             { value: 'Medium', color: '#FFC870'},
             { value: 'High', color: '#FFA10A'}
         ],
-        columnWidth: "50px",
+        columnWidth: "30px",
         detailTemplate: "detailTemplate",
         headerTemplate: "headerTemplate",
         headerTemplateData: headerTemplateData,
