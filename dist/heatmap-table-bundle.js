@@ -4666,7 +4666,6 @@ e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&
                 result.tip = value;
                 result.columnWidth = self.columnWidth;
                 result.valueCssClass = valueCssClass;
-                console.log(result.tip);
                 if (self.valueToStyle[value]) {
                     if (self.valueToStyle[value].cssClass) {
                         result.circleColorClass = self.valueToStyle[value].cssClass;

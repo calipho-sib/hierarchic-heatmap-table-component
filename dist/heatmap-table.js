@@ -53,7 +53,6 @@
                 result.tip = value;
                 result.columnWidth = self.columnWidth;
                 result.valueCssClass = valueCssClass;
-                console.log(result.tip);
                 if (self.valueToStyle[value]) {
                     if (self.valueToStyle[value].cssClass) {
                         result.circleColorClass = self.valueToStyle[value].cssClass;
