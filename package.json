@@ -19,7 +19,10 @@
     "biojs",
     "sib"
   ],
-  "author": "JinJin Lin",
+  "authors": [
+    "Jin Jin Lin <jinjin.lin@outlook.com>",
+    "Calipho Team <ndu@isb-sib.ch>"
+  ],
   "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/calipho-sib/hierarchic-heatmap-table-component/issues"
