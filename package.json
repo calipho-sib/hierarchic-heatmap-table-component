@@ -15,7 +15,8 @@
     "url": "git+https://github.com/calipho-sib/protein-expression.git"
   },
   "keywords": [
-    "nextprot"
+    "nextprot",
+    "biojs"
   ],
   "author": "JinJin Lin",
   "license": "GPL-2.0",
