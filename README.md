@@ -8,7 +8,7 @@ See: http://www.nextprot.org/
 
 
 ## Documentation can be found in here
-https://calipho-sib.github.io/protein-expression/doc
+https://rawgit.com/calipho-sib/hierarchic-heatmap-table-component/master/doc/index.html
 
 ## Installation
 ```
