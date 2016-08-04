@@ -13,7 +13,6 @@
     "nextprot"
   ],
   "license": "GPL v2",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
