@@ -87,11 +87,11 @@
     margin-top: 10px;
 }
 
-.tooltip-inner {
+/*.tooltip-inner {
     background-color: white !important;
     max-width: 500px;
     border: 2px bold;
-}
+}*/
 
 .bold {
     border: 1px black solid;

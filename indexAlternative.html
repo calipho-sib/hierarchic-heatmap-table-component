@@ -11,11 +11,21 @@
     <link rel="stylesheet" href="vendor/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="vendor/jquery.typeahead.min.css">
     <link rel="stylesheet" href="dist/heatmap-table.css">
-    <link rel="stylesheet" href="vendor/index.css">
     <!-- you should include styles inside styles folder -->
     <link rel="stylesheet" href="styles/nx-protein-expression.css">
     <link rel="stylesheet" href="styles/common-style.css">
+    <link rel="stylesheet" href="vendor/index.css">
 
+    <script type="text/javascript" src="vendor/jquery.min.js"></script>
+    <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
+    <script type="text/javascript" src="vendor/jquery.typeahead.min.js"></script>
+    <script type="text/javascript" src="dist/heatmap-table.js"></script>
+    <script type="text/javascript" src="vendor/nextprot.js"></script>
+    <script type="text/javascript" src="src/nextprot-data-filters.js"></script>
+    <script type="text/javascript" src="src/convert-nextprot-to-heatmap.js"></script>
+    <script type="text/javascript" src="vendor/iframeresizer.content.min.js"></script>
+    <script type="text/javascript" src="vendor/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="src/app.js"></script>
 </head>
 
 <body>
@@ -30,7 +40,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <!-- <div class="container"> -->
         <div class="raw">
             <!-- <div class="col-md-12"> -->
                 <!-- <div id="main" class="col-md-offset-1 col-md-4"></div> -->
@@ -84,21 +94,50 @@
                     </div>
                 </div>
             </div>
-            <div id="heatmap-table">
+            <div class="col-md-3" style="margin-top:100px; padding-left:80px;">
+                <div class="row" id="bodymapcontent">
+                    <div class="span4">
+                    <script>
+                    function showTree(value) {
+                        var childs = $(".heatmap-rows").children();
+                        for(var i = 0; i < childs.length; i++) {
+                            if($(childs[i]).children(".heatmap-row").children(".heatmap-rowLabel").children(".rowLabel").text() === value) {
+                                $(childs[i]).children('ul.tree').toggle(300);
+                                $(".heatmap-filterByRowName-input").val(value);
+                            }
+                        }
+                    }
+                    </script>
+                    <img src="vendor/PepPSy_Bodymap_body_v4.png" class="bodymap" usemap="#Map"/>
+                    <map name="Map" id="Map">
+                        <area alt="" onclick="showTree('Nervous system')" title=""  shape="poly" coords="128,12,143,2,156,13,145,28" />
+                        <area alt="" onclick="showTree('Sense organ')" title=""  shape="poly" coords="129,48,142,36,157,47,144,60" />
+                        <area alt="" onclick="showTree('Respiratory system')" title=""  shape="poly" coords="130,111,143,98,156,113,144,123" />
+                        <area alt="" onclick="showTree('Cardiovascular system')" title=""  shape="poly" coords="148,146,162,131,177,146,163,159" />
+                        <area alt="" onclick="showTree('Body part')" title=""  shape="poly" coords="106,134,120,119,135,133,121,147" />
+                        <area alt="" onclick="showTree('Alimentary system')" title=""  shape="poly" coords="129,185,142,171,157,185,143,199" />
+                        <area alt="" onclick="showTree('Dermal system')" title=""  shape="poly" coords="61,197,73,184,90,198,78,213" />
+                        <area alt="" onclick="showTree('Cell type')" title=""  shape="poly" coords="172,212,184,199,202,213,185,225" />
+                        <area alt="" onclick="showTree('Urinary system')" title=""  shape="poly" coords="127,236,143,220,158,235,141,250" />
+                        <area alt="" onclick="showTree('Reproductive system')" title=""  shape="poly" coords="114,263,124,248,142,262,123,278" />
+                        <area alt="" onclick="showTree('Reproductive system')" title=""  shape="poly" coords="148,262,162,247,178,261,162,275" />
+                        <area alt="" onclick="showTree('Nervous system')" title=""  shape="poly" coords="52,267,66,254,84,268,67,281" />
+                        <area alt="" onclick="showTree('Tissue')" title=""  shape="poly" coords="170,343,185,327,199,342,185,358" />
+                        <area alt="" onclick="showTree('Musculoskeletal system')" title=""  shape="poly" coords="154,432,166,416,187,434,168,449" />
+                        <area alt="" onclick="showTree('Gestational structure')" title=""  shape="poly" coords="27,380,45,365,60,382,45,396" />
+                        <area alt="" onclick="showTree('Endocrine system')" title="" shape="poly" coords="1,423,14,406,31,420,15,433" />
+                        <area alt="" onclick="showTree('Hemolymphoid and immune system')" title="" shape="poly" coords="0,465,15,450,31,467,16,482" />
+                    </map>
+                    </div>
+                </div>
             </div>
+            <div id="heatmap-table" class="col-md-9">
+            </div>
+   <!--          <div class="col-md-3" style="margin-top: 200px !important;">
+                <img src="/vendor/legend.png">
+            </div> -->
         </div>
-    </div>
-    <script type="text/javascript" src="vendor/jquery.min.js"></script>
-    <script type="text/javascript" src="dist/heatmap-table-vendor.js"></script>
-    <script type="text/javascript" src="vendor/jquery.typeahead.min.js"></script>
-    <script type="text/javascript" src="dist/heatmap-table.js"></script>
-    <script type="text/javascript" src="vendor/nextprot.js"></script>
-    <script type="text/javascript" src="src/nextprot-data-filters.js"></script>
-    <script type="text/javascript" src="src/convert-nextprot-to-heatmap.js"></script>
-    <script type="text/javascript" src="vendor/iframeresizer.content.min.js"></script>
-    <script type="text/javascript" src="vendor/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="src/app.js"></script>
-
+    <!-- </div> -->
 </body>
 
 <script id="detailTemplate" type="text/x-handlebars-template">

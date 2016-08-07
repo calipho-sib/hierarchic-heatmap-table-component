@@ -111,10 +111,14 @@ window.onload = function () {
       result.columnWidth = "120px";
       result.columnName = columnName;
       return block.fn(result);
-  });</script><script id="headerTemplate" type="text/x-handlebars-template">{{#each header}}
-  {{#createHeader this}}
-      <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
-          {{columnName}}
-      </div>
-  {{/createHeader}}
-{{/each}}</script></body></html>
+  });</script><script id="headerTemplate" type="text/x-handlebars-template"><div style="overfloat:hidden"> 
+  <div style="pull-right">
+    {{#each header}}
+      {{#createHeader this}}
+            <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+                {{columnName}}
+            </div>
+      {{/createHeader}}
+    {{/each}}
+  </div>
+</div></script></body></html>

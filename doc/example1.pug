@@ -142,10 +142,14 @@ block content
           return block.fn(result);
       });
   script#headerTemplate(type="text/x-handlebars-template").
-    {{#each header}}
-      {{#createHeader this}}
-          <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
-              {{columnName}}
-          </div>
-      {{/createHeader}}
-    {{/each}}
+    <div style="overfloat:hidden"> 
+      <div style="pull-right">
+        {{#each header}}
+          {{#createHeader this}}
+                <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+                    {{columnName}}
+                </div>
+          {{/createHeader}}
+        {{/each}}
+      </div>
+    </div>

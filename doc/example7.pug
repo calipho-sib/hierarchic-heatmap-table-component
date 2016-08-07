@@ -2,7 +2,7 @@ extends ./head
 block content
   div.panel.panel-default.col-lg-12.col-md-12(style="float: left; height:auto")
     div.row.panel-heading
-      h4.text-center Add a header
+      h4.text-center Custom circle
     div#heatmap-table-1(style="width:800px;margin:20px auto 50px auto; height:auto")
     div.panel-body.pull-left(style="width:50%")
       p This is the classic display of a heatmap.
@@ -13,8 +13,12 @@ block content
           * **columnWidth**(_String_): Set the width of columns, "70px" by default
           * **valuesSetting**(_Array_):
             * **{value: "", color: ""}**: color is a value of css color
+            * **{value: "", cssClass: ""}**: cssClass is a css class
+            * **{value: "", html: ""}**: 
           * **headerTemplate**(String): The name of handlebars template
           * **headerTemplateData**(Object): {header: ["..", ".."]}
+          * **detailTemplate**(String): The name of handlebars template
+          * **showExportButton**(Boolean): Show export button when it's set true
 
         * **Data structure**:
 
@@ -22,7 +26,10 @@ block content
             [{
               "rowLabel": String,
               "values": Array,
-              "children": Array, 
+              "linkLabel": String,
+              "linkURL": String,
+              "detailData": [Object],
+              "children": [Object]
             }];
             ```
     div.pull-right(style="width:50%;overflow:auto;")
@@ -40,15 +47,21 @@ block content
           textarea#javascriptCode(name="javascriptCode",style="max-height:200px;overflow:auto;font-size:11px").
             var heatmapTableOptions = {
               valuesSetting: [
-                { value: 'NotDetected', color: 'lightgray'},
-                { value: 'Positive', color: 'FFA10A'},
-                { value: 'High', color: 'red'}
+                { value: 'Positive', html: '<div>\
+                  <img style="width:15px" src="./static/img/chili.gif">\
+                  <img style="width:15px" src="./static/img/chili.gif">\
+                  </div>'
+                },
+                { value: 'High', cssClass: 'red'},
+                { value: 'NotDetected', color: 'lightgray'}
                 ],
                 columnWidth: "120px",
                 headerTemplate: "headerTemplate",
                 headerTemplateData: {header:['MANotDetected',
                                     'MAPositive',
-                                    'ESTPositive']}
+                                    'ESTPositive']},
+                detailTemplate: "detailTemplate",
+                showExportButton: true
             }
             var heatMapTable = new HeatMapTable({
                             tableID: "heatmap-table-1",
@@ -57,15 +70,33 @@ block content
             var data = [
                 {
                   "rowLabel": "Human anatomical entity",
-                  "values": ["NotDetected", "High", "Positive"],
+                  "linkLabel": "[TS-2178]",
+                  "linkURL": "http://www.nextprot.org/db/term/TS-2178", 
+                  "values": [ {"value": "", "cssClass": "bold"},
+                              {"value": "High", "cssClass": "bold"},
+                              {"value": "Positive", "cssClass": "bold"}],
+                  "detailData": [
+                    {
+                      "dbSource": "Bgee",
+                      "description": "Expression detected at 25-44 year-old adult stage",
+                      "ensembl": "ENSG00000254647",
+                      "ensemblLink": "http://bgee.unil.ch/bgee/bgee?page=expression\&action=data\&\stage_id=HsapDO:0000090\&organ_id=EV:0100070\&gene_id=ENSG00000254647\&stage_children=on",
+                      "evidenceCodeName": "Microarray",
+                      "value": "Positive"
+                    }
+                  ],
                   "children": [
                     {
                       "rowLabel": "Fluid and secretion",
+                      "linkLabel": "[TS-2101]",
+                      "linkURL": "http://www.nextprot.org/db/term/TS-2101",
                       "values": ["NotDetected", "High", "Positive"],
                       "children": [ 
                         {
+                          "linkLabel": "[TS-0079]", 
+                          "linkURL": "http://www.nextprot.org/db/term/TS-0079", 
                           "rowLabel": "Blood", 
-                          "values": ["", "High", "Positive"],
+                          "values": ["NotDetected", "High", "Positive"],
                           "children": []
                         }
                       ]
@@ -98,9 +129,39 @@ block content
                 {{/createHeader}}
               {{/each}}
             </script>
+
+            <script id="detailTemplate" type="text/x-handlebars-template">
+              <span class="detection-method">{{evidenceCodeName}}</span>
+              <span class="dbSource">{{dbSource}}</span>
+              <span class="ensembl-link">
+                <a href="{{ensemblLink}}">{{ensembl}}</a>
+              </span>
+              <div>
+                <span class="{{value}} glyphicon glyphicon-stop"></span>
+                <span>{{description}}</span>
+                {{#if qualityQualifier}}
+                  <span class="silver">{{qualityQualifier}}</span>
+                {{/if}}
+              </div>
+          </script>
         div#css.tab-pane.active(role="tabpanel")
           textarea#cssCode(name="cssCode",style="max-height:300px;height:100%;overflow:auto;font-size:11px;").
-
+            .red {
+              background-color: red;
+            }
+            .detection-method {
+              background-color: #7cba0f;
+            }
+            .dbSource {
+              background-color: #dedede;
+              color: #999;
+            }
+            .Positive {
+              color: #FFA10A;
+            }
+            .bold {
+              border: 1px black solid;
+            }
       //- button.btn.btn-default.center-block(style="margin-bottom:20px;",onclick='executeCode("#heatmap-table-1", simpleHeatMap)') Execute
   script.
     var simpleHeatMap;
@@ -128,7 +189,7 @@ block content
             readOnly: true
         });
         cssCode = CodeMirror.fromTextArea($("#cssCode")[0], {
-            mode: "text/css",
+            mode: "css",
             lineNumbers: true,
             lineWrapping: true,
             readOnly: true
@@ -165,7 +226,34 @@ block content
         {{/each}}
       </div>
     </div>
+  script#detailTemplate(type="text/x-handlebars-template").
+    <span class="detection-method">{{evidenceCodeName}}</span>
+    <span class="dbSource">{{dbSource}}</span>
+    <span class="ensembl-link">
+      <a href="{{ensemblLink}}">{{ensembl}}</a>
+    </span>
+    <div>
+      <span class="{{value}} glyphicon glyphicon-stop"></span>
+      <span>{{description}}</span>
+      {{#if qualityQualifier}}
+      <span class="silver">{{qualityQualifier}}</span>
+      {{/if}}
+    </div>
   style.
     .red {
       background-color: red;
+    }
+    .detection-method {
+      background-color: #7cba0f;
+      color: white;
+    }
+    .dbSource {
+      background-color: #dedede;
+      color: #999;
+    }
+    .Positive {
+      color: #FFA10A;
+    }
+    .bold {
+      border: 1px black solid;
     }
