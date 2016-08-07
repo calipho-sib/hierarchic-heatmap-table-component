@@ -16,16 +16,16 @@ module.exports = function(grunt) {
                 dest: 'dist/heatmap-table.js'
             },
             css: {
-                src: ['vendor/css/heatmap-table.css',
+                src: ['styles/heatmap-table.css',
                       'bower_components/bootstrap/dist/css/bootstrap.min.css',
-                      'vendor/jquery.typeahead.min.css'],
+                      'bower_components/jquery-typeahead/dist/jquery.typeahead.min.css'],
                 dest: 'dist/heatmap-table.css'
             },
             vendor: {
                 src: ['bower_components/handlebars/handlebars.js',
                       'bower_components/jquery/dist/jquery.min.js',
-                      'vendor/jquery.typeahead.min.js',
-                      'vendor/js/bootstrap.min.js'],
+                      'bower_components/jquery-typeahead/dist/jquery.typeahead.min.js',
+                      'bower_components/bootstrap/dist/js/bootstrap.min.js'],
                 dest: 'dist/heatmap-table-vendor.js'
             },
             bundle: {
