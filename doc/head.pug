@@ -1,20 +1,15 @@
 html
   head
     title Heatmap table
-    link(type="text/css", rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
     link(type="text/css", rel="stylesheet", href="./static/css/codemirror.css")
-    link(type="text/css", rel="stylesheet", href="../vendor/jquery.typeahead.min.css")
-    link(type="text/css", rel="stylesheet", href="../dist/heatmap-table.css")
     link(type="text/css", rel="stylesheet", href="./static/css/doc.css")
 
-    script(type="text/javascript", src="../vendor/jquery.min.js")
     script(type="text/javascript", src="./static/js/codemirror.js")
     script(type="text/javascript", src="./static/js/xml.js")
     script(type="text/javascript", src="./static/js/css.js")    
     script(type="text/javascript", src="./static/js/javascript.js")
-    script(type="text/javascript", src="../dist/heatmap-table-vendor.js")
-    script(type="text/javascript", src="../vendor/jquery.typeahead.min.js")
-    script(type="text/javascript", src="../vendor/js/bootstrap.min.js")
-    script(type="text/javascript", src="../dist/heatmap-table.js")
+
+    link(type="text/css", rel="stylesheet", href="../dist/heatmap-table.css")
+    script(type="text/javascript", src="../dist/heatmap-table-bundle.js")
   body(style="height:auto")
     block content
