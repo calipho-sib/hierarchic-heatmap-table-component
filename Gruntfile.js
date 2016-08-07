@@ -35,6 +35,12 @@ module.exports = function(grunt) {
                 //the keyword bundle is for the full package source + dependencies
                 dest: 'dist/heatmap-table-bundle.js'
             },
+            nextprot: {
+                src: ['dist/heatmap-table-bundle.js', 
+                      'vendor/js/nextprot.js',
+                      'src/convert-nextprot-to-heatmap.js'],
+                dest: 'dist/hierarchic-heatmap-table.nextprot.js'  
+            }
         },
         connect: {
             server: {
