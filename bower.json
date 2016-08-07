@@ -1,18 +1,18 @@
 {
-  "name": "expression-viewer",
+  "name": "hierarchic-heatmap-table-component",
   "version": "0.0.0",
-  "homepage": "https://github.com/linjinjin123/Generic-protein-expression-view",
+  "homepage": "https://github.com/calipho-sib/hierarchic-heatmap-table-component",
   "authors": [
-    "JinJin Lin"
+    "Jin Jin Lin <jinjin.lin@outlook.com>",
+    "Calipho Team <ndu@isb-sib.ch>"
   ],
-  "description": "A viewer for human body expression",
+  "description": "A visualisation tool for displaying rows in a hiearchic manner with heatmap capabilities",
   "main": "",
   "moduleType": [],
   "keywords": [
     "nextprot"
   ],
   "license": "GPL v2",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",

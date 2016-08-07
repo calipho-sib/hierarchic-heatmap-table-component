@@ -210,13 +210,17 @@ block content
           return block.fn(result);
       });
   script#headerTemplate(type="text/x-handlebars-template").
-    {{#each header}}
-      {{#createHeader this}}
-          <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
-              {{columnName}}
-          </div>
-      {{/createHeader}}
-    {{/each}}
+    <div style="overflow:hidden"> 
+      <div class="pull-right">
+        {{#each header}}
+          {{#createHeader this}}
+                <div class="heatmap-column {{columnClass}}" style="width: {{columnWidth}}">
+                    {{columnName}}
+                </div>
+          {{/createHeader}}
+        {{/each}}
+      </div>
+    </div>
   script#detailTemplate(type="text/x-handlebars-template").
     <span class="detection-method">{{evidenceCodeName}}</span>
     <span class="dbSource">{{dbSource}}</span>
