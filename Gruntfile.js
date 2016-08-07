@@ -12,7 +12,7 @@ module.exports = function(grunt) {
             basic: {
                  //use core because it is the "base", but needs compiled templates to work 
                  src: ['src/heatmap-table-core.js',
-                      'build/heatmap-compiled-templates.js'],
+                      'templates/build/heatmap-compiled-templates.js'],
                 dest: 'dist/heatmap-table.js'
             },
             css: {
@@ -50,11 +50,11 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 },
-                files: ['src/*.js', 'templates/*.tmpl', 'vendor/css/*.css', 'doc/*.pug', 'atlas/src/*.jsx'],
+                files: ['src/*.js', 'templates/src/*.tmpl', 'vendor/css/*.css', 'doc/*.pug', 'atlas/src/*.jsx'],
                 tasks: ['handlebars:compile', 'concat', "pug:compile"]
             },
             handlebars: {
-                files: 'templates/*.tmpl',
+                files: 'templates/src/*.tmpl',
                 tasks: ['handlebars:compile']
             },
             pug: {
@@ -71,8 +71,8 @@ module.exports = function(grunt) {
         },
         handlebars: {
             compile: {
-                src: 'templates/*.tmpl',
-                dest: 'build/heatmap-compiled-templates.js',
+                src: 'templates/src/*.tmpl',
+                dest: 'templates/build/heatmap-compiled-templates.js',
                 options: {
                     namespace: "HBtemplates"
                 }

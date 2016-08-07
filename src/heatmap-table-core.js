@@ -11,10 +11,10 @@
         initHandlebars : function() {
             var self = this;
             //Share template for recursively generate children
-            Handlebars.registerPartial('create-children', HBtemplates['templates/heatmap-tree.tmpl']);
+            Handlebars.registerPartial('create-children', HBtemplates['templates/src/heatmap-tree.tmpl']);
 
             Handlebars.registerHelper('createRow', function(data) {
-                var rowTemplate = HBtemplates['templates/heatmap-row.tmpl']
+                var rowTemplate = HBtemplates['templates/src/heatmap-row.tmpl']
                 
                 var iconHtml = null;
                 var result = {};
@@ -45,8 +45,8 @@
                     value = value.value;
                 }
 
-                var valueTemplate = HBtemplates['templates/heatmap-value.tmpl'];
-                var circleTemplate = HBtemplates['templates/heatmap-circle.tmpl'];
+                var valueTemplate = HBtemplates['templates/src/heatmap-value.tmpl'];
+                var circleTemplate = HBtemplates['templates/src/heatmap-circle.tmpl'];
 
                 var result = {};
 
@@ -91,14 +91,14 @@
             if (this.heatmapBody) {
                 $(this.heatmapTable).append(this.heatmapBody);
             } else {
-                var template = HBtemplates['templates/heatmap-body.tmpl'];
+                var template = HBtemplates['templates/src/heatmap-body.tmpl'];
                 this.heatmapBody = template();
                 $(this.heatmapTable).append(this.heatmapBody);
             }
         },
 
         showHeatmapSkeleton: function() {
-            var template = HBtemplates['templates/heatmap-skeleton.tmpl'];
+            var template = HBtemplates['templates/src/heatmap-skeleton.tmpl'];
             var setting = {};
             setting.isShowExportButton = this.isShowExportButton;
             $(this.heatmapTable).append(template(setting));
@@ -432,7 +432,7 @@
     }
 
     HeatMapTable.init = function(argv) {
-        this.heatmapTreeTmpl = HBtemplates['templates/heatmap-tree.tmpl'];
+        this.heatmapTreeTmpl = HBtemplates['templates/src/heatmap-tree.tmpl'];
         this.heatmapRowsHTML = null;
         this.dataIndexToHtml = {};
         this.rowLabelList = [];

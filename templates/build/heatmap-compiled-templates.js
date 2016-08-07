@@ -1,6 +1,6 @@
 this["HBtemplates"] = this["HBtemplates"] || {};
 
-this["HBtemplates"]["templates/heatmap-body.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["HBtemplates"]["templates/src/heatmap-body.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
 
   return "<div class=\"heatmap-body\" style=\"margin-top:20px\">\r\n	"
@@ -8,7 +8,7 @@ this["HBtemplates"]["templates/heatmap-body.tmpl"] = Handlebars.template({"compi
     + "\r\n</div>";
 },"useData":true});
 
-this["HBtemplates"]["templates/heatmap-circle.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["HBtemplates"]["templates/src/heatmap-circle.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<i class=\"heatmap-circle "
@@ -22,7 +22,7 @@ this["HBtemplates"]["templates/heatmap-circle.tmpl"] = Handlebars.template({"com
     + "\"></i>";
 },"useData":true});
 
-this["HBtemplates"]["templates/heatmap-row.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["HBtemplates"]["templates/src/heatmap-row.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<p class=\""
@@ -38,7 +38,7 @@ this["HBtemplates"]["templates/heatmap-row.tmpl"] = Handlebars.template({"compil
     + "</a></span>\r\n</p>";
 },"useData":true});
 
-this["HBtemplates"]["templates/heatmap-skeleton.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+this["HBtemplates"]["templates/src/heatmap-skeleton.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return "	<button class=\"btn btn-default heatmap-export-btn\">export</button>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
@@ -48,7 +48,7 @@ this["HBtemplates"]["templates/heatmap-skeleton.tmpl"] = Handlebars.template({"1
     + "<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
 },"useData":true});
 
-this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+this["HBtemplates"]["templates/src/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return "                "
     + container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}))
     + "\r\n";
@@ -79,7 +79,7 @@ this["HBtemplates"]["templates/heatmap-tree.tmpl"] = Handlebars.template({"1":fu
     + "    </ul>\r\n</li>\r\n";
 },"useData":true});
 
-this["HBtemplates"]["templates/heatmap-value.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["HBtemplates"]["templates/src/heatmap-value.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "<div class=\"heatmap-column "
