@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                 dest: 'dist/heatmap-table.js'
             },
             css: {
-                src: ['styles/heatmap-table.css',
+                src: ['src/heatmap-table.css',
                       'bower_components/bootstrap/dist/css/bootstrap.min.css',
                       'bower_components/jquery-typeahead/dist/jquery.typeahead.min.css'],
                 dest: 'dist/heatmap-table.css'
