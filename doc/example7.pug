@@ -15,9 +15,9 @@ block content
             * **{value: "", color: ""}**: color is a value of css color
             * **{value: "", cssClass: ""}**: cssClass is a css class
             * **{value: "", html: ""}**: 
-          * **headerTemplate**(String): The name of handlebars template
+          * **headerTemplateID**(String): The name of handlebars template
           * **headerTemplateData**(Object): {header: ["..", ".."]}
-          * **detailTemplate**(String): The name of handlebars template
+          * **detailTemplateID**(String): The name of handlebars template
           * **showExportButton**(Boolean): Show export button when it's set true
 
         * **Data structure**:
@@ -56,11 +56,11 @@ block content
                 { value: 'NotDetected', color: 'lightgray'}
                 ],
                 columnWidth: "120px",
-                headerTemplate: "headerTemplate",
+                headerTemplateID: "headerTemplate",
                 headerTemplateData: {header:['MANotDetected',
                                     'MAPositive',
                                     'ESTPositive']},
-                detailTemplate: "detailTemplate",
+                detailTemplateID: "detailTemplate",
                 showExportButton: true
             }
             var heatMapTable = new HeatMapTable({

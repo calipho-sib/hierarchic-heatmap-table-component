@@ -1,3 +1,35 @@
+Handlebars.registerHelper('createHeader', function(columnName, block) {
+    var result = {};
+    result.columnWidth = "85px";
+    result.columnName = columnName;
+    return block.fn(result);
+});
+
+headerTemplateSrc = 
+    '<div style="overflow:hidden">\
+        <div class="pull-left" style="margin-top:15px; margin-left: 50px; font-size: 18px; font-weight: bold">Tissue/ Cell type</div>\
+        <div class="pull-right">\
+            <div style="overflow:hidden">\
+                <div style="float:left; width:90px; text-align:center; color: white; background-color:#163eef">mRNA</div><div style="float:left; width:120px; text-align:center; color: white; background-color:#1537d2">Protein</div>\
+            </div>\
+            <div style="overflow:hidden">\
+                <div class="methodology-header MicroArray-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src=\"vendor\/images\/MA_legend.png\"\/>">MA</div><div class="methodology-header EST-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src="vendor\/images\/EST_legend.png"\/>">EST</div><div class="methodology-header IHC-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src="vendor\/images\/IHC_legend.png"\/>">IHC</div>\
+            </div>\
+        </div>\
+    </div>'
+;
+
+detailTemplateSrc = 
+    '<span class="detection-method">{{evidenceCodeName}}</span>  <span class="dbSource">{{dbSource}}</span>  <span class="ensembl-link"><a href="{{ensemblLink}}">{{ensembl}}</a></span>\
+    <div>\
+        <span class="{{value}} glyphicon glyphicon-stop"></span>\
+        <span>{{description}}</span>\
+        {{#if qualityQualifier}}\
+        <span class="silver">{{qualityQualifier}}</span>\
+        {{/if}}\
+    </div>'
+;
+
 var headerTemplateData  = {header:['Positive',
                               'NotDetected',
                               'Positive', 
@@ -17,8 +49,8 @@ var heatmapTableOptions = {
         { value: 'High', color: '#FFA10A'}
     ],
     columnWidth: "30px",
-    detailTemplate: "detailTemplate",
-    headerTemplate: "headerTemplate",
+    detailTemplateSrc: detailTemplateSrc,
+    headerTemplateSrc: detailTemplateSrc,
     headerTemplateData: headerTemplateData,
 }
 
@@ -41,8 +73,8 @@ nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(functio
     $.ajax(
         {
             type: "get",
-            url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
-            // url: "./data/experimental-context.json",
+            // url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
+            url: "/data/experimental-context.json",
             async: false,
             success: function (data) {
                 data = data['entry']['experimentalContexts'];

@@ -19,8 +19,8 @@ $(function () {
             { value: 'High', color: '#FFA10A'}
         ],
         columnWidth: "30px",
-        detailTemplate: "detailTemplate",
-        headerTemplate: "headerTemplate",
+        detailTemplateID: "detailTemplate",
+        headerTemplateID: "headerTemplate",
         headerTemplateData: headerTemplateData,
     }
 

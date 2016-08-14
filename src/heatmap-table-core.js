@@ -442,8 +442,12 @@
         this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
         if (argv.options) {
-            this.detailTemplateID = argv.options.detailTemplate;
-            this.headerTemplateID = argv.options.headerTemplate || null;
+            this.detailTemplateSrc = argv.options.detailTemplateSrc || null;
+            this.headerTemplateSrc = argv.options.headerTemplateSrc || null;
+
+            this.detailTemplateID = argv.options.detailTemplateID || null;
+            this.headerTemplateID = argv.options.headerTemplateID || null;
+
             this.headerTemplateData = argv.options.headerTemplateData || {header: [""]};
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
@@ -461,6 +465,12 @@
         if (this.headerTemplateID) {
             var source   = $('#'+this.headerTemplateID).html();
             this.headerTemplate = Handlebars.compile(source);
+        }
+        if (this.detailTemplateSrc) {
+            this.detailTemplate = Handlebars.compile(this.detailTemplateSrc);
+        }
+        if (this.headerTemplateSrc) {
+            this.headerTemplate = Handlebars.compile(this.headerTemplateSrc);
         }
     }
 
