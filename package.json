@@ -27,8 +27,26 @@
   "bugs": {
     "url": "https://github.com/calipho-sib/hierarchic-heatmap-table-component/issues"
   },
+  "sniper": {
+    "js": [
+      "/build/viewer.js"
+    ],
+    "css": [
+      "/dist/heatmap-table.css"
+    ],
+    "snippets": [
+      "snippets"
+    ],
+    "first": "example_1"
+  },
   "homepage": "https://github.com/calipho-sib/hierarchic-heatmap-table-component/#readme",
   "devDependencies": {
+    "babel-core": "^6.7.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-react-display-name": "^6.5.0",
+    "babel-plugin-transform-react-jsx": "^6.6.5",
+    "biojs-sniper": "^0.2.9",
+    "clean-webpack-plugin": "^0.1.8",
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
@@ -37,16 +55,11 @@
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-webpack": "^1.0.11",
+    "imports-loader": "^0.6.5",
     "marked": "^0.3.5",
     "qunitjs": "^2.0.0",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1",
-    "babel-core": "^6.7.0",
-    "babel-loader": "^6.2.4",
-    "babel-plugin-transform-react-display-name": "^6.5.0",
-    "babel-plugin-transform-react-jsx": "^6.6.5",
-    "clean-webpack-plugin": "^0.1.8",
-    "imports-loader": "^0.6.5"
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
     "grunt-contrib-pug": "^1.0.0",
