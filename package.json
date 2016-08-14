@@ -67,6 +67,6 @@
     "pug": "^2.0.0-beta3",
     "jquery": "2.2.3",
     "jquery-hc-sticky": "git+https://github.com/alfonsomunozpomer/hc-sticky.git",
-    "jquery-ui-bundle": "^1.11.4",
+    "jquery-ui-bundle": "^1.11.4"
   }
 }
