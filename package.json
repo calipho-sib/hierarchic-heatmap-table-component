@@ -29,7 +29,7 @@
   },
   "sniper": {
     "js": [
-      "/build/viewer.js"
+      "/dist/heatmap-table-bundle.js"
     ],
     "css": [
       "/dist/heatmap-table.css"
