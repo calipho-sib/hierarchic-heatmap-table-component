@@ -73,8 +73,8 @@ nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(functio
     $.ajax(
         {
             type: "get",
-            // url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
-            url: "/data/experimental-context.json",
+            url: "https://api.nextprot.org/entry/"+proteinAccession+"/experimental-context.json",
+            // url: "./data/experimental-context.json",
             async: false,
             success: function (data) {
                 data = data['entry']['experimentalContexts'];
