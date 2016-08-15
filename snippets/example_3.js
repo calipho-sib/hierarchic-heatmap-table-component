@@ -1,15 +1,26 @@
+headerTemplateSrc = 
+    '<div style="overflow:hidden">\
+        <div class="pull-left" style="margin-top:15px; margin-left: 50px; font-size: 18px; font-weight: bold">Tissue/ Cell type</div>\
+        <div class="pull-right">\
+            <div style="overflow:hidden">\
+                <div style="float:left; width:90px; text-align:center; color: white; background-color:#163eef">mRNA</div><div style="float:left; width:120px; text-align:center; color: white; background-color:#1537d2">Protein</div>\
+            </div>\
+            <div style="overflow:hidden">\
+                <div class="methodology-header MicroArray-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src=\"vendor\/images\/MA_legend.png\"\/>">MA</div><div class="methodology-header EST-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src="vendor\/images\/EST_legend.png"\/>">EST</div><div class="methodology-header IHC-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src="vendor\/images\/IHC_legend.png"\/>">IHC</div>\
+            </div>\
+        </div>\
+    </div>'
+;
+
+
 var heatmapTableOptions = {
   valuesSetting: [
-    { value: 'Positive', html: '<div>\
-      <img style="width:15px" src="./static/img/chili.gif">\
-      <img style="width:15px" src="./static/img/chili.gif">\
-      </div>'
-    },
-    { value: 'High', cssClass: 'red'},
-    { value: 'NotDetected', color: 'lightgray'}
+    { value: 'NotDetected', color: 'lightgray'},
+    { value: 'Positive', color: 'FFA10A'},
+    { value: 'High', color: 'red'}
     ],
     columnWidth: "120px",
-    headerTemplate: "headerTemplate",
+    headerTemplateSrc: headerTemplateSrc,
     headerTemplateData: {header:['MANotDetected',
                         'MAPositive',
                         'ESTPositive']}
