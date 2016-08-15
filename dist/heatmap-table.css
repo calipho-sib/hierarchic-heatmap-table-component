@@ -16,7 +16,8 @@
 
 .heatmap-row {
     border-bottom: solid 1px #d4d4d4;
-    overflow:hidden
+    overflow:hidden;
+    height: 20px;
 }
 
 .heatmap-rowLabel {
@@ -41,10 +42,13 @@
 }
 
 .heatmap-column {
-    display: inline-block;
-    text-align: center;
+/*    display: inline-block;
+    text-align: center;*/
 /*    margin-right: 5px;
     margin-left: 5px;*/
+    float: right;
+    height: 20px;
+    text-align: center;
 }
 
 .heatmap-group {
@@ -59,6 +63,7 @@
     display: inline-block;
     width: 10px;
     height: 10px;
+    margin-top: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;

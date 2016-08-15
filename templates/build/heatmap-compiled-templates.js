@@ -49,9 +49,7 @@ this["HBtemplates"]["templates/src/heatmap-skeleton.tmpl"] = Handlebars.template
 },"useData":true});
 
 this["HBtemplates"]["templates/src/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    return "                "
-    + container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}))
-    + "\r\n";
+    return container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}));
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -71,9 +69,9 @@ this["HBtemplates"]["templates/src/heatmap-tree.tmpl"] = Handlebars.template({"1
 
   return "\r\n<li>\r\n    <div class=\"heatmap-row\">\r\n        "
     + container.escapeExpression((helpers.createRow || (depth0 && depth0.createRow) || helpers.helperMissing).call(alias1,depth0,{"name":"createRow","hash":{},"data":data}))
-    + "\r\n        <div class=\"pull-right\" style=\"font-size: 0\">\r\n"
+    + "\r\n        <div class=\"pull-right\">\r\n            "
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
+    + "\r\n        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.childrenHTML : depth0),{"name":"each","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </ul>\r\n</li>\r\n";

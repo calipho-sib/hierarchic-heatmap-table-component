@@ -2,10 +2,8 @@
 <li>
     <div class="heatmap-row">
         {{createRow this}}
-        <div class="pull-right" style="font-size: 0">
-            {{#each values}}
-                {{showValue this}}
-            {{/each}}
+        <div class="pull-right">
+            {{#each values}}{{showValue this}}{{/each}}
         </div>
     </div>
     <ul class="tree heatmap-closed heatmap-tree">

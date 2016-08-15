@@ -1,6 +1,6 @@
 {
   "name": "hierarchic-heatmap-table-component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A visualisation tool for displaying rows in a hiearchic manner with heatmap capabilities ",
   "main": "index.js",
   "directories": {
@@ -32,12 +32,13 @@
       "/dist/heatmap-table-bundle.js"
     ],
     "css": [
-      "/dist/heatmap-table.css"
+      "/dist/heatmap-table.css",
+      "/vendor/css/snippets.css"
     ],
     "snippets": [
       "snippets"
     ],
-    "first": "example_4"
+    "first": "example_1"
   },
   "homepage": "https://github.com/calipho-sib/hierarchic-heatmap-table-component/#readme",
   "devDependencies": {

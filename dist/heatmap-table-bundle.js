@@ -5073,8 +5073,12 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
         this.data = [];
         this.heatmapTable = $("#" + argv.tableID)[0];
         if (argv.options) {
-            this.detailTemplateID = argv.options.detailTemplate;
-            this.headerTemplateID = argv.options.headerTemplate || null;
+            this.detailTemplateSrc = argv.options.detailTemplateSrc || null;
+            this.headerTemplateSrc = argv.options.headerTemplateSrc || null;
+
+            this.detailTemplateID = argv.options.detailTemplateID || null;
+            this.headerTemplateID = argv.options.headerTemplateID || null;
+
             this.headerTemplateData = argv.options.headerTemplateData || {header: [""]};
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
@@ -5092,6 +5096,12 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
         if (this.headerTemplateID) {
             var source   = $('#'+this.headerTemplateID).html();
             this.headerTemplate = Handlebars.compile(source);
+        }
+        if (this.detailTemplateSrc) {
+            this.detailTemplate = Handlebars.compile(this.detailTemplateSrc);
+        }
+        if (this.headerTemplateSrc) {
+            this.headerTemplate = Handlebars.compile(this.headerTemplateSrc);
         }
     }
 
@@ -5151,9 +5161,7 @@ this["HBtemplates"]["templates/src/heatmap-skeleton.tmpl"] = Handlebars.template
 },"useData":true});
 
 this["HBtemplates"]["templates/src/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    return "                "
-    + container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}))
-    + "\r\n";
+    return container.escapeExpression((helpers.showValue || (depth0 && depth0.showValue) || helpers.helperMissing).call(depth0 != null ? depth0 : {},depth0,{"name":"showValue","hash":{},"data":data}));
 },"3":function(container,depth0,helpers,partials,data) {
     var stack1;
 
@@ -5173,9 +5181,9 @@ this["HBtemplates"]["templates/src/heatmap-tree.tmpl"] = Handlebars.template({"1
 
   return "\r\n<li>\r\n    <div class=\"heatmap-row\">\r\n        "
     + container.escapeExpression((helpers.createRow || (depth0 && depth0.createRow) || helpers.helperMissing).call(alias1,depth0,{"name":"createRow","hash":{},"data":data}))
-    + "\r\n        <div class=\"pull-right\" style=\"font-size: 0\">\r\n"
+    + "\r\n        <div class=\"pull-right\">\r\n            "
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
+    + "\r\n        </div>\r\n    </div>\r\n    <ul class=\"tree heatmap-closed heatmap-tree\">\r\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.detailData : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.childrenHTML : depth0),{"name":"each","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </ul>\r\n</li>\r\n";
