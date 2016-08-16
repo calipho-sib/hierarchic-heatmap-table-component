@@ -27,11 +27,8 @@
   ],
   "dependencies": {
     "jquery": "2.2.3",
-    "jquery-hc-sticky": "git+https://github.com/alfonsomunozpomer/hc-sticky.git",
-
     "bootstrap": "~3.3.6",
     "handlebars": "^4.0.5",
-    "iframe-resizer": "^3.5.3",
     "jquery-typeahead": "^2.6.1"
   },
   "repository": {
