@@ -1,6 +1,6 @@
 {
   "name": "hierarchic-heatmap-table-component",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A visualisation tool for displaying rows in a hiearchic manner with heatmap capabilities ",
   "main": "index.js",
   "directories": {
