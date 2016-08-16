@@ -96,3 +96,26 @@
 .bold {
     border: 1px black solid;
 }
+
+.type {
+    margin-top:15px;
+    margin-left: 50px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.mRNA-header {
+    float:left;
+    width:90px;
+    text-align:center;
+    color: white;
+    background-color:#163eef;
+}
+
+.protein-header {
+    float:left;
+    width:120px;
+    text-align:center;
+    color: white;
+    background-color:#1537d2;
+}

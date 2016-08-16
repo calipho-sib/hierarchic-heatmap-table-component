@@ -7,13 +7,13 @@ Handlebars.registerHelper('createHeader', function(columnName, block) {
 
 headerTemplateSrc = 
     '<div style="overflow:hidden">\
-        <div class="pull-left" style="margin-top:15px; margin-left: 50px; font-size: 18px; font-weight: bold">Tissue/ Cell type</div>\
+        <div class="pull-left type">Tissue/ Cell type</div>\
         <div class="pull-right">\
             <div style="overflow:hidden">\
-                <div style="float:left; width:90px; text-align:center; color: white; background-color:#163eef">mRNA</div><div style="float:left; width:120px; text-align:center; color: white; background-color:#1537d2">Protein</div>\
+                <div class="mRNA-header">mRNA</div><div class="protein-header">Protein</div>\
             </div>\
             <div style="overflow:hidden">\
-                <div class="methodology-header MicroArray-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src=\"vendor\/images\/MA_legend.png\"\/>">MA</div><div class="methodology-header EST-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src="vendor\/images\/EST_legend.png"\/>">EST</div><div class="methodology-header IHC-header" data-placement="top" data-toggle="tooltip" data-html="true" data-original-title="<img src="vendor\/images\/IHC_legend.png"\/>">IHC</div>\
+                <div class="methodology-header MicroArray-header">MA</div><div class="methodology-header EST-header">EST</div><div class="methodology-header IHC-header">IHC</div>\
             </div>\
         </div>\
     </div>'
@@ -50,7 +50,7 @@ var heatmapTableOptions = {
     ],
     columnWidth: "30px",
     detailTemplateSrc: detailTemplateSrc,
-    headerTemplateSrc: detailTemplateSrc,
+    headerTemplateSrc: headerTemplateSrc,
     headerTemplateData: headerTemplateData,
 }
 
@@ -92,11 +92,7 @@ nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(functio
 
     var heatmapData = convertNextProtDataIntoHeatMapTableFormat(experimentalContext, data);
 
-    heatmapData = filterByEvidences(heatmapData, getFilters());
-    console.log(heatmapData);
-    activateFilters(heatmapData, heatMapTable);
     heatMapTable.loadJSONData(heatmapData);
     heatMapTable.show();
     heatMapTable.hideLoadingStatus();
-
 });

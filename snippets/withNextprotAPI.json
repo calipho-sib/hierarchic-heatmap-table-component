@@ -1,2 +1,2 @@
-{"js": ["/dist/hierarchic-heatmap-table.nextprot.js",
-		"/templates/build/heatmap-compiled-templates.js"]}
+{"js": ["/dist/hierarchic-heatmap-table.nextprot.js"],
+"css": ["/vendor/css/index.css"]}
