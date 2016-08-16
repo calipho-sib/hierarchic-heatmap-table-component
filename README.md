@@ -182,9 +182,7 @@ If you have any problem or suggestion please open an issue [here](https://github
 
 ...make your changes and modifications...
 
-`npm run dist` (will create the min & bundle versions in dist/)
-
-`npm run build` (will create the bundle js & css in build/ for node)
+`grunt prod` (will create the min/bundle js & css in dist/ for node)
 
 `grunt bump` (will push and add a new release)
 

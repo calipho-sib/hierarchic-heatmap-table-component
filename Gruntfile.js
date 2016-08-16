@@ -117,7 +117,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bump');
 
     grunt.registerTask('default', ['connect:server', 'pug', 'concat', 'watch:all']);
-    grunt.registerTask('concating', ['concat']);
     grunt.registerTask('prod', ['concat']);
     grunt.registerTask('serve', ['connect:server','watch']);
 };
