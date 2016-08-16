@@ -54,7 +54,7 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 },
-                files: ['src/*.js', 'templates/src/*.tmpl', 'vendor/css/*.css', 'doc/*.pug', 'atlas/src/*.jsx'],
+                files: ['src/*.js', 'templates/src/*.tmpl', 'src/*.css', 'doc/*.pug'],
                 tasks: ['handlebars:compile', 'concat', "pug:compile"]
             },
             handlebars: {
@@ -88,6 +88,24 @@ module.exports = function(grunt) {
                     expand: true
                 }]
             }
+        },
+        bump: {
+            options: {
+                files: ['package.json'],
+                updateConfigs: [],
+                commit: true,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: ['package.json'],
+                createTag: true,
+                tagName: 'v%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: true,
+                pushTo: 'https://github.com/calipho-sib/hierarchic-heatmap-table-component.git',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+                globalReplace: false,
+                prereleaseName: false,
+                regExp: false
+            }
         }
     });
 
@@ -96,6 +114,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-pug');
+    grunt.loadNpmTasks('grunt-bump');
 
     grunt.registerTask('default', ['connect:server', 'pug', 'concat', 'watch:all']);
+    grunt.registerTask('concating', ['concat']);
+    grunt.registerTask('prod', ['concat']);
+    grunt.registerTask('serve', ['connect:server','watch']);
 };
