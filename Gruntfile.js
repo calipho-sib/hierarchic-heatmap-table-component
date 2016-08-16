@@ -1,6 +1,4 @@
-var webpack = require('webpack');
 var path = require('path');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = function(grunt) {
     grunt.initConfig({
@@ -66,13 +64,6 @@ module.exports = function(grunt) {
             pug: {
                 files: "doc/pug/*.pug",
                 tasks: ['pug:compile']
-            },
-            webpack: {
-                options: {
-                    livereload: true
-                },
-                files: "atlas/src/*.jsx",
-                tasks: ['webpack:all']
             }
         },
         handlebars: {
@@ -97,43 +88,6 @@ module.exports = function(grunt) {
                     expand: true
                 }]
             }
-        },
-        webpack: {
-            all: {
-                entry: {
-                    anatomogram: './atlas/index.js',
-                    anatomogramRenderer: './atlas/src/anatomogramRenderer.js',
-                    dependencies: ['react', 'react-dom', 'jquery', 'jquery-hc-sticky', 'jquery-ui-bundle', 'imports-loader?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js']
-                },
-
-                output: {
-                    libraryTarget: 'var',
-                    library: '[name]',
-                    path: path.resolve(__dirname, 'dist'),
-                    filename: '[name].bundle.js',
-                    publicPath: '/atlas/dist/'
-                },
-
-                plugins: [
-                    new CleanWebpackPlugin(['dist'], {verbose: true, dry: false}),
-                    new webpack.optimize.DedupePlugin(),
-                    new webpack.optimize.CommonsChunkPlugin({
-                        name: 'dependencies',
-                        filename: 'vendor.bundle.js',
-                        minChunks: Infinity     // Explicit definition-based split. Don’t put shared modules between main and demo entries in vendor.bundle.js (e.g. Anatomogram.jsx)
-                    })
-                ],
-
-                module: {
-                    loaders: [
-                        {test: /\.jsx$/, loader: 'babel'}
-                    ]
-                },
-
-                devServer: {
-                    port: 9000
-                }
-            }
         }
     });
 
@@ -142,7 +96,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-pug');
-    grunt.loadNpmTasks('grunt-webpack');
 
     grunt.registerTask('default', ['connect:server', 'pug', 'concat', 'watch:all']);
 };
