@@ -23,7 +23,7 @@ bower install hierarchic-heatmap-table-component
 npm install hierarchic-heatmap-table-component
 ```
 
-Or Include the feature-viewer **JS** and **CSS** from rawgit CDN in the header of your html
+Or Include the hierarchic-heatmap-table-component **JS** and **CSS** from rawgit CDN in the header of your html
 ```html
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/master/dist/heatmap-table.css">
 
@@ -42,7 +42,6 @@ Or Include the feature-viewer **JS** and **CSS** from rawgit CDN in the header o
 
 **3.** Create an instance of HeatmapTable in javascript, the div in which it will be display and the rendering options of your choice.
 ```javascript
-//For Node add before : var FeatureViewer = require("hierarchic-heatmap-table-component");
 
 var heatmapTableOptions = {
 	valuesSetting: [
@@ -59,7 +58,27 @@ var heatMapTable = new HeatMapTable({
             });
 
 ```
-   
+
+**4.** Load the data
+```
+var data = [
+    {
+      "rowLabel": "Human anatomical entity",
+      "values": ["NotDetected", "High", "Positive"],
+      "children": [
+        {
+          "rowLabel": "Fluid and secretion",
+          "values": ["NotDetected", "High", "Positive"],
+          "children": []
+        }
+      ], 
+    }
+  ];
+
+heatMapTable.loadJSONData(data);
+heatMapTable.show();
+```
+
 **5.** Et voila!
 
 ![hierarchic heatmap table](/assets/heatmapTable.png)
