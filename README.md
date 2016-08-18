@@ -60,7 +60,7 @@ var heatMapTable = new HeatMapTable({
 ```
 
 **4.** Load the data
-```
+```javascript
 var data = [
     {
       "rowLabel": "Human anatomical entity",
