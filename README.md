@@ -10,7 +10,7 @@ See: http://www.nextprot.org/
 
 ![hierarchic heatmap table](/assets/HHT_SCSHT.png)
 
-**Live demo** : https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/master/doc/index.html
+**Live demo** : https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/doc/index.html
 
 ## Getting Started
 
@@ -25,14 +25,14 @@ npm install hierarchic-heatmap-table-component
 
 Or Include the hierarchic-heatmap-table-component **JS** and **CSS** from rawgit CDN in the header of your html
 ```html
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/master/dist/heatmap-table.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/dist/heatmap-table.css">
 
-<script src="https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/master/dist/heatmap-table-bundle.js"></script>
+<script src="https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/dist/heatmap-table-bundle.js"></script>
 ```
 
 **NOTE** : If you already got the dependencies (Bootstrap & Jquery) in your project, use the simple minified version instead of the bundle :
 ```html
-<script src="https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/master/dist/heatmap-table.js"></script>
+<script src="https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/dist/heatmap-table.js"></script>
 ```
 
 **2.** Specify a div in your html
@@ -106,7 +106,7 @@ heatMapTable.show();
 ## Documentation
 
 Check out this page for a better understanding of how to use the hierarchic heatmap table and its possibilities :
-* https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/master/doc/index.html
+* https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.6/doc/index.html
 
 ## Use it with NeXtProt API
 
