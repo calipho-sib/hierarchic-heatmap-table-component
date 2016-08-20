@@ -187,6 +187,8 @@ nx.getAnnotationsByCategory(proteinAccession, 'expression-profile').then(functio
 
 https://search.nextprot.org/entry/NX_Q01101/gh/calipho-sib/protein-expression
 
+![example1](/assets/example1.png)
+
 ## Support
 
 If you have any problem or suggestion please open an issue [here](https://github.com/calipho-sib/hierarchic-heatmap-table-component/issues).
