@@ -660,7 +660,7 @@ function resetTreeViewer(data, annots, listingPhenotypes, filters) {
 
 // nx.getFullAnnotationsByCategory(entry, "proteoform").then(function (data) {
            // jQuery.getJSON("../modified-entry-annotation.json", function(temp){
-    jQuery.getJSON("/data/proteoform.json", function(temp){
+    jQuery.getJSON("https://cdn.rawgit.com/calipho-sib/hierarchic-heatmap-table-component/v0.0.7/data/proteoform.json", function(temp){
                var data = temp.entry;
     console.log("data");
     console.log(data);
