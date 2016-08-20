@@ -4790,6 +4790,12 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
                 callback: {
                     onClick: function() {
                         $(self.heatmapTable).find(".heatmap-filterByRowName-search").click();
+                    },
+                    onPopulateSource: function(node, data, group, path) {
+                        for (var i = 0; i < data.length; i++) {
+                            data[i].display = self.extractTypeaheadStrCallBack(jQuery.parseHTML(data[i].display)[0]);
+                        }
+                        return data;
                     }
                 }
             });
@@ -5083,6 +5089,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
             this.isShowExportButton = argv.options.showExportButton || false;
+            this.extractTypeaheadStrCallBack = argv.options.extractTypeaheadStrCallBack || null;
         }
 
         this.initHandlebars();

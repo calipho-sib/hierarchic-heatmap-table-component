@@ -581,6 +581,9 @@ var heatmapTableOptions0 = {
     headerTemplateSrc: headerTemplateSrc,
     headerTemplateData: {
         header: ['IMPACT']
+    },
+    extractTypeaheadStrCallBack: function(node) {
+        return $(node).text();
     }
 }
 
