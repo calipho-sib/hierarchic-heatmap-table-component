@@ -120,12 +120,13 @@
             }
 
             var pageCount = parseInt(this.heatmapRows.length/this.rowCount) + 1;
-            if (pageCount > 7) {
-                this.visiblePages = 7;
-            } else {
+            if (pageCount < this.visiblePages) {
                 this.visiblePages = pageCount;
             }
 
+            if ($("#heatmap-pagination")) {
+                $("#heatmap-pagination").remove();
+            }
             var paginationHTML = $('<ul id="heatmap-pagination"></ul>');
             $(paginationHTML).twbsPagination({
                 totalPages: pageCount,
@@ -139,10 +140,9 @@
                         heatmapRowsHTML.append(self.heatmapRows[self.rowCount * (page-1) + i]);
                     }
                     $(self.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
-                    $(self.heatmapTable).find(".heatmap-body").append(paginationHTML);
                 }
             });
-            // $(self.heatmapTable).append(paginationHTML);
+            $(self.heatmapTable).append(paginationHTML);
 
             $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")

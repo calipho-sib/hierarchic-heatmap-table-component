@@ -4760,12 +4760,13 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
             }
 
             var pageCount = parseInt(this.heatmapRows.length/this.rowCount) + 1;
-            if (pageCount > 7) {
-                this.visiblePages = 7;
-            } else {
+            if (pageCount < this.visiblePages) {
                 this.visiblePages = pageCount;
             }
 
+            if ($("#heatmap-pagination")) {
+                $("#heatmap-pagination").remove();
+            }
             var paginationHTML = $('<ul id="heatmap-pagination"></ul>');
             $(paginationHTML).twbsPagination({
                 totalPages: pageCount,
@@ -4779,10 +4780,9 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
                         heatmapRowsHTML.append(self.heatmapRows[self.rowCount * (page-1) + i]);
                     }
                     $(self.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
-                    $(self.heatmapTable).find(".heatmap-body").append(paginationHTML);
                 }
             });
-            // $(self.heatmapTable).append(paginationHTML);
+            $(self.heatmapTable).append(paginationHTML);
 
             $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
@@ -5122,7 +5122,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
             this.isShowExportButton = argv.options.showExportButton || false;
             this.extractTypeaheadStrCallBack = argv.options.extractTypeaheadStrCallBack || function(node) {return $(node).text();};
 
-            this.rowCount = argv.options.rowCount || 20;
+            this.rowCount = argv.options.rowCount || 10;
             this.visiblePages = argv.options.visiblePages || 7;
         }
 
