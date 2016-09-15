@@ -1,11 +1,7 @@
 this["HBtemplates"] = this["HBtemplates"] || {};
 
 this["HBtemplates"]["templates/src/heatmap-body.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper;
-
-  return "<div class=\"heatmap-body\" style=\"margin-top:20px\">\r\n	"
-    + container.escapeExpression(((helper = (helper = helpers.heatmapCreateHeader || (depth0 != null ? depth0.heatmapCreateHeader : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"heatmapCreateHeader","hash":{},"data":data}) : helper)))
-    + "\r\n</div>";
+    return "<div class=\"heatmap-body\">\r\n</div>\r\n";
 },"useData":true});
 
 this["HBtemplates"]["templates/src/heatmap-circle.tmpl"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -41,11 +37,12 @@ this["HBtemplates"]["templates/src/heatmap-row.tmpl"] = Handlebars.template({"co
 this["HBtemplates"]["templates/src/heatmap-skeleton.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     return "	<button class=\"btn btn-default heatmap-export-btn\">export</button>\r\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, helper, alias1=depth0 != null ? depth0 : {};
 
   return "<div class=\"col-md-5\">\r\n	<div class=\"typeahead__container\">\r\n		<div class=\"typeahead__field\">\r\n			<span class=\"typeahead__query\">\r\n				<input class=\"heatmap-filterByRowName-input\" name=\"country_v1[query]\" type=\"search\" placeholder=\"Search\" autocomplete=\"off\">\r\n			</span>\r\n			<span class=\"typeahead__button\">\r\n				<button class=\"heatmap-filterByRowName-search\">\r\n					<i class=\"typeahead__search-icon\"></i>\r\n				</button>\r\n			</span>\r\n		</div>\r\n	</div>\r\n</div>\r\n<button class=\"btn btn-default heatmap-collapseAll-btn\">CollapseAll</button>\r\n<button class=\"btn btn-default heatmap-expandAll-btn\">ExpandAll</button>\r\n"
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.isShowExportButton : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>";
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isShowExportButton : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + container.escapeExpression(((helper = (helper = helpers.heatmapCreateHeader || (depth0 != null ? depth0.heatmapCreateHeader : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"heatmapCreateHeader","hash":{},"data":data}) : helper)))
+    + "\r\n<p class=\"heatmap-info\"><span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span> Loading...</p>\r\n  ";
 },"useData":true});
 
 this["HBtemplates"]["templates/src/heatmap-tree.tmpl"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {

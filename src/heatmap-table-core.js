@@ -95,6 +95,8 @@
                 this.heatmapBody = template();
                 $(this.heatmapTable).append(this.heatmapBody);
             }
+
+            this.showHeatmapRows();
         },
 
         showHeatmapSkeleton: function() {
@@ -106,18 +108,41 @@
 
         showHeatmapRows : function() {
             var self = this;
-
             this.showLoadingStatus();
 
             $(this.heatmapTable).find(".heatmap-rows").empty()
            
-            var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
+            this.heatmapRows = [];
             for (var i = 0; i < this.data.length; i++) {
                 var row = this.createRow(this.data[i]);
-                heatmapRowsHTML.append(row);
+                // heatmapRowsHTML.append(row);
+                this.heatmapRows.push(row);
             }
 
-            $(this.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
+            var pageCount = parseInt(this.heatmapRows.length/this.rowCount) + 1;
+            if (pageCount > 7) {
+                this.visiblePages = 7;
+            } else {
+                this.visiblePages = pageCount;
+            }
+
+            var paginationHTML = $('<ul id="heatmap-pagination"></ul>');
+            $(paginationHTML).twbsPagination({
+                totalPages: pageCount,
+                visiblePages: self.visiblePages,
+                prev: "&laquo",
+                next: "&raquo",
+                onPageClick: function (event, page) {
+                    var heatmapRowsHTML = $('<ul class="tree heatmap-ul heatmap-rows"></ul>');
+                    $(self.heatmapTable).find(".heatmap-body").empty();
+                    for (var i = 0; i < self.rowCount; i++) {
+                        heatmapRowsHTML.append(self.heatmapRows[self.rowCount * (page-1) + i]);
+                    }
+                    $(self.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
+                    $(self.heatmapTable).find(".heatmap-body").append(paginationHTML);
+                }
+            });
+            // $(self.heatmapTable).append(paginationHTML);
 
             $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
                 $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
@@ -235,7 +260,6 @@
                 if ($(self.heatmapTable).find(".heatmap-filterByRowName-input").val() === "") {
                     self.data = self.originData;
                     self.showHeatmapBody();
-                    self.showHeatmapRows();
                 }
             });
 
@@ -248,7 +272,6 @@
                 self.hideLoadingStatus();
 
                 self.showHeatmapBody();
-                self.showHeatmapRows();
 
                 self.expandByFilterString($(self.heatmapTable).find(".heatmap-rows"), filterString, true);
                 if (self.data.length === 0) {
@@ -313,14 +336,12 @@
             this.initInitialState();
             // this.show(true);
             this.showHeatmapBody();
-            this.showHeatmapRows();
             this.initSearchBoxSource(this.data);
             this.initClickEvent();
         },
 
         show : function() {
             this.showHeatmapBody();
-            this.showHeatmapRows();
             this.initClickEvent();
             if (this.data.length === 0) {
                 this.showNoFoundInfo();
@@ -439,6 +460,7 @@
 
     HeatMapTable.init = function(argv) {
         this.heatmapTreeTmpl = HBtemplates['templates/src/heatmap-tree.tmpl'];
+        this.heatmapRows = [];
         this.heatmapRowsHTML = null;
         this.dataIndexToHtml = {};
         this.rowLabelList = [];
@@ -458,12 +480,11 @@
             this.columnWidth = argv.options.columnWidth || "70px";
             this.valueToStyle = this.getValueToStyle(argv.options.valuesSetting);
             this.isShowExportButton = argv.options.showExportButton || false;
-            this.extractTypeaheadStrCallBack = argv.options.extractTypeaheadStrCallBack || null;
-        }
+            this.extractTypeaheadStrCallBack = argv.options.extractTypeaheadStrCallBack || function(node) {return $(node).text();};
 
-        this.initHandlebars();
-        this.showHeatmapSkeleton();
-        this.initInitialState();
+            this.rowCount = argv.options.rowCount || 20;
+            this.visiblePages = argv.options.visiblePages || 7;
+        }
 
         if (this.detailTemplateID) {
             var source   = $('#'+this.detailTemplateID).html();
@@ -479,6 +500,11 @@
         if (this.headerTemplateSrc) {
             this.headerTemplate = Handlebars.compile(this.headerTemplateSrc);
         }
+
+        this.initHandlebars();
+        this.showHeatmapSkeleton();
+        this.initInitialState();
+
     }
 
     HeatMapTable.init.prototype = HeatMapTable.prototype;

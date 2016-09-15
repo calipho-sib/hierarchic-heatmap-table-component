@@ -23,7 +23,8 @@ module.exports = function(grunt) {
                 src: ['bower_components/handlebars/handlebars.js',
                       'bower_components/jquery/dist/jquery.min.js',
                       'bower_components/jquery-typeahead/dist/jquery.typeahead.min.js',
-                      'bower_components/bootstrap/dist/js/bootstrap.min.js'],
+                      'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                      'node_modules/twbs-pagination/jquery.twbsPagination.min.js'],
                 dest: 'dist/heatmap-table-vendor.js'
             },
             bundle: {
