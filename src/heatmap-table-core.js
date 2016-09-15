@@ -140,18 +140,16 @@
                         heatmapRowsHTML.append(self.heatmapRows[self.rowCount * (page-1) + i]);
                     }
                     $(self.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
+                    $(self.heatmapTable).find('.heatmap-rowLabel').click(function () {
+                        $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
+                        $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
+                    });
+                    $('[data-toggle="tooltip"]').tooltip();
                 }
             });
-            $(self.heatmapTable).append(paginationHTML);
-
-            $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
-                $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
-                $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
-            });
+            $(this.heatmapTable).append(paginationHTML);
 
             this.hideLoadingStatus();
-
-            $('[data-toggle="tooltip"]').tooltip();
         },
 
         createRow: function(data) {

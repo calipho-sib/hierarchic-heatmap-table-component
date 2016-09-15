@@ -4780,18 +4780,16 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
                         heatmapRowsHTML.append(self.heatmapRows[self.rowCount * (page-1) + i]);
                     }
                     $(self.heatmapTable).find(".heatmap-body").append(heatmapRowsHTML);
+                    $(self.heatmapTable).find('.heatmap-rowLabel').click(function () {
+                        $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
+                        $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
+                    });
+                    $('[data-toggle="tooltip"]').tooltip();
                 }
             });
-            $(self.heatmapTable).append(paginationHTML);
-
-            $(this.heatmapTable).find('.heatmap-rowLabel').click(function () {
-                $(this).find(".glyphicon").toggleClass("glyphicon-plus glyphicon-minus")
-                $(this).parent().parent().children('ul.tree').toggleClass("heatmap-closed heatmap-opened").toggle(300);
-            });
+            $(this.heatmapTable).append(paginationHTML);
 
             this.hideLoadingStatus();
-
-            $('[data-toggle="tooltip"]').tooltip();
         },
 
         createRow: function(data) {
@@ -5122,7 +5120,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
             this.isShowExportButton = argv.options.showExportButton || false;
             this.extractTypeaheadStrCallBack = argv.options.extractTypeaheadStrCallBack || function(node) {return $(node).text();};
 
-            this.rowCount = argv.options.rowCount || 10;
+            this.rowCount = argv.options.rowCount || 20;
             this.visiblePages = argv.options.visiblePages || 7;
         }
 
